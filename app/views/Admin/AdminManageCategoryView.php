@@ -3,6 +3,3 @@
 <?php foreach($catgories as $c):?>
     <p><?= $c['name'] ?></p>
 <?php endforeach; ?>
-
-
-    
