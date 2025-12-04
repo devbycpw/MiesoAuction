@@ -39,6 +39,9 @@ return [
     "transactions" => "TransactionController@index",  
     "transaction/show/{id}" => "TransactionController@show",   
 
+    "categories" => "CategoryController@index",
+
+    // =======================================================
     // ADMIN 
     // auctions
     "admin/auctions" => "AdminAuctionController@index",
