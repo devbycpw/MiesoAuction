@@ -8,5 +8,5 @@ class Controller {
     protected function model($name) {
         require "../app/Models/$name.php";
         return new $name;
-    }
+    }yesika
 }
