@@ -2,11 +2,11 @@
 class Controller {
     protected function view($path, $data = []) {
         extract($data);
-        require "../app/views/$path.php";
+        require "../app/Views/$path.php";
     }
 
     protected function model($name) {
-        require "../app/models/$name.php";
+        require "../app/Models/$name.php";
         return new $name;
     }
 }

@@ -1,14 +1,14 @@
 <?php
 require "../config/config.php";
-require "../app/core/DbConnection.php";
-require "../app/core/Controller.php";
+require "../app/Core/DbConnection.php";
+require "../app/Core/Controller.php";
 
-$uri = trim($_SERVER['REQUEST_URI'], "/");
+$uri = isset($_GET['url']) ? trim($_GET['url'], '/') : '';
 $routes = require "../routes/web.php";
 
 if (isset($routes[$uri])) {
     list($controller, $method) = explode("@", $routes[$uri]);
-    require "../app/controllers/$controller.php";
+    require "../app/Controllers/$controller.php";
 
     $obj = new $controller;
     $obj->$method();

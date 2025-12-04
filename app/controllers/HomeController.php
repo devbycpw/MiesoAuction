@@ -4,7 +4,7 @@ class HomeController extends Controller {
         $user = $this->model("User");
         $data = $user->all();
 
-        $this->view("home/index", [
+        $this->view("Home/index", [
             "users" => $data
         ]);
     }
