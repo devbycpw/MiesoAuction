@@ -1,0 +1,79 @@
+<?php
+// app/Controllers/AuthController.php
+require __DIR__ . "/../helpers/auth/Auth.php";
+require __DIR__ . "/../helpers/auth/Session.php";
+
+class AuthController extends Controller {
+
+    // Menampilkan halaman login
+    public function showLogin() {
+        $this->view("auth/login");
+    }
+
+    public function showRegister() {
+        $this->view("auth/register");
+    }
+
+    public function register() {
+        $userModel = $this->model("User");
+
+        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $confirmPassword = $_POST['confirm_password'] ?? '';
+
+        // --- Validasi Dasar ---
+        if ($password !== $confirmPassword) {
+            Session::set('error', 'Konfirmasi password tidak cocok.');
+            header("Location: " . BASE_URL . "register");
+            exit;
+        }
+
+        if ($userModel->findByEmail($email)) {
+            Session::set('error', 'Email sudah terdaftar.');
+            header("Location: " . BASE_URL . "register");
+            exit;
+        }
+
+        // --- Proses Pembuatan Akun ---
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+        ];
+        
+        if ($userModel->create($data)) {
+            Session::set('success', 'Pendaftaran berhasil! Silakan login menggunakan akun Anda.');
+            header("Location: " . BASE_URL . "login");
+            exit;
+        } else {
+            Session::set('error', 'Gagal mendaftar. Silakan coba lagi.');
+            header("Location: " . BASE_URL . "register");
+            exit;
+        }
+    }
+
+    public function login() {
+        $userModel = $this->model("User");
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        $user = $userModel->findByEmail($email);
+
+        if ($user && password_verify($password, $user['password'])) {
+            Auth::login($user['id']);
+            header("Location: " . BASE_URL . "home");
+            exit;
+        } else {
+            Session::set('error', 'Email atau password salah.');
+            header("Location: " . BASE_URL . "login");
+            exit;
+        }
+    }
+
+    public function logout() {
+        Auth::logout();
+        header("Location: " . BASE_URL . "login");
+        exit;
+    }
+}
