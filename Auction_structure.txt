@@ -1,0 +1,296 @@
+Mieso Auction
+
+General/
+1. home -> menampilkan beberapa barang yang status nya active, user bisa click detail, jika click bid -> redirect login page
+2. Auction Listing page -> filter untuk kategori, Harga awal, status aktif, button detail.
+3. auction Detail -> data barang, history bid, close bid, countdown timer.
+4. Login, register
+
+Client/
+sama seperti general tapi memiliki tambahan yaitu
+1. submit auction -> input Harga bid
+2. My bids -> output bid terakhir,status(menang/kalah), Waktu berakhir, jika menang ->btn payment
+3. payment -> metode pembayaran, upload bukti pembayaran-> redirect sampai admin verifikasi -> jika sudah diverifikasi muncul pop up
+4. profile -> Menjadi pelelang, Riwayat transaksi, dll
+5.pengajuan lelang -> create auction(nama barang, deskripsi, foto barang, harga awal, estimasi nilai.) tunggu verifikasi dari admin
+6. barang lelangan yang dimiliki client -> rud Auction(selama status pending). 
+
+Admin/
+1. dashboard -> jml user, jml auction panding, jml payment waiting, total transaksi, tambahin diagram/chart untuk report
+2. verifikasi Auction -> read pengajuan, btn reject/approve
+3. read all bid untuk setiap lelang
+4. verifikasi pembayaran -> verified rejected
+5. management users
+6. tambah admin
+
+
+DB
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(150) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('client','admin') NOT NULL DEFAULT 'client',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE auctions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    category_id INT NULL,
+    winner_id INT DEFAULT NULL,
+    title VARCHAR(200) NOT NULL,
+    description TEXT,
+    image VARCHAR(255),
+    starting_price DECIMAL(12,2) NOT NULL,
+    estimated_value DECIMAL(12,2),
+    final_price DECIMAL(12,2) DEFAULT NULL,
+    status ENUM('pending','active','sold','rejected','closed') NOT NULL DEFAULT 'pending',
+    start_time DATETIME,
+    end_time DATETIME,
+    seller_note TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_auctions_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_auctions_cat FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+    CONSTRAINT fk_auctions_winner FOREIGN KEY (winner_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE bids (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    auction_id INT NOT NULL,
+    user_id INT NOT NULL,
+    bid_amount DECIMAL(12,2) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_bids_auction FOREIGN KEY (auction_id) REFERENCES auctions(id) ON DELETE CASCADE,
+    CONSTRAINT fk_bids_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    auction_id INT NOT NULL,
+    user_id INT NOT NULL,
+    amount DECIMAL(12,2) NOT NULL,
+    payment_method ENUM('transfer','ewallet','cod') NOT NULL,
+    payment_proof VARCHAR(255),
+    status ENUM('pending','verified','rejected') NOT NULL DEFAULT 'pending',
+    admin_note TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_pay_auction FOREIGN KEY (auction_id) REFERENCES auctions(id) ON DELETE CASCADE,
+    CONSTRAINT fk_pay_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE transactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    payment_id INT NOT NULL,
+    auction_id INT NOT NULL,
+    buyer_id INT NOT NULL,
+    seller_id INT NOT NULL,
+    total_amount DECIMAL(12,2) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_trans_payment FOREIGN KEY (payment_id) REFERENCES payments(id),
+    CONSTRAINT fk_trans_auction FOREIGN KEY (auction_id) REFERENCES auctions(id),
+    CONSTRAINT fk_trans_buyer FOREIGN KEY (buyer_id) REFERENCES users(id),
+    CONSTRAINT fk_trans_seller FOREIGN KEY (seller_id) REFERENCES users(id)
+);
+
+project/
+│
+├── public/
+│   ├── index.php              # Entry point (router)
+│   ├── uploads/
+│   │    ├── auction_images/
+│   │    ├── payment_proof/
+│   ├── assets/
+│   │    ├── css/
+│   │    ├── js/
+│   │    ├── images/
+│   └── .htaccess              # Direwrite ke index.php
+│
+├── app/
+│   ├── Core/
+│   │    ├── Controller.php    # Base controller
+│   │    ├── Model.php         # Base model (connect DB)
+│   │    ├── View.php
+│   │    ├── Database.php
+│   │
+│   ├── Controllers/
+│   │    ├── HomeController.php
+│   │    ├── AuthController.php
+│   │    ├── AuctionController.php
+│   │    ├── BidController.php
+│   │    ├── PaymentController.php
+│   │    ├── ProfileController.php
+│   │    ├── Admin/
+│   │    │    ├── DashboardController.php
+│   │    │    ├── VerifyAuctionController.php
+│   │    │    ├── VerifyPaymentController.php
+│   │    │    └── UserManagementController.php
+│   │
+│   ├── Models/
+│   │    ├── User.php
+│   │    ├── Category.php
+│   │    ├── Auction.php
+│   │    ├── AuctionImage.php
+│   │    ├── Bid.php
+│   │    ├── Payment.php
+│   │    └── Transaction.php
+│   │
+│   ├── Views/
+│   │    ├── layouts/
+│   │    │    ├── main.php
+│   │    │    └── admin.php
+│   │    │
+│   │    ├── home/
+│   │    │    ├── index.php
+│   │    │
+│   │    ├── auth/
+│   │    │    ├── login.php
+│   │    │    └── register.php
+│   │
+│   │    ├── auctions/
+│   │    │    ├── index.php        # listing
+│   │    │    ├── detail.php
+│   │    │    ├── create.php       # client submit lelang
+│   │
+│   │    ├── bids/
+│   │    │    ├── my_bids.php
+│   │
+│   │    ├── payments/
+│   │    │    ├── upload.php
+│   │    │    └── success.php
+│   │
+│   │    ├── profile/
+│   │    │    ├── index.php
+│   │    │    └── my_auctions.php
+│   │
+│   │    ├── admin/
+│   │         ├── dashboard.php
+│   │         ├── verify_auction.php
+│   │         ├── verify_payment.php
+│   │         ├── bids.php
+│   │         ├── users.php
+│   │
+│   └── Helpers/
+│        ├── Auth.php
+│        ├── Session.php
+│        ├── Validator.php
+│        └── Upload.php
+│
+├── config/
+│   └── config.php   # environment, DB config
+│
+├── routes/
+│   ├── web.php      # routes untuk semua user
+│   └── admin.php    # routes admin
+│
+└── vendor/          # jika pakai composer
+
+
+
+
+
+
+db_diagram
+
+Table users {
+  id int [pk, increment]
+  name varchar(150)
+  email varchar(150) [unique]
+  password varchar(255)
+  role enum('client','admin')
+  created_at datetime
+  updated_at datetime
+}
+
+Table categories {
+  id int [pk, increment]
+  name varchar(100)
+}
+
+Table auctions {
+  id int [pk, increment]
+  user_id int [ref: > users.id]          // seller
+  category_id int [ref: > categories.id]
+  winner_id int [ref: > users.id]        // winner
+  title varchar(200)
+  description text
+  image varchar(255)
+  starting_price decimal
+  estimated_value decimal
+  final_price decimal
+  status enum('pending','active','sold','rejected','closed')
+  start_time datetime
+  end_time datetime
+  seller_note text
+  created_at datetime
+  updated_at datetime
+}
+
+Table bids {
+  id int [pk, increment]
+  auction_id int [ref: > auctions.id]
+  user_id int [ref: > users.id]
+  bid_amount decimal
+  created_at datetime
+}
+
+Table payments {
+  id int [pk, increment]
+  auction_id int [ref: > auctions.id]
+  user_id int [ref: > users.id]
+  amount decimal
+  payment_method enum('transfer','ewallet','cod')
+  payment_proof varchar(255)
+  status enum('pending','verified','rejected')
+  admin_note text
+  created_at datetime
+  updated_at datetime
+}
+
+Table transactions {
+  id int [pk, increment]
+  payment_id int [ref: > payments.id]
+  auction_id int [ref: > auctions.id]
+  buyer_id int [ref: > users.id]
+  seller_id int [ref: > users.id]
+  total_amount decimal
+  created_at datetime
+}
+
+
+prosees endpoint:
+
+http://localhost/users
+        │
+        ▼
+.htaccess → arahkan request ke public/index.php
+        │
+        ▼
+index.php membaca /users
+        │
+        ▼
+routes/web.php menemukan "users" => UserController@index
+        │
+        ▼
+index.php memanggil file controller
+        │
+        ▼
+controller memanggil model → query database
+        │
+        ▼
+controller mengirim data ke view
+        │
+        ▼
+browser menampilkan HTML
