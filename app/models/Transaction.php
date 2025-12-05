@@ -101,10 +101,8 @@ class Transaction {
             LEFT JOIN users us ON t.seller_id = us.id
             WHERE t.id = :id
         ";
-
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':id' => $id]);
-
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
