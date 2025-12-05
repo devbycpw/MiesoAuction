@@ -1,7 +1,6 @@
 <?php
 
 require_once "../app/Models/Payment.php";
-require_once "../app/Helpers/auth/Auth.php";
 
 class PaymentController extends Controller
 {

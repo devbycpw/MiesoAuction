@@ -15,6 +15,8 @@ return [
 
     // CUSTOMER 
     // auctions
+    "about" => "AboutUsController@index",
+    
     "auctions" => "AuctionController@index",      
     "auction/show/{id}" => "AuctionController@show",       
     "auction/create" => "AuctionController@createForm", 
