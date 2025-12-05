@@ -25,6 +25,8 @@ return [
     "auction/update/{id}" => "AuctionController@update",     
     "auction/delete/{id}" => "AuctionController@delete",     
 
+    "categories" => "CategoryController@index",
+    
     // bidding
     "bids/store" => "BidController@store",          
     "bids/auction/{id}" => "BidController@listByAuction",  
@@ -63,4 +65,6 @@ return [
     // users management
     "admin/users" => "AdminUserController@index",
     "admin/user/delete/{id}" => "AdminUserController@delete"
+    
+    
 ];

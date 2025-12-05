@@ -1,0 +1,114 @@
+@font-face {
+  font-family: "PlusJakartaSans";
+  src: url("public/assets/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf") format("truetype");
+}
+.page-login {
+  font-family: "PlusJakartaSans", sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.page-login .login-container {
+  text-align: center;
+  width: 350px;
+  margin-top: -250px;
+}
+
+.page-login .logo {
+  width: 140px;
+  margin-bottom: 30px;
+}
+
+.page-login h2 {
+  font-size: 24px;
+  margin-bottom: 25px;
+  font-weight: 500;
+  color: #2f2f2f;
+}
+
+.page-login .input-group {
+  text-align: left;
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.page-login label {
+  font-weight: 500;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+  color: #333333;
+}
+
+.page-login .input-group input[type="email"],
+.page-login .input-group input[type="password"],
+.page-login .input-group input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  padding-right: 40px !important;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fafafa;
+}
+
+.page-login .eye-icon {
+  position: absolute;
+  right: 12px;
+  top: 40px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.page-login .eye-icon:hover {
+  opacity: 1;
+}
+
+.page-login button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #d1d5db;
+  color: #555555;
+  border-radius: 4px;
+  font-size: 15px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.page-login button:hover {
+  background-color: #c3c7cd;
+}
+
+.page-login .register a {
+  color: #1a3da8;
+  text-decoration: none;
+}
+
+.page-login .register a:hover {
+  text-decoration: underline;
+}
+
+.page-login .msg {
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.page-login .success {
+  background-color: #e9ffea;
+  color: #2b7a2b;
+  border: 1px solid #7bbf7b;
+}
+
+.page-login .error {
+  background: #ffeaea;
+  color: #b94444;
+  border: 1px solid #d17a7a;
+}

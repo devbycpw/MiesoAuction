@@ -46,8 +46,7 @@
         </button>
     </div>
 
-<!-- 
-    <?php if (Auth::isClient()): ?>
+    <!-- <?php if (Auth::isClient()): ?>
         <p class="home-welcome">Halo <?= Auth::user('full_name'); ?>! Kamu bisa melihat daftar produk.</p>
     <?php endif; ?>
 

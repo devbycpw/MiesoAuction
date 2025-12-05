@@ -49,12 +49,10 @@ CREATE TABLE auctions (
     description TEXT,
     image VARCHAR(255),
     starting_price DECIMAL(12,2) NOT NULL,
-    estimated_value DECIMAL(12,2),
     final_price DECIMAL(12,2) DEFAULT NULL,
     status ENUM('pending','active','sold','rejected','closed') NOT NULL DEFAULT 'pending',
     start_time DATETIME,
     end_time DATETIME,
-    seller_note TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
