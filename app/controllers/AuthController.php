@@ -7,11 +7,17 @@ class AuthController extends Controller {
 
     // Menampilkan halaman login
     public function showLogin() {
-        $this->view("auth/login");
+        $this->view("auth/login",[
+            "title" => "Login",
+            "layout" => "Auth"
+        ]);
     }
 
     public function showRegister() {
-        $this->view("auth/register");
+        $this->view("auth/register",[
+            "title" => "Registrasi",
+            "layout" => "Auth"
+        ]);
     }
 
     public function register() {
@@ -61,15 +67,24 @@ class AuthController extends Controller {
         $user = $userModel->findByEmail($email);
 
         if ($user && password_verify($password, $user['password'])) {
-            Auth::login($user['id']);
-            header("Location: " . BASE_URL . "home");
-            exit;
-        } else {
-            Session::set('error', 'Email atau password salah.');
-            header("Location: " . BASE_URL . "login");
+
+            Auth::login($user); // ← WAJIB ARRAY, BUKAN ID
+
+            // Redirect sesuai role
+            if (Auth::isClient()) {
+                header("Location: " . BASE_URL . "home");
+            } else {
+                header("Location: " . BASE_URL . "admin/dashboard");
+            }
             exit;
         }
+
+        Session::set('error', 'Email atau password salah.');
+        header("Location: " . BASE_URL . "login");
+        exit;
     }
+
+
 
     public function logout() {
         Auth::logout();

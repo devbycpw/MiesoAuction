@@ -11,7 +11,7 @@ class Bid {
     public function create(array $data) {
         $sql = "INSERT INTO bids (auction_id, user_id, bid_amount, created_at) VALUES (:auction_id, :user_id, :bid_amount, :created_at)";
 
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->db->prepare($sql);         
 
         return $stmt->execute([
             ':auction_id' => $data['auction_id'],

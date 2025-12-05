@@ -1,12 +1,21 @@
 <?php
+
 class Controller {
+
+    public function __construct() {}
+
     protected function view($path, $data = []) {
         extract($data);
-        require "../app/Views/$path.php";
+        $layout = $data['layout'] ?? 'Main';
+        
+        ob_start();
+        require __DIR__ . "/../Views/$path.php";
+        $content = ob_get_clean();
+        require __DIR__ . "/../Views/layouts/$layout.php";
     }
 
     protected function model($name) {
-        require "../app/Models/$name.php";
+        require __DIR__ . "/../Models/$name.php";
         return new $name;
     }
 }

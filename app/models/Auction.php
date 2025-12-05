@@ -1,5 +1,4 @@
 <?php
-// app/Models/Auction.php
 
 class Auction {
     private $db;
@@ -77,12 +76,6 @@ class Auction {
         return $stmt->execute([':id' => $id]);
     }
 
-    /**
-     * Ambil Auction lengkap dengan relasi:
-     * - seller (user_id → users)
-     * - category (category_id → categories)
-     * - winner (winner_id → users)
-     */
     public function getWithRelations($id) {
         $sql = "
             SELECT 
