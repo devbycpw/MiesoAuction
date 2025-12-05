@@ -1,7 +1,6 @@
 <?php
 
 require_once "../app/Models/Category.php";
-require_once "../app/Helpers/auth/Auth.php";
 
 class CategoryController extends Controller
 {

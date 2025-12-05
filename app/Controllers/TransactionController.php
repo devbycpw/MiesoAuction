@@ -1,7 +1,6 @@
 <?php
 
 require_once "../app/Models/Transaction.php";
-require_once "../app/Helpers/auth/Auth.php";
 
 class TransactionController extends Controller
 {

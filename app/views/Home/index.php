@@ -46,20 +46,60 @@
         </button>
     </div>
 
-    <h1 class="home-title">Welcome</h1>
-
+<!-- 
     <?php if (Auth::isClient()): ?>
         <p class="home-welcome">Halo <?= Auth::user('full_name'); ?>! Kamu bisa melihat daftar produk.</p>
     <?php endif; ?>
 
     <?php if (!Auth::check()): ?>
         <p class="home-welcome">Login untuk fitur lebih lengkap.</p>
-    <?php endif; ?>
-
-    <h2 class="home-subtitle">List User</h2>
-    <div class="user-list">
-        <?php foreach($users as $u): ?>
-            <p><?= $u['full_name']; ?></p>
-        <?php endforeach; ?>
+    <?php endif; ?> -->
+<div class="container mt-4">
+    <h1>Live Action</h1>
+    <p>Explore the best & largest marketplace with our beautiful Bidding product. We want to be a part of your smile, success and future growth  </p>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <?php 
+        $count = 0;
+        foreach($auctions as $auction): 
+            if($count >= 3) break;
+        ?>
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <?php if(!empty($auction['image'])): ?>
+                        <img src="<?= BASE_URL ?>assets/img/<?= $auction['image'] ?>" class="card-img-top" alt="<?= htmlspecialchars($auction['title']) ?>">
+                    <?php endif; ?>
+                    <div class="card-body">
+                        <h5 class="card-title"><?= htmlspecialchars($auction['title']) ?></h5>
+                        <p class="card-text"><?= htmlspecialchars($auction['description'] ?? '-') ?></p>
+                        <p class="card-text"><strong>Starting Price:</strong> $<?= number_format($auction['starting_price'],2) ?></p>
+                        <?php if(!empty($auction['final_price'])): ?>
+                            <p class="card-text"><strong>Final Price:</strong> $<?= number_format($auction['final_price'],2) ?></p>
+                        <?php endif; ?>
+                        <p class="card-text"><small class="text-muted">Status: <?= ucfirst($auction['status']) ?></small></p>
+                        <p class="card-text"><small class="text-muted">Start: <?= $auction['start_time'] ?? '-' ?> | End: <?= $auction['end_time'] ?? '-' ?></small></p>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a href="<?= BASE_URL ?>auction/show/<?= $auction['id'] ?>" class="btn btn-warning btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+        <?php 
+            $count++;
+        endforeach; ?>
     </div>
+    <a href="<?= BASE_URL ?>auctions" class="btn btn-warning btn-sm">View All Auctions</a>
+
+    <h4>Shop New Arrival from Rolex, Hermès, Gucci, and More</h4>
+
+    <h4>Private Serice</h4>
+    <h4>Private Sales</h4>
+    <p>Enchères Private Sales department provides our clients with a uniquely personalized approach to collecting. We utilize innovative, targeted approaches that combine personal relationships with collectors and market intelligence.</p>
+
+    <h4>Professional & Advisor Services</h4>
+    <p>Enchères Professional & Advisor Services team builds valuable client partnerships, leveraging expertise to deliver tailored solutions for collectors, beneficiaries, attorneys, executors, fiduciaries, institutions, and industry professionals across the art world. </p>
+    <h4>Learn More about Private Sales at Enchères</h4>
+
+    </div>
+
+
 </main>

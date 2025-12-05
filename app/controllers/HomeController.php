@@ -1,6 +1,4 @@
 <?php
-    require __DIR__ . "/../helpers/auth/Auth.php";
-    require __DIR__ . "/../helpers/auth/Session.php";
     class HomeController extends Controller {
 
         public function __construct() {
@@ -9,12 +7,16 @@
         
         public function index() {
             $user = $this->model("User");
-            $data = $user->all();
+            $auction = $this->model("Auction");
+            $data_auction = $auction->all();
+            $data_user = $user->all();
             $this->view("Home/index", [
-                "users" => $data,
+                "users" => $data_user,
+                "auctions" => $data_auction,
                 "title" => "Home",
                 "layout" => "Main",
-                "custom_css" => "home"
+                "custom_css" => "home",
+                "custom_js"  => "home"
             ]);
         }
 

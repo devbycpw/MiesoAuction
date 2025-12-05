@@ -1,8 +1,6 @@
 <?php
 
 require_once "../app/Models/Auction.php";
-require_once "../app/helpers/auth/Auth.php";
-require_once "../app/helpers/auth/Session.php";
 require_once "../app/helpers/Upload.php";
 
 class AuctionController extends Controller
@@ -12,7 +10,6 @@ class AuctionController extends Controller
     public function __construct()
     {
         parent::__construct();
-        Auth::redirectIfNotAuthenticated();
         $this->auction = new Auction();
     }
 

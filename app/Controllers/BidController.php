@@ -1,7 +1,6 @@
 <?php
 
 require_once "../app/Models/Bid.php";
-require_once "../app/Helpers/auth/Auth.php";
 
 class BidController extends Controller
 {

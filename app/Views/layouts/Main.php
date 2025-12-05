@@ -18,11 +18,14 @@ $role = Session::get('role') ?? 'guest';
 
     <?php include __DIR__ . "/partials/navbar/navbar-$role.php"; ?>
 
-    <main class="container mt-4">
+    <main>
         <?= $content ?>
     </main>
 
     <!-- Bootstrap JS -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+     <?php if(isset($custom_js)): ?>
+        <script src="<?= BASE_URL ?>assets/js/<?= $custom_js ?>.js"></script>
+    <?php endif; ?>
 </body>
 </html>
