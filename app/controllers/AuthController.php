@@ -9,14 +9,16 @@ class AuthController extends Controller {
     public function showLogin() {
         $this->view("auth/login",[
             "title" => "Login",
-            "layout" => "Auth"
+            "layout" => "Auth",
+            "custom_css" => "login"
         ]);
     }
 
     public function showRegister() {
         $this->view("auth/register",[
             "title" => "Registrasi",
-            "layout" => "Auth"
+            "layout" => "Auth",
+            "custom_css" => "register"
         ]);
     }
 

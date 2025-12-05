@@ -8,134 +8,11 @@ $success = Session::get('success');
 Session::unset('success');
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login in to your account</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        @font-face {
-            font-family:'PlusJakartaSans';
-            src: url('public/assets/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf') format('truetype');
-        }
-        body{
-            font-family : 'PlusJakartaSans', sans-serif;
-            background-color: #FFFFFF;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-container{
-            text-align: center;
-            width: 350px;
-            margin-top: -250px;
-        }
-
-        .logo{
-            width: 140px;
-            margin-bottom: 30px;
-        }
-
-        h2{
-            font-size: 24px;
-            margin-bottom: 25px;
-            font-weight: 500;
-            color: #2f2f2f;
-        }
-
-        .input-group{
-            text-align: left;
-            margin-bottom: 18px;
-            position: relative;
-        }
-
-        label{
-            font-weight: 500;
-            font-size: 14px;
-            display: block;
-            margin-bottom: 6px;
-            color:#333333;
-        }
-
-        input[type="email"],
-        input[type="password"]{
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cfcfcf;
-            border-radius: 4px;
-            font-size: 14px;
-            background-color: #fafafa;            
-        }
-
-        .eye-icon{
-            position: absolute;
-            right: 12px;
-            top: 40px;
-            cursor: pointer;
-            opacity: 0.6;
-        }
-
-        .eye-icon:hover{
-            opacity: 1;
-        }
-
-        button{
-            width:100%;
-            padding: 12px;
-            border: none;
-            background: #d1d5db;
-            color: #555555;           
-            border-radius: 4px;
-            font-size:15px;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-        button:hover{
-            background-color: #c3c7cd;
-        }
-
-        .register a{
-            color:#1a3da8;
-            text-decoration: none;
-        }
-
-        .register a:hover{
-            text-decoration: underline;
-        }
-
-        .msg{
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .success{
-            background-color:#e9ffea;
-            color:#2b7a2b;
-            border: 1px solid #7bbf7b;
-        }
-
-        .error{
-            background: #ffeaea;
-            color:#b94444;
-            border: 1px solid #d17a7a;
-        }
-    </style>
-</head>
-<body>
+<main class="page-login">
     <div class="login-container">
 
         <!-- Logo Image -->
-        <img src="<?= BASE_URL ?>assets/images/Logo.png" class="logo" alt="Logo">
-
+        <img src="<?= BASE_URL ?>assets/img/Logo.png" class="logo" alt="Logo">
 
         <h2>Log in to your account</h2>
 
@@ -182,8 +59,8 @@ Session::unset('success');
             field.type = field.type === 'password' ? 'text' : 'password';
         }
     </script>
-</body>
-</html>
+</main>
+
 
 
 
