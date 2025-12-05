@@ -15,6 +15,7 @@
                 "title" => "Home",
                 "layout" => "Main",
                 "custom_css" => "home"
+                
             ]);
         }
 

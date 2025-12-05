@@ -46,20 +46,14 @@
         </button>
     </div>
 
-    <h1 class="home-title">Welcome</h1>
-
-    <?php if (Auth::isClient()): ?>
+    <!-- <?php if (Auth::isClient()): ?>
         <p class="home-welcome">Halo <?= Auth::user('full_name'); ?>! Kamu bisa melihat daftar produk.</p>
     <?php endif; ?>
 
     <?php if (!Auth::check()): ?>
         <p class="home-welcome">Login untuk fitur lebih lengkap.</p>
-    <?php endif; ?>
+    <?php endif; ?> -->
 
-    <h2 class="home-subtitle">List User</h2>
-    <div class="user-list">
-        <?php foreach($users as $u): ?>
-            <p><?= $u['full_name']; ?></p>
-        <?php endforeach; ?>
+    
     </div>
 </main>
