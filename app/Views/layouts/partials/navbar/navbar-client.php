@@ -13,8 +13,4 @@
       </div>
     </div>
   </div>
-<<<<<<< HEAD
 </nav>
-=======
-</nav>
->>>>>>> master
