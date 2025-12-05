@@ -1,7 +1,4 @@
 <?php
-// app/Controllers/AuthController.php
-require __DIR__ . "/../helpers/auth/Auth.php";
-require __DIR__ . "/../helpers/auth/Session.php";
 
 class AuthController extends Controller {
 
