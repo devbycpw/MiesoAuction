@@ -5,14 +5,16 @@
 
         public function __construct() {
                 parent::__construct();
-                Auth::redirectClient();
             }
         
         public function index() {
             $user = $this->model("User");
             $data = $user->all();
             $this->view("Home/index", [
-                "users" => $data
+                "users" => $data,
+                "title" => "Home",
+                "layout" => "Main" 
             ]);
         }
+
     }

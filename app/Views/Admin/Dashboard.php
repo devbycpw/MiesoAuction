@@ -8,6 +8,5 @@
 <body>
     dashboard admin
 
-    <a href="<?= BASE_URL ?>logout">Logout</a>
 </body>
 </html>

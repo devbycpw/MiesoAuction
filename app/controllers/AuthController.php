@@ -7,11 +7,17 @@ class AuthController extends Controller {
 
     // Menampilkan halaman login
     public function showLogin() {
-        $this->view("auth/login");
+        $this->view("auth/login",[
+            "title" => "Login",
+            "layout" => "Auth"
+        ]);
     }
 
     public function showRegister() {
-        $this->view("auth/register");
+        $this->view("auth/register",[
+            "title" => "Registrasi",
+            "layout" => "Auth"
+        ]);
     }
 
     public function register() {
@@ -62,10 +68,9 @@ class AuthController extends Controller {
 
         if ($user && password_verify($password, $user['password'])) {
 
-            Auth::login($user['id']);
-            Session::set('role', $user['role']);
+            Auth::login($user); // ← WAJIB ARRAY, BUKAN ID
 
-            // --- Tambahkan redirect sesuai role ---
+            // Redirect sesuai role
             if (Auth::isClient()) {
                 header("Location: " . BASE_URL . "home");
             } else {
@@ -78,6 +83,7 @@ class AuthController extends Controller {
         header("Location: " . BASE_URL . "login");
         exit;
     }
+
 
 
     public function logout() {
