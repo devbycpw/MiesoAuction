@@ -13,7 +13,8 @@
             $this->view("Home/index", [
                 "users" => $data,
                 "title" => "Home",
-                "layout" => "Main" 
+                "layout" => "Main",
+                "custom_css" => "home"
             ]);
         }
 

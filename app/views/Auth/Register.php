@@ -5,39 +5,45 @@ $error = Session::get('error');
 Session::unset('error'); 
 ?>
 
-<h1>Pendaftaran Akun Baru</h1>
+<div class="auth-container">
 
-<?php if ($error): ?>
-    <div style="color:red; border:1px solid red; padding:10px; margin-bottom:10px;">
-        <?= $error ?>
-    </div>
-<?php endif; ?>
+    <h2 class="auth-title">Pendaftaran Akun Baru</h2>
 
-<form action="<?= BASE_URL ?>register/create" method="POST">
-    <div>
-        <label>Nama:</label>
-        <input type="text" name="name" required value="<?= Session::get('old_name') ?>">
-    </div>
+    <?php if ($error): ?>
+        <div class="error-box">
+            <?= $error ?>
+        </div>
+    <?php endif; ?>
 
-    <div>
-        <label>Email:</label>
-        <input type="email" name="email" required value="<?= Session::get('old_email') ?>">
-    </div>
+    <form action="<?= BASE_URL ?>register/create" method="POST">
 
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Nama</label>
+            <input type="text" class="form-control" name="name" required value="<?= Session::get('old_name') ?>">
+        </div>
 
-    <div>
-        <label>Konfirmasi Password:</label>
-        <input type="password" name="confirm_password" required>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" required value="<?= Session::get('old_email') ?>">
+        </div>
 
-    <button type="submit">Daftar</button>
-</form>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" required>
+        </div>
 
-<p>Sudah punya akun? <a href="<?= BASE_URL ?>login">Login</a></p>
+        <div class="mb-3">
+            <label class="form-label">Konfirmasi Password</label>
+            <input type="password" class="form-control" name="confirm_password" required>
+        </div>
+
+        <button type="submit" class="btn btn-gold mt-2">Daftar</button>
+    </form>
+
+    <p class="text-center mt-3">
+        Sudah punya akun? <a href="<?= BASE_URL ?>login">Login</a>
+    </p>
+</div>
 
 <?php 
 Session::unset('old_name');
