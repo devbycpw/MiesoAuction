@@ -52,4 +52,27 @@ class Auth {
             exit;
         }
     }
+
+    public static function isAdmin() {
+    return Session::get('role') === 'admin';
+}
+
+    public static function isClient() {
+        return Session::get('role') === 'client';
+    }
+
+    public static function redirectAdmin() {
+        if (!self::check() || !self::isAdmin()) {
+            header("Location: " . BASE_URL . "login");
+            exit;
+        }
+    }
+
+    public static function redirectClient() {
+        if (!self::check() || !self::isClient()) {
+            header("Location: " . BASE_URL . "login");
+            exit;
+        }
+    }
+
 }

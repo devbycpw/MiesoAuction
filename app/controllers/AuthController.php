@@ -61,15 +61,24 @@ class AuthController extends Controller {
         $user = $userModel->findByEmail($email);
 
         if ($user && password_verify($password, $user['password'])) {
+
             Auth::login($user['id']);
-            header("Location: " . BASE_URL . "home");
-            exit;
-        } else {
-            Session::set('error', 'Email atau password salah.');
-            header("Location: " . BASE_URL . "login");
+            Session::set('role', $user['role']);
+
+            // --- Tambahkan redirect sesuai role ---
+            if (Auth::isClient()) {
+                header("Location: " . BASE_URL . "home");
+            } else {
+                header("Location: " . BASE_URL . "admin/dashboard");
+            }
             exit;
         }
+
+        Session::set('error', 'Email atau password salah.');
+        header("Location: " . BASE_URL . "login");
+        exit;
     }
+
 
     public function logout() {
         Auth::logout();

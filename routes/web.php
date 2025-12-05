@@ -42,6 +42,7 @@ return [
     // =======================================================
     // ADMIN 
     // auctions
+    "admin/dashboard" => "AdminController@index",
     "admin/auctions" => "AdminAuctionController@index",
     "admin/auction/approve/{id}" => "AdminAuctionController@approve",
     "admin/auction/reject/{id}" => "AdminAuctionController@reject",
