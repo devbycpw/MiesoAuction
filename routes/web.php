@@ -25,9 +25,8 @@ return [
     "auction/update/{id}" => "AuctionController@update",     
     "auction/delete/{id}" => "AuctionController@delete",     
 
-    "categories" => "CategoryController@index",
-    
     // bidding
+    "myBids" => "BidController@index",          
     "bids/store" => "BidController@store",          
     "bids/auction/{id}" => "BidController@listByAuction",  
 

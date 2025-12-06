@@ -10,8 +10,8 @@ class Auction {
 
     public function create(array $data) {
         $sql = "INSERT INTO auctions 
-                (user_id, category_id, title, description, image, starting_price, estimated_value, status, start_time, end_time, seller_note, created_at, updated_at)
-                VALUES (:user_id, :category_id, :title, :description, :image, :starting_price, :estimated_value, :status, :start_time, :end_time, :seller_note, :created_at, :updated_at)";
+                (user_id, category_id, title, description, image, starting_price, status, start_time, end_time,  created_at, updated_at)
+                VALUES (:user_id, :category_id, :title, :description, :image, :starting_price,  :status, :start_time, :end_time, :created_at, :updated_at)";
 
         $stmt = $this->db->prepare($sql);
 
@@ -24,11 +24,9 @@ class Auction {
             ':description' => $data['description'] ?? null,
             ':image' => $data['image'] ?? null,
             ':starting_price' => $data['starting_price'],
-            ':estimated_value' => $data['estimated_value'] ?? null,
             ':status' => $data['status'] ?? 'pending',
             ':start_time' => $data['start_time'] ?? null,
             ':end_time' => $data['end_time'] ?? null,
-            ':seller_note' => $data['seller_note'] ?? null,
             ':created_at' => $currentTime,
             ':updated_at' => $currentTime
         ]);

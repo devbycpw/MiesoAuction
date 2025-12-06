@@ -46,13 +46,7 @@
         </button>
     </div>
 
-    <!-- <?php if (Auth::isClient()): ?>
-        <p class="home-welcome">Halo <?= Auth::user('full_name'); ?>! Kamu bisa melihat daftar produk.</p>
-    <?php endif; ?>
-
-    <?php if (!Auth::check()): ?>
-        <p class="home-welcome">Login untuk fitur lebih lengkap.</p>
-    <?php endif; ?> -->
+    
 <div class="container mt-4">
     <h1>Live Action</h1>
     <p>Explore the best & largest marketplace with our beautiful Bidding product. We want to be a part of your smile, success and future growth  </p>

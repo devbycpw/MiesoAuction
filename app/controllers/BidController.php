@@ -9,7 +9,7 @@ class BidController extends Controller
     public function __construct()
     {
         parent::__construct();
-        Auth::redirectUser(); // cek login
+        Auth::redirectClient(); 
         $this->bid = new Bid();
     }
 
@@ -41,7 +41,7 @@ class BidController extends Controller
 
         $data = [
             'auction_id' => $_POST['auction_id'],
-            'user_id' => Auth::user(), // ambil user yang sedang login
+            'user_id' => Auth::user(), 
             'bid_amount' => $_POST['bid_amount']
         ];
 
