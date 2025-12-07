@@ -16,34 +16,38 @@ class AuctionController extends Controller
         $this->bid = new Bid();
     }
 
-    public function index()
-    {
-        if (Auth::isAdmin()) {
-            $data = $this->auction->all();
-        } else {
+    // File: app/Controllers/AuctionController.php
 
-            // ambil kategori dari GET (bisa banyak)
-            $categories = isset($_GET['category']) ? $_GET['category'] : [];
+public function index()
+{
+    // Deklarasi dan inisialisasi variabel di luar blok kondisional
+    $categories = []; // <-- INI PERBAIKANNYA
 
-            $data = $this->auction->getActiveAuctions($categories);
-        }
+    if (Auth::isAdmin()) {
+        $data = $this->auction->all();
+    } else {
+        // ambil kategori dari GET (bisa banyak)
+        $categories = isset($_GET['category']) ? $_GET['category'] : [];
 
-        foreach ($data as &$a) {
-            $a['current_price'] = $this->bid->getCurrentPrice($a['id']);
-        }
-
-        // Ambil semua kategori untuk checkbox
-        $allCategories = $this->model("Category")->all();
-
-        $this->view("Auction/index", [
-            "auctions"     => $data,
-            "categories"   => $allCategories,     // kirim ke view
-            "selected"     => $categories,        // kirim kategori yang terpilih
-            "title"        => "Auction",
-            "layout"       => "Main",
-            "custom_js"    => "auction"
-        ]);
+        $data = $this->auction->getActiveAuctions($categories);
     }
+
+    foreach ($data as &$a) {
+        $a['current_price'] = $this->bid->getCurrentPrice($a['id']);
+    }
+
+    // Ambil semua kategori untuk checkbox
+    $allCategories = $this->model("Category")->all();
+
+    $this->view("Auction/index", [
+        "auctions" 	 => $data,
+        "categories" 	 => $allCategories, 	
+        "selected" 	 => $categories, 
+        "title" 	 => "Auction",
+        "layout" 	 => "Main",
+        "custom_js" 	 => "auction"
+    ]);
+}
 
     // =====================================================
     // GET /auction/show/{id}
@@ -182,5 +186,39 @@ class AuctionController extends Controller
         header("Location:".BASE_URL."auctions");
         exit;
     }
+
+    public function autoCloseAuctions()
+    {
+        $expiredAuctions = $this->auction->getExpiredActiveAuctions();
+
+        foreach ($expiredAuctions as $auction) {
+
+            $highestBid = $this->bid->getHighestBid($auction['id']);
+
+            if ($highestBid) {
+                // Ada pemenang
+                $winnerId   = $highestBid['user_id'];
+                $finalPrice = $highestBid['amount'];
+                $status     = "sold";
+
+            } else {
+                // Tidak ada yang bid
+                $winnerId   = null;
+                $finalPrice = $auction['starting_price']; 
+                $status     = "closed";
+            }
+
+            // Update auction
+            $this->auction->closeAuction(
+                $auction['id'],
+                $winnerId,
+                $finalPrice,
+                $status
+            );
+        }
+
+        echo "Auction auto-closed successfully.";
+    }
+
     
 }

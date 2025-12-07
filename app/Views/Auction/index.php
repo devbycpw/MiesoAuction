@@ -19,9 +19,7 @@
     <button type="submit" class="btn btn-primary btn-sm">Filter</button>
     <a href="<?= BASE_URL ?>auctions" class="btn btn-secondary btn-sm">Clear</a>
 </form>
-
 <hr>
-
     <h2 class="home-subtitle my-4">List Auction</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php foreach($auctions as $d): ?>
@@ -53,7 +51,7 @@
                     </div>
 
                     <div class="card-footer text-end">
-                        <a href="<?= BASE_URL ?>auction/show/<?= $d['id'] ?>" class="btn btn-warning btn-sm">View Detail</a>
+                        <a href="<?= BASE_URL ?>auction/show/<?= $d['id'] ?>" class="btn btn-warning btn-sm">Place a Bid</a>
                     </div>
 
                 </div>

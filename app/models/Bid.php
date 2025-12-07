@@ -113,6 +113,22 @@ class Bid {
 
         return true;
     }
+    
+    public function getHighestBid($auctionId)
+    {
+        $sql = "
+            SELECT user_id, amount
+            FROM bids
+            WHERE auction_id = :auction_id
+            ORDER BY amount DESC, created_at ASC
+            LIMIT 1
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':auction_id' => $auctionId]);
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
 
 

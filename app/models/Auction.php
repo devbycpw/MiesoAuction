@@ -181,4 +181,38 @@ class Auction {
         // Execute dan kembalikan status keberhasilan
         return $stmt->execute();
     }
+    public function getExpiredActiveAuctions()
+    {
+        $sql = "
+            SELECT id, starting_price, end_time
+            FROM auctions
+            WHERE status = 'active'
+            AND end_time < NOW()
+        ";
+
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function closeAuction($auctionId, $winnerId, $finalPrice, $status = 'closed')
+{
+    $sql = "
+        UPDATE auctions
+        SET 
+            status = :status,
+            winner_id = :winner_id,
+            final_price = :final_price,
+            updated_at = NOW()
+        WHERE id = :id
+    ";
+
+    $stmt = $this->db->prepare($sql);
+
+    return $stmt->execute([
+        ':status' => $status,
+        ':winner_id' => $winnerId,
+        ':final_price' => $finalPrice,
+        ':id' => $auctionId
+    ]);
+}
+
 }
