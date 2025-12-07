@@ -33,7 +33,19 @@ class Auction {
     }
 
     public function all() {
-        $sql = "SELECT * FROM auctions ORDER BY created_at DESC";
+        $sql = "
+            SELECT 
+                a.*, 
+                u.full_name AS seller_name, 
+                u.email AS seller_email,
+                c.name AS category_name,
+                w.full_name AS winner_name,
+                w.email AS winner_email
+            FROM auctions a
+            LEFT JOIN users u ON a.user_id = u.id
+            LEFT JOIN categories c ON a.category_id = c.id
+            LEFT JOIN users w ON a.winner_id = w.id ORDER BY a.id DESC
+            ";
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -115,5 +127,31 @@ class Auction {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function statusActive($auction_id, $status)
+    {
+        $query = "UPDATE auctions SET status = :status, updated_at = NOW() WHERE id = :id";
+        
+        $stmt = $this->db->prepare($query);
+        
+        // Bind parameter
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':id', $auction_id, PDO::PARAM_INT);
+        
+        // Execute dan kembalikan status keberhasilan
+        return $stmt->execute();
+    }
     
+    public function statusReject($auction_id, $status)
+    {
+        $query = "UPDATE auctions SET status = :status, updated_at = NOW() WHERE id = :id";
+        
+        $stmt = $this->db->prepare($query);
+        
+        // Bind parameter
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':id', $auction_id, PDO::PARAM_INT);
+        
+        // Execute dan kembalikan status keberhasilan
+        return $stmt->execute();
+    }
 }

@@ -7,7 +7,7 @@
     <div class="row">
         <!-- LEFT: IMAGE -->
         <div class="col-md-5">
-            <img src="<?= BASE_URL ?>assets/img/auction_images/<?= $auction['image'] ?>" 
+            <img src="<?= BASE_URL ?>assets/uploads/auction_images/<?= $auction['image'] ?>" 
                  class="img-fluid rounded shadow" alt="<?= $auction['title'] ?>">
         </div>
 
@@ -19,7 +19,11 @@
 
             <table class="table">
                 <tr>
-                    <th>Starting Price</th>
+                    <th>Seller</th>
+                    <td> <?= $auction['seller_name'] ?></td>
+                </tr>
+                <tr>
+                    <th>Open Price</th>
                     <td>Rp <?= number_format($auction['starting_price'], 0, ',', '.') ?></td>
                 </tr>
                 <tr>
@@ -29,11 +33,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Start Time</th>
-                    <td><?= $auction['start_time'] ?></td>
-                </tr>
-                <tr>
-                    <th>End Time</th>
+                    <th>Auction Deadline</th>
                     <td><?= $auction['end_time'] ?></td>
                 </tr>
             </table>
@@ -65,8 +65,8 @@
                 <?php endif; ?>
             </form>
             <?php if (Auth::isAdmin()): ?>
-                    <a href="<?=BASE_URL?>admin/auction/acc" class="btn btn-success w-100">Accept</a>
-                    <a href="<?=BASE_URL?>admin/auction/reject" class="btn btn-success w-100">Reject</a>
+                    <a href="<?=BASE_URL?>admin/auction/approve/<?=$auction['id']?>" class="btn btn-success w-100">Accept</a>
+                    <a href="<?=BASE_URL?>admin/auction/reject/<?=$auction['id']?>" class="btn btn-success w-100">Reject</a>
             <?php endif; ?>
 
             <?php if (!Auth::check()): ?>
@@ -74,35 +74,4 @@
             <?php endif; ?>
         </div>
     </div>
-
-
-    <hr class="my-4">
-
-    <!-- LIST OF BIDS -->
-    <h4>Bid History</h4>
-
-    <?php if (!empty($auction['bids'])): ?>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Bid Amount</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($auction['bids'] as $b): ?>
-                    <tr>
-                        <td><?= $b['full_name'] ?></td>
-                        <td>Rp <?= number_format($b['bid_amount'], 0, ',', '.') ?></td>
-                        <td><?= $b['created_at'] ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php else: ?>
-        <p class="text-muted">No bids yet.</p>
-    <?php endif; ?>
-
-
 </div>
