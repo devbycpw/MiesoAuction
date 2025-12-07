@@ -157,15 +157,134 @@
         width: 200px;
         margin: 20px auto 0; 
     }
-</style>
-<?php
-    $new_arrivals = [
-        ['title' => 'CARTIER', 'desc' => 'Platinum, Ruby and Diamond Leaf Earrings', 'image' => 'Earrings1 (For Home).png'],
-        ['title' => 'JEROME', 'desc' => 'Platinum, Yellow Diamond and Diamond Earrings', 'image' => 'Earrings2 (For Home).png'],
-        ['title' => 'TIFFANY & CO.', 'desc' => 'Platinum and Diamond Ring', 'image' => 'Earrings3 (For Home).png']
-    ];
-?>
 
+    .section-tittle{
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .new-arrival-header{
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .new-arrival-header .section-tittle{
+        font-size:24px;
+        font-weight:700;
+        display:inline-block;
+        position:relative;
+        padding-bottom: 5px;
+    }
+
+    .new-arrival-header .section-title::after,
+    .learn-more-header .section-title::after {
+        content: '';
+        position: absolute;
+        width: 100%; /* Lebar garis sepanjang teks */
+        height: 3px; /* Ketebalan garis */
+        background-color: #ffc107; /* Warna kuning Bootstrap/Figma */
+        left: 0;
+        bottom: 0;
+        
+        /* Jika garis ingin lebih pendek dari teks (opsional, tergantung preferensi desain) */
+        /* width: 60%; */
+    }
+    
+    .arrival-card{
+        border:none;
+        text-align:center;
+        padding: 15px;
+    }
+
+    .arrival-card img{
+        width: 100%;
+        max-width:250px;
+        height:auto;
+        object-fit:contain;
+        margin-bottom:10px;
+    }
+
+    .arrival-card .card-tittle{
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .arrival-card .card-text{
+        font-size:14px;
+        color: #777;
+        margin-bottom:4px;
+    }
+
+    .arrival-card .card-price{
+        font-size:16px;
+        font-weight:700;
+        color: #000;
+        margin-top:0;
+    }
+
+    .private-service-header, .learn-more-header{
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .service-row{
+        position:relative;
+    }
+
+    .service-row::after{
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background-color: #ccc;
+        height: 80%;
+        transform:transalateX(-50%);
+    }
+
+    .service-card{
+        padding-right: 20px;
+    }
+
+    .col:last-child .service-card{
+        padding-left: 20px;
+        padding-right: 0;
+    }
+
+    .service-card h4 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .service-card p {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    .learn-more-card {
+        border: none;
+        padding: 0;
+        margin-bottom: 50px;
+    }
+    
+    .learn-more-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .learn-more-card p {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+    }
+</style>
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -298,15 +417,32 @@
         <h4 class="section-title">Shop New Arrival from Rolex, Hermès, Gucci, and More</h4>
     </div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        <?php foreach($new_arrivals as $arrival): ?>
         <div class="col">
             <div class="arrival-card">
-                <img src="" alt="<?= BASE_URL ?>assets/img/<?= $arrival['image'] ?>" alt="<?= htmlspecialchars($arrival['title']) ?>">
-                <h6 class="card-title"><?= htmlspecialchars($arrival['title']) ?></h6>
-                <p class="card-text"><?= htmlspecialchars($arrival['desc']) ?></p>
+                <img src="<?= BASE_URL ?>assets/img/Earrings1 (For Home).jpg" alt="CARTIER">
+                <h6 class="card-title">CARTIER</h6>
+                <p class="card-text">Platinum, Ruby and Diamond Leaf Earrings</p>
+                <p class="card-price">USD 21.500,00</p>
             </div>
         </div>
-        <?php endforeach; ?>
+
+        <div class="col">
+            <div class="arrival-card">
+                <img src="<?= BASE_URL ?>assets/img/Earrings2 (For Home).jpg" alt="JEROME">
+                <h6 class="card-title">JEROME</h6>
+                <p class="card-text">Platinum, Yellow Diamond and Diamond Earrings</p>
+                <p class="card-price">USD 18.000,00</p>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="arrival-card">
+                <img src="<?= BASE_URL ?>assets/img/Earrings3 (For Home).jpg" alt="TIFFANY & CO.">
+                <h6 class="card-title">TIFFANY & CO.</h6>
+                <p class="card-text">Platinum and Diamond Ring</p>
+                <p class="card-price">USD 12.500,00</p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -334,7 +470,7 @@
 
 <div class="container mt-5">
     <div class="learn-more-header">
-        <h4 class="section-title">Learn More About Privater Sales at Enchères</h4>
+        <h4 class="section-title">Learn More About Private Sales at Enchères</h4>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-4">
         <div class="col">
