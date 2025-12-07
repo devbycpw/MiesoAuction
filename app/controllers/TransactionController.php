@@ -1,7 +1,5 @@
 <?php
 
-require_once "../app/Models/Transaction.php";
-
 class TransactionController extends Controller
 {
     private $transaction;

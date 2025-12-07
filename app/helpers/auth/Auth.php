@@ -14,19 +14,25 @@ class Auth {
     }
 
     public static function user($key = null)
-    {
-        if (!self::check()) return null;
+{
+    if (!self::check()) return null;
 
-        if ($key) {
-            return Session::get($key);
-        }
+    // Ambil data lengkap
+    $user = [
+        'id'         => Session::get('user_id'),
+        'full_name'  => Session::get('full_name'),
+        'role'       => Session::get('role')
+    ];
 
-        return [
-            'id' => Session::get('user_id'),
-            'full_name' => Session::get('full_name'),
-            'role' => Session::get('role')
-        ];
+    // Jika minta 1 key, ambil dari array user
+    if ($key) {
+        return $user[$key] ?? null;
     }
+
+    // Jika tidak, kembalikan array lengkap
+    return $user;
+}
+
 
     public static function logout() {
         if (session_status() === PHP_SESSION_NONE) {

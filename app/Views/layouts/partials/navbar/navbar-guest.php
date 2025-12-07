@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" href="<?= BASE_URL ?>home">
       <img src="<?= BASE_URL ?>assets/img/Logo.png" width="120" height="66">

@@ -1,16 +1,19 @@
 <?php
 
 require_once "../app/Models/Bid.php";
+require_once "../app/Models/Auction.php";
 
 class BidController extends Controller
 {
     private $bid;
+    private $auction;
 
     public function __construct()
     {
         parent::__construct();
         Auth::redirectClient(); 
         $this->bid = new Bid();
+        $this->auction = new Auction();
     }
 
     // ---------------------------------------------------------
@@ -30,26 +33,6 @@ class BidController extends Controller
         $this->view("bids/create");
     }
 
-    // ---------------------------------------------------------
-    // STORE BID BARU
-    // ---------------------------------------------------------
-    public function store()
-    {
-        if (!isset($_POST['auction_id'], $_POST['bid_amount'])) {
-            die("Data tidak lengkap");
-        }
-
-        $data = [
-            'auction_id' => $_POST['auction_id'],
-            'user_id' => Auth::user(), 
-            'bid_amount' => $_POST['bid_amount']
-        ];
-
-        $this->bid->create($data);
-
-        header("Location: /bids");
-        exit;
-    }
 
     // ---------------------------------------------------------
     // DETAIL BID (DENGAN RELASI)
@@ -112,8 +95,11 @@ class BidController extends Controller
     // ---------------------------------------------------------
     public function byAuction($auction_id)
     {
-        $data['bids'] = $this->bid->findByAuction($auction_id);
-        $this->view("bids/by_auction", $data);
+        $bids = $this->bid->findByAuction($auction_id);
+
+        $this->view("bids/by_auction", [
+            "bids" => $bids
+        ]);
     }
 
     // ---------------------------------------------------------
@@ -121,35 +107,36 @@ class BidController extends Controller
     // ---------------------------------------------------------
     public function highestBid($auction_id)
     {
-        $data['highest'] = $this->bid->findHighestBid($auction_id);
-        $this->view("bids/highest_bid", $data);
+        $highest = $this->bid->findHighestBid($auction_id);
+
+        $this->view("bids/highest_bid", [
+            "highest" => $highest
+        ]);
     }
     
-    public function placeBid() {
-    $auctionId = $_POST['auction_id'];
-    $userId    = Auth::user('id');
-    $bidAmount = $_POST['bid_amount'];
+    public function placeBid()
+    {
+        $auctionId = $_POST['auction_id'];
+        $bidAmount = $_POST['bid_amount'];
+        $userId    = Auth::user('id');
 
-    $auction = $this->auction->findById($auctionId);
+        // Ambil harga terbaru
+        $currentPrice = $this->bid->getCurrentPrice($auctionId);
 
-    // harga sekarang = final_price atau bid tertinggi
-    $currentPrice = $this->auction->getCurrentPrice($auctionId);
+        if ($bidAmount <= $currentPrice) {
+            Session::set("error", "Bid must be higher than current price!");
+            header("Location: " . BASE_URL . "auction/show/$auctionId");
+            exit;
+        }
 
-    // validasi
-    if ($bidAmount <= $currentPrice) {
-        $_SESSION['error'] = "Bid must be higher than current price!";
+        // Simpan bid + update final_price
+        $this->bid->placeBid($auctionId, $userId, $bidAmount);
+
+        Session::set("success", "Bid placed successfully!");
         header("Location: " . BASE_URL . "auction/show/$auctionId");
         exit;
     }
 
-    // Insert ke tabel bids
-    $this->auction->insertBid($auctionId, $userId, $bidAmount);
 
-    // Update final_price di auctions
-    $this->auction->updateFinalPrice($auctionId, $bidAmount);
-
-    header("Location: " . BASE_URL . "auction/show/$auctionId");
-    exit;
-}
 
 }
