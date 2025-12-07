@@ -1,108 +1,108 @@
+<div class="container py-4">
 
-<div class="container mt-5">
-    <div class="card shadow-lg border-0">
-        <div class="row g-0">
+    <a href="<?= BASE_URL ?>auctions" class="btn btn-secondary mb-3">
+        &larr; Back to Auctions
+    </a>
 
-            <div class="col-md-5">
-                <img src="<?= BASE_URL ?>/assets/img/auction<?= $auction['image']; ?>" 
-                     class="img-fluid rounded-start" alt="Auction Image"
-                     style="object-fit: cover; height: 100%;">
-            </div>
+    <div class="row">
+        <!-- LEFT: IMAGE -->
+        <div class="col-md-5">
+            <img src="<?= BASE_URL ?>assets/img/auction_images/<?= $auction['image'] ?>" 
+                 class="img-fluid rounded shadow" alt="<?= $auction['title'] ?>">
+        </div>
 
-            <div class="col-md-7">
-                <div class="card-body">
-                    <h3 class="card-title mb-3"><?= htmlspecialchars($auction['title']); ?></h3>
+        <!-- RIGHT: DETAILS -->
+        <div class="col-md-7">
 
-                    <p class="text-muted"><?= htmlspecialchars($auction['description']); ?></p>
+            <h2 class="fw-bold"><?= $auction['title'] ?></h2>
+            <p class="text-muted"><?= $auction['description'] ?></p>
 
-                    <hr>
+            <table class="table">
+                <tr>
+                    <th>Starting Price</th>
+                    <td>Rp <?= number_format($auction['starting_price'], 0, ',', '.') ?></td>
+                </tr>
+                <tr>
+                    <th>Current Price</th>
+                    <td class="fw-bold text-success">
+                        Rp <?= number_format($auction['current_price'], 0, ',', '.') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Start Time</th>
+                    <td><?= $auction['start_time'] ?></td>
+                </tr>
+                <tr>
+                    <th>End Time</th>
+                    <td><?= $auction['end_time'] ?></td>
+                </tr>
+            </table>
 
-                    <h5 class="mb-3">Auction Information</h5>
+            <hr>
 
-                    <table class="table table-borderless">
-                        <tr>
-                            <th style="width: 180px;">Auction ID</th>
-                            <td><?= $auction['id']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Category</th>
-                            <td><?= $auction['category_name']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Starting Price</th>
-                            <td>Rp <?= number_format($auction['starting_price']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Final Price</th>
-                            <td>
-                                <?= $auction['final_price'] 
-                                    ? "Rp " . number_format($auction['final_price']) 
-                                    : "<span class='text-muted'>Not finished</span>"; ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Status</th>
-                            <td>
-                                <?php if ($auction['status'] === 'active'): ?>
-                                    <span class="badge bg-success">Active</span>
-                                <?php elseif ($auction['status'] === 'closed'): ?>
-                                    <span class="badge bg-danger">Closed</span>
-                                <?php else: ?>
-                                    <span class="badge bg-secondary"><?= $auction['status']; ?></span>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Start Time</th>
-                            <td><?= $auction['start_time']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>End Time</th>
-                            <td><?= $auction['end_time']; ?></td>
-                        </tr>
-                    </table>
-                    <hr>
-                    <h5 class="mb-3">Seller Information</h5>
-                    <table class="table table-borderless">
-                        <tr>
-                            <th style="width: 180px;">Seller Name</th>
-                            <td><?= $auction['seller_name']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Seller Email</th>
-                            <td><?= $auction['seller_email']; ?></td>
-                        </tr>
-                    </table>
-                    <hr>
+            <!-- FLASH MESSAGE -->
+            <?php if(Session::get("error")): ?>
+                <div class="alert alert-danger"><?= Session::get("error"); Session::unset("error"); ?></div>
+            <?php endif; ?>
 
-                    <h5 class="mb-3">Winner Information</h5>
-                    <table class="table table-borderless">
-                        <tr>
-                            <th style="width: 180px;">Winner Name</th>
-                            <td><?= $auction['winner_name'] ?: "<span class='text-muted'>No winner yet</span>"; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Winner Email</th>
-                            <td><?= $auction['winner_email'] ?: "<span class='text-muted'>No winner yet</span>"; ?></td>
-                        </tr>
-                    </table>
+            <?php if(Session::get("success")): ?>
+                <div class="alert alert-success"><?= Session::get("success"); Session::unset("success"); ?></div>
+            <?php endif; ?>
+            <?php if(!Auth::isAdmin()): ?>
+            <!-- BID FORM -->
+            <h4>Place a Bid</h4>
+            <form action="<?= BASE_URL ?>bids/placeBid" method="POST">
+                <input type="hidden" name="auction_id" value="<?= $auction['id'] ?>">
 
-                    <?php if (Auth::isClient()): ?>
-                        <a href="<?= BASE_URL ?>auction/show/<?= $d['id'] ?>" class="btn btn-warning btn-sm">Bid Now</a>
-                    <?php endif; ?>
-
-                    <?php if (Auth::isAdmin()): ?>
-                        <div class="mt-4">
-                            <a href="<?= BASE_URL ?>auctions" class="btn btn-secondary">Back</a>
-                            <a href="<?= BASE_URL ?>auction/edit/<?= $auction['id']; ?>" class="btn btn-warning">Edit</a>
-                            <a href="<?= BASE_URL ?>auction/delete/<?= $auction['id']; ?>" 
-                            onclick="return confirm('Are you sure?')" 
-                            class="btn btn-danger">Delete</a>
-                        </div>
-                    <?php endif; ?>
+                <div class="mb-3">
+                    <label for="bid_amount" class="form-label">Your Bid</label>
+                    <input type="number" name="bid_amount" id="bid_amount" class="form-control"
+                           placeholder="Enter amount greater than current price" required>
                 </div>
-            </div>
+            <?php endif; ?>
+                <?php if (Auth::isClient()): ?>
+                    <button class="btn btn-success w-100">Submit Bid</button>
+                <?php endif; ?>
+            </form>
+            <?php if (Auth::isAdmin()): ?>
+                    <a href="<?=BASE_URL?>admin/auction/acc" class="btn btn-success w-100">Accept</a>
+                    <a href="<?=BASE_URL?>admin/auction/reject" class="btn btn-success w-100">Reject</a>
+            <?php endif; ?>
+
+            <?php if (!Auth::check()): ?>
+                    <a href="<?=BASE_URL?>login" class="btn btn-success w-100">Submit Bid</a>
+            <?php endif; ?>
         </div>
     </div>
-</div>
 
+
+    <hr class="my-4">
+
+    <!-- LIST OF BIDS -->
+    <h4>Bid History</h4>
+
+    <?php if (!empty($auction['bids'])): ?>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Bid Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($auction['bids'] as $b): ?>
+                    <tr>
+                        <td><?= $b['full_name'] ?></td>
+                        <td>Rp <?= number_format($b['bid_amount'], 0, ',', '.') ?></td>
+                        <td><?= $b['created_at'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p class="text-muted">No bids yet.</p>
+    <?php endif; ?>
+
+
+</div>

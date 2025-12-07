@@ -1,8 +1,4 @@
 <div class="container mt-4">
-    <?php if (Auth::isClient()): ?>
-        <p class="home-welcome">Halo <?= Auth::user('full_name'); ?>! Kamu bisa melihat daftar produk.</p>
-    <?php endif; ?>
-
     <h2 class="home-subtitle my-4">List Auction</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php foreach($auctions as $d): ?>

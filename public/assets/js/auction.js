@@ -1,16 +1,19 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
 
+    // ==============================
+    // 1. COUNTDOWN TIMER
+    // ==============================
     const timers = document.querySelectorAll('.countdown-timer');
 
     timers.forEach(timer => {
         const endTime = new Date(timer.dataset.end).getTime();
 
         const interval = setInterval(() => {
-            const now = new Date().getTime();
+            const now = Date.now();
             const distance = endTime - now;
 
             if (distance <= 0) {
-                timer.innerHTML = "Auction Ended";
+                timer.textContent = "Auction Ended";
                 clearInterval(interval);
                 return;
             }
@@ -20,26 +23,32 @@ document.addEventListener("DOMContentLoaded", function() {
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            timer.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            timer.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
         }, 1000);
     });
 
-});
-
-document.addEventListener("DOMContentLoaded", function() {
+    // ==============================
+    // 2. AUTO UPDATE CURRENT PRICE
+    // ==============================
     function updatePrices() {
-        document.querySelectorAll('.current-price').forEach(el => {
+        const priceElements = document.querySelectorAll('.current-price');
+        if (priceElements.length === 0) return;
+
+        priceElements.forEach(el => {
             const id = el.dataset.id;
 
-            fetch(`http://localhost/auction/api/current-price/${id}`)
+            fetch(`${BASE_URL}auction/api/current-price/${id}`)
                 .then(res => res.json())
                 .then(data => {
-                    el.innerHTML = parseFloat(data.current_price).toLocaleString();
-                });
+                    if (data.current_price) {
+                        el.textContent = parseFloat(data.current_price).toLocaleString();
+                    }
+                })
+                .catch(err => console.error("Price update error:", err));
         });
     }
 
     // Update setiap 2 detik
     setInterval(updatePrices, 2000);
-});
 
+});

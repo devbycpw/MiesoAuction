@@ -56,7 +56,7 @@
                         <?php endif; ?>
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($auction['title']) ?></h5>
-                            <p class="card-text"><strong>Starting Price:</strong> $<?= number_format($auction['starting_price'],2) ?></p>
+                            <p class="card-text"><strong>Open.</strong> $<?= number_format($auction['starting_price'],2) ?></p>
                             <?php if(!empty($auction['final_price'])): ?>
                                 <p class="card-text"><strong>Final Price:</strong> $<?= number_format($auction['final_price'],2) ?></p>
                             <?php endif; ?>
