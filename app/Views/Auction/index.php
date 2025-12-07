@@ -1,4 +1,27 @@
 <div class="container mt-4">
+    <form method="GET" action="">
+    <div class="mb-3">
+        <strong>Filter Kategori:</strong><br>
+
+        <?php foreach($categories as $cat): ?>
+            <label class="me-3">
+                <input 
+                    type="checkbox" 
+                    name="category[]" 
+                    value="<?= $cat['id'] ?>"
+                    <?= in_array($cat['id'], $selected ?? []) ? 'checked' : '' ?>
+                >
+                <?= htmlspecialchars($cat['name']) ?>
+            </label>
+        <?php endforeach; ?>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+    <a href="<?= BASE_URL ?>auctions" class="btn btn-secondary btn-sm">Clear</a>
+</form>
+
+<hr>
+
     <h2 class="home-subtitle my-4">List Auction</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php foreach($auctions as $d): ?>

@@ -21,18 +21,27 @@ class AuctionController extends Controller
         if (Auth::isAdmin()) {
             $data = $this->auction->all();
         } else {
-            $data = $this->auction->getActiveAuctions();
+
+            // ambil kategori dari GET (bisa banyak)
+            $categories = isset($_GET['category']) ? $_GET['category'] : [];
+
+            $data = $this->auction->getActiveAuctions($categories);
         }
 
         foreach ($data as &$a) {
             $a['current_price'] = $this->bid->getCurrentPrice($a['id']);
         }
 
+        // Ambil semua kategori untuk checkbox
+        $allCategories = $this->model("Category")->all();
+
         $this->view("Auction/index", [
-            "auctions" => $data,
-            "title"    => "Auction",
-            "layout"   => "Main",
-            "custom_js" => "auction"
+            "auctions"     => $data,
+            "categories"   => $allCategories,     // kirim ke view
+            "selected"     => $categories,        // kirim kategori yang terpilih
+            "title"        => "Auction",
+            "layout"       => "Main",
+            "custom_js"    => "auction"
         ]);
     }
 

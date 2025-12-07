@@ -121,11 +121,38 @@ class Auction {
         ]);
     }
 
-    public function getActiveAuctions() {
-        $stmt = $this->db->prepare("SELECT * FROM auctions WHERE status = 'active'");
-        $stmt->execute();
+    public function getActiveAuctions($categories = [])
+    {
+        if (empty($categories)) {
+            // tidak ada filter → tampil semua active
+            $sql = "
+                SELECT a.*, c.name AS category_name 
+                FROM auctions a 
+                LEFT JOIN categories c ON c.id = a.category_id
+                WHERE a.status = 'active'
+                ORDER BY a.id DESC
+            ";
+            return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        // Jika ada kategori dipilih
+        $placeholders = implode(',', array_fill(0, count($categories), '?'));
+
+        $sql = "
+            SELECT a.*, c.name AS category_name
+            FROM auctions a
+            LEFT JOIN categories c ON c.id = a.category_id
+            WHERE a.status = 'active'
+            AND a.category_id IN ($placeholders)
+            ORDER BY a.id DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($categories);
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function statusActive($auction_id, $status)
     {
