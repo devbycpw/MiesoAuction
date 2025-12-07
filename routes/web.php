@@ -47,10 +47,10 @@ return [
     // ADMIN 
     // auctions
     "admin/dashboard" => "AdminController@index",
-    "admin/auctions" => "AdminAuctionController@index",
-    "admin/auction/approve/{id}" => "AdminAuctionController@approve",
-    "admin/auction/reject/{id}" => "AdminAuctionController@reject",
-    "admin/auction/close/{id}" => "AdminAuctionController@close",
+    "admin/auctions" => "AdminController@showAuctions",
+    "admin/auction/approve/{id}" => "AdminController@approve",
+    "admin/auction/reject/{id}" => "AdminController@reject",
+    "admin/auction/close/{id}" => "AdminController@close",
 
     // payments
     "admin/payments" => "AdminPaymentController@index",

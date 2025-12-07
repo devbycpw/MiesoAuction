@@ -22,7 +22,7 @@
           <a class="nav-link" href="<?= BASE_URL ?>admin/dashboard">Dashboard</a>
 
           <!-- Auction Management (NO CREATE) -->
-          <a class="nav-link" href="<?= BASE_URL ?>admin/auction">Manage Auctions</a>
+          <a class="nav-link" href="<?= BASE_URL ?>admin/auctions">Manage Auctions</a>
 
           <!-- Payment Management -->
           <div class="nav-item dropdown">

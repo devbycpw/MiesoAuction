@@ -1,5 +1,6 @@
 <?php
 
+require "../app/helpers/Upload.php";
 require_once "../app/Models/Auction.php";
 require_once "../app/Models/Bid.php";
 
@@ -172,4 +173,5 @@ class AuctionController extends Controller
         header("Location:".BASE_URL."auctions");
         exit;
     }
+    
 }
