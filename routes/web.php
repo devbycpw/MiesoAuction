@@ -15,7 +15,9 @@ return [
 
     // CUSTOMER 
     // auctions
-    "Aboutus" => "AboutUsController@index",
+    "about" => "AboutUsController@index",
+    
+    "api/current-price/(:num)" => "AuctionController@getCurrentPrice",
     "auctions" => "AuctionController@index",      
     "auction/show/{id}" => "AuctionController@show",       
     "auction/create" => "AuctionController@createForm", 
@@ -26,7 +28,7 @@ return [
 
     // bidding
     "myBids" => "BidController@index",          
-    "bids/store" => "BidController@store",          
+    "bids/placeBid" => "BidController@placeBid",          
     "bids/auction/{id}" => "BidController@listByAuction",  
 
     // payments

@@ -82,23 +82,38 @@ class Bid {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getCurrentPrice($auctionId) {
-        $sql = "SELECT COALESCE(MAX(bid_amount), 0) 
-                FROM bids 
-                WHERE auction_id = ?";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$auctionId]);
-        $lastBid = $stmt->fetchColumn();
+    public function getCurrentPrice($auctionId)
+{
+    $stmt = $this->db->prepare("SELECT MAX(bid_amount) FROM bids WHERE auction_id = ?");
+    $stmt->execute([$auctionId]);
+    $highest = $stmt->fetchColumn();
 
-        $auction = $this->findById($auctionId);
-
-        if ($lastBid == 0) {
-            return $auction['starting_price'];
-        }
-
-        return $lastBid;
+    if ($highest !== null) {
+        return $highest;
     }
+
+    // fallback → starting price
+    $stmt2 = $this->db->prepare("SELECT starting_price FROM auctions WHERE id = ?");
+    $stmt2->execute([$auctionId]);
+    return $stmt2->fetchColumn();
+}
     
+    public function placeBid($auctionId, $userId, $bidAmount)
+    {
+        // Insert bid
+        $sql = "INSERT INTO bids (auction_id, user_id, bid_amount, created_at)
+                VALUES (?, ?, ?, ?)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$auctionId, $userId, $bidAmount, date('Y-m-d H:i:s')]);
+
+        // Update auction.final_price
+        $sql2 = "UPDATE auctions SET final_price = ? WHERE id = ?";
+        $stmt2 = $this->db->prepare($sql2);
+        $stmt2->execute([$bidAmount, $auctionId]);
+
+        return true;
+    }
+
 
 
 }

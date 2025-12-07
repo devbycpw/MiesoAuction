@@ -1,6 +1,5 @@
 <?php
 
-require_once "../app/Models/Payment.php";
 
 class PaymentController extends Controller
 {

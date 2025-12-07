@@ -3,6 +3,72 @@
         font-family: "PlusJakartaSans";
         src: url("<?= BASE_URL ?>/assets/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf") format("truetype");
     }
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="<?= BASE_URL ?>/assets/img/hero_jewelery.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>First slide label</h5>
+                    <p>Some representative placeholder content for the first slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="<?= BASE_URL ?>/assets/img/hero_car.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Second slide label</h5>
+                    <p>Some representative placeholder content for the second slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="<?= BASE_URL ?>/assets/img/hero_house.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Third slide label</h5>
+                    <p>Some representative placeholder content for the third slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="<?= BASE_URL ?>/assets/img/hero_mac.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Fourth slide label</h5>
+                    <p>Some representative placeholder content for the fourth slide.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div class="container mt-4">
+        <h1>Live Action</h1>
+        <p>Explore the best & largest marketplace with our beautiful Bidding product. We want to be a part of your smile, success and future growth  </p>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <?php $count = 0;foreach($auctions as $auction): if($count >= 3) break;?>
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <?php if(!empty($auction['image'])): ?>
+                            <img src="<?= BASE_URL ?>assets/img/<?= $auction['image'] ?>" class="card-img-top" alt="<?= htmlspecialchars($auction['title']) ?>">
+                        <?php endif; ?>
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($auction['title']) ?></h5>
+                            <p class="card-text"><strong>Open.</strong> $<?= number_format($auction['starting_price'],2) ?></p>
+                            <?php if(!empty($auction['final_price'])): ?>
+                                <p class="card-text"><strong>Final Price:</strong> $<?= number_format($auction['final_price'],2) ?></p>
+                            <?php endif; ?>
+                            <p class="card-text">
+                                <strong>Countdown:</strong>
+                                <span class="countdown-timer" data-end="<?= $auction['end_time'] ?>"></span>
+                            </p>
 
     body{
         

@@ -96,4 +96,24 @@ class Auction {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function updateFinalPrice($auctionId, $finalPrice)
+    {
+        $sql = "UPDATE auctions SET final_price = :final_price, updated_at = :updated_at WHERE id = :id";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            ':final_price' => $finalPrice,
+            ':updated_at' => date('Y-m-d H:i:s'),
+            ':id' => $auctionId
+        ]);
+    }
+
+    public function getActiveAuctions() {
+        $stmt = $this->db->prepare("SELECT * FROM auctions WHERE status = 'active'");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    
 }

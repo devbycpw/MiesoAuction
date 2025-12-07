@@ -1,58 +1,63 @@
 <?php
 
 require_once "../app/Models/Auction.php";
-require_once "../app/helpers/Upload.php";
+require_once "../app/Models/Bid.php";
 
 class AuctionController extends Controller
 {
     private $auction;
+    private $bid;
 
     public function __construct()
     {
         parent::__construct();
         $this->auction = new Auction();
+        $this->bid = new Bid();
     }
 
-    // GET /auctions
     public function index()
     {
-        $data = $this->auction->all();
+        if (Auth::isAdmin()) {
+            $data = $this->auction->all();
+        } else {
+            $data = $this->auction->getActiveAuctions();
+        }
+
         foreach ($data as &$a) {
-            $a['current_price'] = $this->auction->getCurrentPrice($a['id']);
+            $a['current_price'] = $this->bid->getCurrentPrice($a['id']);
         }
 
         $this->view("Auction/index", [
             "auctions" => $data,
-            "title" => "Auction",
-            "layout" => "Main",
+            "title"    => "Auction",
+            "layout"   => "Main",
             "custom_js" => "auction"
         ]);
     }
 
-    public function updateFinalPrice($auctionId, $price) {
-        $sql = "UPDATE auctions SET final_price = ? WHERE id = ?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$price, $auctionId]);
-    }
-
-
-
-
+    // =====================================================
     // GET /auction/show/{id}
+    // =====================================================
     public function show($id)
     {
         $auction = $this->auction->getWithRelations($id);
+
         if (!$auction) {
             http_response_code(404);
             die("Auction not found.");
         }
 
+        // Tambahkan current price juga di show page
+        $auction['current_price'] = $this->bid->getCurrentPrice($id);
+
         $this->view("Auction/show", [
             "auction" => $auction,
-            "title" => "Auction",
-            "layout" => "Main"
+            "title"   => "Auction",
+            "layout"  => "Main",
+            "custom_js" => "auctionShow"
         ]);
     }
+
 
     // GET /auction/create
     public function createForm()

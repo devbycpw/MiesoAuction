@@ -1,6 +1,5 @@
 <?php
 
-require_once "../app/Models/Category.php";
 
 class CategoryController extends Controller
 {
