@@ -158,6 +158,14 @@
         margin: 20px auto 0; 
     }
 </style>
+<?php
+    $new_arrivals = [
+        ['title' => 'CARTIER', 'desc' => 'Platinum, Ruby and Diamond Leaf Earrings', 'image' => 'Earrings1 (For Home).png'],
+        ['title' => 'JEROME', 'desc' => 'Platinum, Yellow Diamond and Diamond Earrings', 'image' => 'Earrings2 (For Home).png'],
+        ['title' => 'TIFFANY & CO.', 'desc' => 'Platinum and Diamond Ring', 'image' => 'Earrings3 (For Home).png']
+    ];
+?>
+
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -283,23 +291,68 @@
     </a>
 </div>
 
+<div class="container"><hr style="margin-top: 50px; margin-bottom: 50px;"></div>
 
-        <h4>Shop New Arrival from Rolex, Hermès, Gucci, and More</h4>
+<div class="container">
+    <div class="new-arrival-header">
+        <h4 class="section-title">Shop New Arrival from Rolex, Hermès, Gucci, and More</h4>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php foreach($new_arrivals as $arrival): ?>
+        <div class="col">
+            <div class="arrival-card">
+                <img src="" alt="<?= BASE_URL ?>assets/img/<?= $arrival['image'] ?>" alt="<?= htmlspecialchars($arrival['title']) ?>">
+                <h6 class="card-title"><?= htmlspecialchars($arrival['title']) ?></h6>
+                <p class="card-text"><?= htmlspecialchars($arrival['desc']) ?></p>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
 
-        <h4>Private Serice</h4>
-        <h4>Private Sales</h4>
-        <p>Enchères Private Sales department provides our clients with a uniquely personalized approach to collecting. We utilize innovative, targeted approaches that combine personal relationships with collectors and market intelligence.</p>
+<div class="container mt-5">
+    <div class="private-service-header">
+        <h4 class="section-title">Private Services</h4>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="service-card">
+                <h4>Private Sales</h4>
+                <p>Enchères Private Sales department provides our clients with a uniquely personalized approach to collecting. 
+                    We utilize innovative, targeted approaches that combine personal relationships with collectors and market intelligence.</p>
+            </div>
+        </div>
 
-        <h4>Professional & Advisor Services</h4>
-        <p>Enchères Professional & Advisor Services team builds valuable client partnerships, leveraging expertise to deliver tailored solutions for collectors, beneficiaries, attorneys, executors, fiduciaries, institutions, and industry professionals across the art world. </p>
-        <h4>Learn More about Private Sales at Enchères</h4>
+        <div class="col">
+            <div class="service-card">
+                <h4>Professional & Advisor Services</h4>
+                <p>Enchères Professional & Advisor Services team builds valuable client partnerships, leveraging expertise to deliver tailored solutions for collectors, beneficiaries, attorneys, executors, fiduciaries, institutions, and industry professionals across the art world.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="container mt-5">
+    <div class="learn-more-header">
+        <h4 class="section-title">Learn More About Privater Sales at Enchères</h4>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="Learn-more-card">
+                <img src="<?= BASE_URL ?>assets/img/DiscoverPrivateSales.png" alt="Discover Private Sales at Enchères">
+                <p>Discover Private Sales at Enchères</p>
+            </div>
+        </div>
 
-
-
-
-
-
+        <div class="col">
+            <div class="Learn-more-card">
+                <img src="<?= BASE_URL ?>assets/img/BrowseWorks.png" alt="Browse Works Available for Private Sales">
+                <p>Browse Works Available for Private Sales</p>
+            </div>
+        </div>
+    </div>
+</div>
+        
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
