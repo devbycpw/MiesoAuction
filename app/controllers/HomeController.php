@@ -14,8 +14,9 @@
                 "users" => $data_user,
                 "auctions" => $data_auction,
                 "title" => "Home",
+                "custom_css" => "home",
                 "layout" => "Main",
-                "custom_js" => "auction"
+                "custom_js" => "home"
             ]);
         }
 
