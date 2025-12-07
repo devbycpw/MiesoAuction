@@ -8,7 +8,8 @@
             
             $this->view("AboutUsView", [
                 "title" => "About Us",
-                "layout" => "Main"
+                "layout" => "Main",
+                "custom_css" => "AboutUs"
             ]);
         }
     }
