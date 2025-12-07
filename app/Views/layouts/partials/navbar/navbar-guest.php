@@ -1,6 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand" href="<?= BASE_URL ?>home">Navbar Guest</a>
+    <a class="navbar-brand" href="<?= BASE_URL ?>home">
+      <img src="<?= BASE_URL ?>assets/img/Logo.png" width="120" height="66">
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,7 +14,7 @@
           <a class="nav-link" href="<?= BASE_URL ?>about">About Us</a>
         </div>
         <div class="navbar-nav">
-          <a class="nav-link" href="<?= BASE_URL ?>login">Login</a>
+          <a class="nav-link fw-semibold" href="<?= BASE_URL ?>login">Login</a>
         </div>
       </div>
     </div>

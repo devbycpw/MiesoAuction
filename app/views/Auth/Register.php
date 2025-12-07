@@ -45,7 +45,7 @@ Session::unset('error');
         <div class="register">
             Already have an account?
             <a href="<?= BASE_URL ?>login">Login</a>
-        </div>
+        </div> 
     </div>
 </main>
 
