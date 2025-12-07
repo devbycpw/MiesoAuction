@@ -1,11 +1,3 @@
-<?php
-    // Asumsi: BASE_URL sudah didefinisikan sebelumnya di file atau environment
-    $new_arrivals = [
-        ['title' => 'CARTIER', 'desc' => 'Platinum, Ruby and Diamond Leaf Earrings', 'image' => 'Earrings1 (For Home).png'],
-        ['title' => 'JEROME', 'desc' => 'Platinum, Yellow Diamond and Diamond Earrings', 'image' => 'Earrings2 (For Home).png'],
-        ['title' => 'TIFFANY & CO.', 'desc' => 'Platinum and Diamond Ring', 'image' => 'Earrings3 (For Home).png']
-    ];
-?>
 <div class="home-page">
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
     <div class="carousel-indicators">
