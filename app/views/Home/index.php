@@ -1,9 +1,9 @@
 <?php
     // Asumsi: BASE_URL sudah didefinisikan sebelumnya di file atau environment
     $new_arrivals = [
-        ['title' => 'CARTIER', 'desc' => 'Platinum, Ruby and Diamond Leaf Earrings', 'image' => 'Earrings1 (For Home).png'],
-        ['title' => 'JEROME', 'desc' => 'Platinum, Yellow Diamond and Diamond Earrings', 'image' => 'Earrings2 (For Home).png'],
-        ['title' => 'TIFFANY & CO.', 'desc' => 'Platinum and Diamond Ring', 'image' => 'Earrings3 (For Home).png']
+        ['title' => 'CARTIER', 'desc' => 'Platinum, Ruby and Diamond Leaf Earrings', 'image' => 'Earrings1 (For Home).jpg'],
+        ['title' => 'JEROME', 'desc' => 'Platinum, Yellow Diamond and Diamond Earrings', 'image' => 'Earrings2 (For Home).jpg'],
+        ['title' => 'TIFFANY & CO.', 'desc' => 'Platinum and Diamond Ring', 'image' => 'Earrings3 (For Home).jpg']
     ];
 ?>
 <div class="home-page">
@@ -142,34 +142,9 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
             <div class="arrival-card">
-<<<<<<< HEAD
-                <img src="<?= BASE_URL ?>assets/img/Earrings1 (For Home).jpg" alt="CARTIER">
-                <h6 class="card-title">CARTIER</h6>
-                <p class="card-text">Platinum, Ruby and Diamond Leaf Earrings</p>
-                <p class="card-price">USD 21.500,00</p>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="arrival-card">
-                <img src="<?= BASE_URL ?>assets/img/Earrings2 (For Home).jpg" alt="JEROME">
-                <h6 class="card-title">JEROME</h6>
-                <p class="card-text">Platinum, Yellow Diamond and Diamond Earrings</p>
-                <p class="card-price">USD 18.000,00</p>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="arrival-card">
-                <img src="<?= BASE_URL ?>assets/img/Earrings3 (For Home).jpg" alt="TIFFANY & CO.">
-                <h6 class="card-title">TIFFANY & CO.</h6>
-                <p class="card-text">Platinum and Diamond Ring</p>
-                <p class="card-price">USD 12.500,00</p>
-=======
                 <img src="<?= BASE_URL ?>assets/img/<?= $arrival['image'] ?>" alt="<?= htmlspecialchars($arrival['title']) ?>">
                 <h6 class="card-title"><?= htmlspecialchars($arrival['title']) ?></h6>
                 <p class="card-text"><?= htmlspecialchars($arrival['desc']) ?></p>
->>>>>>> master
             </div>
         </div>
     </div>
