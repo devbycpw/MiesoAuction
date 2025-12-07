@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
     @font-face {
-    font-family: "PlusJakartaSans";
-    src: url("public/assets/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf") format("truetype");
+        font-family: "PlusJakartaSans";
+        src: url("<?= BASE_URL ?>/assets/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf") format("truetype");
     }
 
     .footer-container {
