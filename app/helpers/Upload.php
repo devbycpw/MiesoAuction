@@ -25,7 +25,7 @@ class Upload {
         $newName = uniqid("img_", true) . "." . $ext;
 
         // Path tujuan
-        $uploadPath = __DIR__ . "/../../public/uploads/$folder/";
+        $uploadPath = __DIR__ . "/../../public/assets/uploads/$folder/";
 
         // Buat folder jika belum ada
         if (!is_dir($uploadPath)) {

@@ -81,4 +81,24 @@ class Bid {
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getCurrentPrice($auctionId) {
+        $sql = "SELECT COALESCE(MAX(bid_amount), 0) 
+                FROM bids 
+                WHERE auction_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$auctionId]);
+        $lastBid = $stmt->fetchColumn();
+
+        $auction = $this->findById($auctionId);
+
+        if ($lastBid == 0) {
+            return $auction['starting_price'];
+        }
+
+        return $lastBid;
+    }
+    
+
+
 }

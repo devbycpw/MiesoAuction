@@ -1,34 +1,44 @@
-<?php if (Auth::isClient()): ?>
-    <p class="home-welcome">Halo <?= Auth::user('full_name'); ?>! Kamu bisa melihat daftar produk.</p>
-<?php endif; ?>
+<div class="container mt-4">
+    <?php if (Auth::isClient()): ?>
+        <p class="home-welcome">Halo <?= Auth::user('full_name'); ?>! Kamu bisa melihat daftar produk.</p>
+    <?php endif; ?>
 
-<?php if (!Auth::check()): ?>
-    <p class="home-welcome">Login untuk fitur lebih lengkap.</p>
-<?php endif; ?>
-
-<h2 class="home-subtitle my-4">List Auction</h2>
-
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    <?php foreach($auctions as $d): ?>
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <?php if(!empty($d['image'])): ?>
-                    <img src="<?= BASE_URL ?>assets/img/<?= $d['image'] ?>" class="card-img-top" alt="<?= htmlspecialchars($d['title']) ?>">
-                <?php endif; ?>
-                <div class="card-body">
-                    <h5 class="card-title"><?= htmlspecialchars($d['title']) ?></h5>
-                    <p class="card-text"><?= htmlspecialchars($d['description'] ?? '-') ?></p>
-                    <p class="card-text"><strong>Starting Price:</strong> $<?= number_format($d['starting_price'],2) ?></p>
-                    <?php if(!empty($d['final_price'])): ?>
-                        <p class="card-text"><strong>Final Price:</strong> $<?= number_format($d['final_price'],2) ?></p>
+    <h2 class="home-subtitle my-4">List Auction</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php foreach($auctions as $d): ?>
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <?php if(!empty($d['image'])): ?>
+                        <img src="<?= BASE_URL ?>assets/uploads/auction_images/<?= $d['image'] ?>" 
+                             class="card-img-top" 
+                             alt="<?= htmlspecialchars($d['title']) ?>">
                     <?php endif; ?>
-                    <p class="card-text"><small class="text-muted">Status: <?= ucfirst($d['status']) ?></small></p>
-                    <p class="card-text"><small class="text-muted">Start: <?= $d['start_time'] ?? '-' ?> | End: <?= $d['end_time'] ?? '-' ?></small></p>
-                </div>
-                <div class="card-footer text-end">
-                    <a href="<?= BASE_URL ?>auction/show/<?= $d['id'] ?>" class="btn btn-warning btn-sm">View Details</a>
+
+                    <div class="card-body">
+                        <h5 class="card-title"><?= htmlspecialchars($d['title']) ?></h5>
+
+                        <p class="card-text"><?= htmlspecialchars($d['description'] ?? '-') ?></p>
+
+                        <p class="card-text">
+                            <strong>Current Price:</strong>
+                            $<span class="current-price" data-id="<?= $d['id'] ?>">
+                                <?= number_format($d['current_price'], 2) ?>
+                            </span>
+                        </p>
+
+                        <p class="card-text">
+                            <strong>Countdown:</strong>
+                            <span class="countdown-timer" data-end="<?= $d['end_time'] ?>"></span>
+                        </p>
+
+                    </div>
+
+                    <div class="card-footer text-end">
+                        <a href="<?= BASE_URL ?>auction/show/<?= $d['id'] ?>" class="btn btn-warning btn-sm">View Detail</a>
+                    </div>
+
                 </div>
             </div>
-        </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+    </div>
 </div>

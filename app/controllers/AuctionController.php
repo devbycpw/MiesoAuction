@@ -17,8 +17,26 @@ class AuctionController extends Controller
     public function index()
     {
         $data = $this->auction->all();
-        $this->view("Auction/index", ["auctions" => $data]);
+        foreach ($data as &$a) {
+            $a['current_price'] = $this->auction->getCurrentPrice($a['id']);
+        }
+
+        $this->view("Auction/index", [
+            "auctions" => $data,
+            "title" => "Auction",
+            "layout" => "Main",
+            "custom_js" => "auction"
+        ]);
     }
+
+    public function updateFinalPrice($auctionId, $price) {
+        $sql = "UPDATE auctions SET final_price = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$price, $auctionId]);
+    }
+
+
+
 
     // GET /auction/show/{id}
     public function show($id)
@@ -29,13 +47,22 @@ class AuctionController extends Controller
             die("Auction not found.");
         }
 
-        $this->view("Auction/show", ["auction" => $auction]);
+        $this->view("Auction/show", [
+            "auction" => $auction,
+            "title" => "Auction",
+            "layout" => "Main"
+        ]);
     }
 
     // GET /auction/create
     public function createForm()
     {
-        $this->view("Auction/create");
+        $categories = $this->model("Category");
+        $data_categories = $categories->all();
+        $this->view("Auction/create",[
+            "categories" => $data_categories,
+            "custom_js"  => "auctionCreate"
+        ]);
     }
 
     // POST /auction/store
@@ -68,21 +95,30 @@ class AuctionController extends Controller
 
         $this->auction->create($data);
 
-        header("Location: /auctions");
+        header("Location:". BASE_URL ."auctions");
         exit;
     }
 
     // GET /auction/edit/{id}
     public function editForm($id)
-    {
-        $auction = $this->auction->findById($id);
-        if (!$auction) {
-            http_response_code(404);
-            die("Auction not found.");
-        }
-
-        $this->view("Auction/edit", ["auction" => $auction]);
+{
+    // Ambil data auction berdasarkan ID
+    $auction = $this->auction->findById($id);
+    if (!$auction) {
+        http_response_code(404);
+        die("Auction not found.");
     }
+
+    // Ambil semua kategori
+    $categories = $this->model("Category")->all();
+
+    // Kirim ke view
+    $this->view("Auction/edit", [
+        "auction" => $auction,
+        "categories" => $categories
+    ]);
+}
+
 
     // POST /auction/update/{id}
     public function update($id)
@@ -113,7 +149,7 @@ class AuctionController extends Controller
 
         $this->auction->update($id, $data);
 
-        header("Location: /auction/show/$id");
+        header("Location: ".BASE_URL."auction/show/$id");
         exit;
     }
 
@@ -128,7 +164,7 @@ class AuctionController extends Controller
 
         $this->auction->delete($id);
 
-        header("Location: /auctions");
+        header("Location:".BASE_URL."auctions");
         exit;
     }
 }
