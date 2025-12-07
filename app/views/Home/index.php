@@ -113,25 +113,26 @@
                 </div>
 
                 <div class="view-details-container">
-                    <a href="<?= BASE_URL ?>auction/show/<?= $auction['id'] ?>" class="btn btn-warning btn-sm">Place a bid</a>
+                    <a href="<?= BASE_URL ?>auction/show/<?= $auction['id'] ?>" class="button-bid  btn btn-warning btn-sm">Place a bid</a>
                 </div>
 
             </div>
         </div>
         <?php $count++; endforeach; ?>
     </div>
-    <a href="<?= BASE_URL ?>auctions" class="btn btn-warning view-all-btn mt-5">
+    <a href="<?= BASE_URL ?>auctions" class="button-auctions btn btn-warning view-all-btn mt-5">
         View All Auctions
     </a>
 </div>
 
-<div class="container"><hr style="margin-top: 50px; margin-bottom: 50px;"></div>
+<!--<div class="container"><hr style="margin-top: 50px; margin-bottom: 50px;"></div>-->
 
-<div class="container">
+<div class="container CONTAINER">
     <div class="new-arrival-header">
         <h4 class="section-title">Shop New Arrival from Rolex, Hermès, Gucci, and More</h4>
     </div>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+    <div class="row row-cols-1 row-cols-md-3 new-arrival-list">
         <div class="col">
             <div class="arrival-card">
                 <img src="<?= BASE_URL ?>assets/img/Earrings1 (For Home).jpg" alt="CARTIER">
@@ -161,11 +162,11 @@
     </div>
 </div>
 
-<div class="container mt-5">
+<div class="container mt-5 container-private">
     <div class="private-service-header">
         <h4 class="section-title">Private Services</h4>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-2 g-2">
         <div class="col">
             <div class="service-card">
                 <h4>Private Sales</h4>
@@ -203,4 +204,7 @@
         </div>
     </div>
 </div>
+<br>
+<br>
+<br>
 </div>

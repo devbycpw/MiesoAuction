@@ -1,6 +1,26 @@
 @font-face {
   font-family: "PlusJakartaSans";
   src: url("<?= BASE_URL ?>/assets/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "PlusJakartaSans";
+  src: url("<?= BASE_URL ?>/assets/Plus_Jakarta_Sans/static/PlusJakartaSans-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "PlusJakartaSans";
+  src: url("<?= BASE_URL ?>/assets/Plus_Jakarta_Sans/static/PlusJakartaSans-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+.home-page .CONTAINER {
+  margin-bottom: 82px;
 }
 
 /* Global Style */
@@ -9,15 +29,24 @@
 }
 
 /* --- Live Auction Section Styles --- */
+.home-page .live-auction-header {
+  text-align: center;
+  margin-bottom: 70px;
+  margin-top: 90px;
+}
+
 .home-page .live-auction-header h1 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
 .home-page .live-auction-header p {
-  font-size: 16px;
-  color: #555;
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.6;
   margin-bottom: 24px;
 }
 
@@ -68,14 +97,15 @@
 
 .home-page .live-card .card-tittle {
   /* Menggunakan card-tittle sesuai di PHP */
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
 .home-page .price-info p {
   margin-bottom: 4px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 500;
   color: #333;
 }
 
@@ -139,13 +169,13 @@
 }
 
 .home-page .live-card .btn-warning {
-  background-color: #ffc107;
-  border-color: #ffc107;
+  background-color: #fff;
+  border-color: black;
   color: #000;
   font-weight: 600;
   padding: 8px 16px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .home-page .live-card .btn-warning:hover {
@@ -154,61 +184,209 @@
 }
 
 .home-page .view-all-btn {
-  background-color: #ffc107;
-  border-color: #ffc107;
+  background-color: #fff;
+  border-color: #000;
   color: #000;
   font-weight: 600;
   padding: 10px 20px;
-  border-radius: 6px;
+  border-radius: 11px;
   display: block;
   width: 200px;
   margin: 20px auto 0;
+}
+
+.home-page .button-auctions {
+  background-color: #fff;
+  border-color: #000;
+  font-weight: 600;
+  font-size: 24px;
+  width: 300px;
+  height: 60px;
+  padding: auto;
+  margin-bottom: 143px;
+  margin-top: 59px;
+}
+
+.home-page .button-auctions:hover {
+  background-color: #e0a800;
+  border-color: #e0a800;
+}
+
+.home-page .new-arrival {
+  margin-top: 100px;
+  margin-bottom: 120px;
+}
+
+.home-page .new-arrival-header {
+  margin-bottom: 17px;
+  text-align: left;
+}
+
+.home-page .section-title h4 {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.home-page .section-title {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+}
+
+.new-arrival-header .section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 250px; /* panjang garis */
+  height: 3px; /* tebal garis */
+  background-color: #ffc107; /* kuning */
+  border-radius: 2px;
+}
+
+.home-page .new-arrival-list {
+  text-align: center;
 }
 
 /* --- New Arrival Section Styles --- */
 .home-page .new-arrival-header .section-title,
 .private-service-header .section-title,
 .learn-more-header .section-title {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 24px;
+  font-size: 32px;
+  font-weight: 600;
 }
 
 .home-page .arrival-card {
-  text-align: center;
-  padding: 15px;
-  /* Tambahkan style jika diperlukan */
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 32px 20px;
+  border-radius: 12px;
+  width: 400px;
+  height: 455px;
+  transition: 0.3 ease;
+}
+
+.home-page .arrival-card:hover {
+  transform: translateY(-4px);
 }
 
 .home-page .arrival-card img {
-  width: 100%;
-  max-height: 250px;
-  object-fit: contain;
-  margin-bottom: 10px;
+  width: 260px;
+  max-height: 100%;
+  margin: 0 auto 40px auto;
+  display: block;
 }
 
 .home-page .arrival-card .card-title {
-  font-weight: 700;
-  font-size: 16px;
-  margin-bottom: 4px;
+  font-weight: 600;
+  font-size: 20px;
+  text-align: left;
+  letter-spacing: 1px;
+  margin-bottom: 9px;
+}
+
+.home-page .arrival-card .card-text {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  line-height: 1.6;
+  margin-bottom: 7px;
+}
+
+.home-page .new-arrival-list .col {
+  display: flex;
+  justify-content: center;
+}
+
+.home-page .arrival-card .card-price {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  letter-spacing: 0.5px;
 }
 
 /* --- Private Services Section Styles --- */
-.home-page .service-card {
+/*.home-page .service-card {
   background-color: #f8f9fa;
   padding: 20px;
   border-radius: 8px;
   height: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+*/
+
+.home-page .private-service-header {
+  margin-bottom: 12px;
+}
+
+.home-page .container-private .row {
+  margin-top: 0px;
+  position: relative;
+}
+
+.home-page .container-private .row::before {
+  content: "";
+  position: absolute;
+  top: 20px; /* garis mulai di bawah judul */
+  bottom: 10px; /* tidak mentok ke bawah */
+  left: 50%;
+  width: 1px;
+  background-color: black;
+  transform: translateX(-50%);
+}
+
+.home-page .container-private .col:first-child {
+  padding-right: 40px;
+}
+
+.home-page .container-private .col:last-child {
+  padding-left: 40px;
+}
+
+@media (max-width: 767px) {
+  .container-private .row::before {
+    display: none;
+  }
+
+  .container-private .col:first-child,
+  .container-private .col:last-child {
+    padding: 0;
+  }
+}
+
+.home-page .private-service-header {
+  margin: 0px;
+}
 
 .home-page .service-card h4 {
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 10px;
+  margin-top: 0px;
+  margin-bottom: 8px;
 }
 
 /* --- Learn More Section Styles --- */
+.home-page .learn-more-header {
+  text-align: left;
+  margin-bottom: 17px;
+}
+
+.home-page .learn-more-header .section-title {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+}
+
+.home-page .learn-more-header .section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 250px; /* panjang garis */
+  height: 3px; /* tebal garis */
+  background-color: #ffc107;
+  border-radius: 2px;
+}
+
 .home-page .Learn-more-card {
   text-align: center;
 }
@@ -222,5 +400,6 @@
 
 .home-page .Learn-more-card p {
   font-weight: 600;
-  font-size: 16px;
+  font-size: 20px;
+  text-align: left;
 }
