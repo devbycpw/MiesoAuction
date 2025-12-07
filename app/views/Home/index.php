@@ -142,7 +142,6 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
             <div class="arrival-card">
-<<<<<<< HEAD
                 <img src="<?= BASE_URL ?>assets/img/Earrings1 (For Home).jpg" alt="CARTIER">
                 <h6 class="card-title">CARTIER</h6>
                 <p class="card-text">Platinum, Ruby and Diamond Leaf Earrings</p>
@@ -165,11 +164,6 @@
                 <h6 class="card-title">TIFFANY & CO.</h6>
                 <p class="card-text">Platinum and Diamond Ring</p>
                 <p class="card-price">USD 12.500,00</p>
-=======
-                <img src="<?= BASE_URL ?>assets/img/<?= $arrival['image'] ?>" alt="<?= htmlspecialchars($arrival['title']) ?>">
-                <h6 class="card-title"><?= htmlspecialchars($arrival['title']) ?></h6>
-                <p class="card-text"><?= htmlspecialchars($arrival['desc']) ?></p>
->>>>>>> master
             </div>
         </div>
     </div>
