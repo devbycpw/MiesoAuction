@@ -25,3 +25,21 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    function updatePrices() {
+        document.querySelectorAll('.current-price').forEach(el => {
+            const id = el.dataset.id;
+
+            fetch(`http://localhost/auction/api/current-price/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    el.innerHTML = parseFloat(data.current_price).toLocaleString();
+                });
+        });
+    }
+
+    // Update setiap 2 detik
+    setInterval(updatePrices, 2000);
+});
+

@@ -124,4 +124,32 @@ class BidController extends Controller
         $data['highest'] = $this->bid->findHighestBid($auction_id);
         $this->view("bids/highest_bid", $data);
     }
+    
+    public function placeBid() {
+    $auctionId = $_POST['auction_id'];
+    $userId    = Auth::user('id');
+    $bidAmount = $_POST['bid_amount'];
+
+    $auction = $this->auction->findById($auctionId);
+
+    // harga sekarang = final_price atau bid tertinggi
+    $currentPrice = $this->auction->getCurrentPrice($auctionId);
+
+    // validasi
+    if ($bidAmount <= $currentPrice) {
+        $_SESSION['error'] = "Bid must be higher than current price!";
+        header("Location: " . BASE_URL . "auction/show/$auctionId");
+        exit;
+    }
+
+    // Insert ke tabel bids
+    $this->auction->insertBid($auctionId, $userId, $bidAmount);
+
+    // Update final_price di auctions
+    $this->auction->updateFinalPrice($auctionId, $bidAmount);
+
+    header("Location: " . BASE_URL . "auction/show/$auctionId");
+    exit;
+}
+
 }

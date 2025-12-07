@@ -15,8 +15,7 @@
                 "auctions" => $data_auction,
                 "title" => "Home",
                 "layout" => "Main",
-                "custom_css" => "home",
-                "custom_js"  => "home"
+                "custom_js" => "auction"
             ]);
         }
 

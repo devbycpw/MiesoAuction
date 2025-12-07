@@ -17,12 +17,26 @@ class AuctionController extends Controller
     public function index()
     {
         $data = $this->auction->all();
+        foreach ($data as &$a) {
+            $a['current_price'] = $this->auction->getCurrentPrice($a['id']);
+        }
+
         $this->view("Auction/index", [
             "auctions" => $data,
             "title" => "Auction",
-            "layout" => "Main"
+            "layout" => "Main",
+            "custom_js" => "auction"
         ]);
     }
+
+    public function updateFinalPrice($auctionId, $price) {
+        $sql = "UPDATE auctions SET final_price = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$price, $auctionId]);
+    }
+
+
+
 
     // GET /auction/show/{id}
     public function show($id)
