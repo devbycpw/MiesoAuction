@@ -76,6 +76,13 @@ class User {
         return $this->db->query("SELECT * FROM users")->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function findById($id) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     /**
      * Mencari pengguna berdasarkan email
      * @param string $email

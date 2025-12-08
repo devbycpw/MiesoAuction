@@ -43,8 +43,15 @@ return [
 
     "categories" => "CategoryController@index",
 
+<<<<<<< Updated upstream
     
     // =======================================================
+=======
+    // profile
+    "profile" => "ProfileController@index",
+    "profile/client" => "ProfileController@client",
+
+>>>>>>> Stashed changes
     // ADMIN 
     // auctions
     "admin/dashboard" => "AdminController@index",
