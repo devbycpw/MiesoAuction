@@ -24,12 +24,12 @@
                 </tr>
                 <tr>
                     <th>Open Price</th>
-                    <td>Rp <?= number_format($auction['starting_price'], 0, ',', '.') ?></td>
+                    <td>$<?= number_format($auction['starting_price'], 0, ',', '.') ?></td>
                 </tr>
                 <tr>
                     <th>Current Price</th>
                     <td class="fw-bold text-success">
-                        Rp <?= number_format($auction['current_price'], 0, ',', '.') ?>
+                        $<?= number_format($auction['current_price'], 0, ',', '.') ?>
                     </td>
                 </tr>
                 <tr>

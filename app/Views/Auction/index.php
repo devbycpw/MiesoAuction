@@ -49,7 +49,9 @@
 
     .button-apply:hover,
     .button-clear:hover{
-        background-color:;
+        background-color: #e0a800;
+        border-color: #e0a800;
+        color: #ffffff;
     }
 
     /* CARD AUCTION */
@@ -137,7 +139,9 @@
 
     /* BID BUTTON */
     .bid-btn{
-        background: #ffffff;
+        display: block;
+        width: 100%;
+        background-color: #ffffff;
         font-size: 20px;
         font-weight: 600;
         border-radius: 6px;
@@ -147,8 +151,9 @@
     }
 
     .bid-btn:hover {
-        background: #b68c00;
-        color: #fff;
+        background-color: #e0a800;
+        border-color: #e0a800;
+        color: #ffffff;
     }
 
     /* GRID GAP FIX */
