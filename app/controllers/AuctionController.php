@@ -46,6 +46,7 @@ public function index()
         "categories" 	 => $allCategories, 	
         "selected" 	 => $categories, 
         "title" 	 => "Auction",
+        "custom_css" => "AuctionsList",
         "layout" 	 => "Main",
         "custom_js" 	 => "auction"
     ]);

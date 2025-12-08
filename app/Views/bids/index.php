@@ -36,10 +36,10 @@
                     </td>
 
                     <!-- USER BID -->
-                    <td>Rp <?= number_format($h['bid_amount']); ?></td>
+                    <td>$<?= number_format($h['bid_amount']); ?></td>
 
                     <!-- HIGHEST BID -->
-                    <td>Rp <?= number_format($h['highest_bid']); ?></td>
+                    <td>$<?= number_format($h['highest_bid']); ?></td>
 
                     <!-- AUCTION STATUS -->
                     <td>
@@ -63,7 +63,7 @@
                             <?php if ($h['is_winner'] == 1): ?>
 
                                 <span class="badge bg-success">You Won</span><br>
-                                <small>Final Price: Rp <?= number_format($h['final_price']); ?></small><br>
+                                <small>Final Price: $<?= number_format($h['final_price']); ?></small><br>
 
                                 <!-- PAYMENT AREA -->
                                 <?php if ($h['status'] === "closed"): ?>
