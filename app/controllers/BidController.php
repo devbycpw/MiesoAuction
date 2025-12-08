@@ -21,8 +21,13 @@ class BidController extends Controller
     // ---------------------------------------------------------
     public function index()
     {
-        $data['bids'] = $this->bid->all();
-        $this->view("bids/index", $data);
+        $userId = Auth::user("id");
+        $history = $this->bid->getUserBidHistory($userId);
+        $this->view("bids/index",[
+            "history" => $history,
+            "title" => "My Bids",
+            "layout" => "Main"
+        ]);
     }
 
     // ---------------------------------------------------------
@@ -136,6 +141,8 @@ class BidController extends Controller
         header("Location: " . BASE_URL . "auction/show/$auctionId");
         exit;
     }
+
+
 
 
 

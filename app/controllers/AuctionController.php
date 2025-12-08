@@ -16,25 +16,40 @@ class AuctionController extends Controller
         $this->bid = new Bid();
     }
 
-    public function index()
-    {
-        if (Auth::isAdmin()) {
-            $data = $this->auction->all();
-        } else {
-            $data = $this->auction->getActiveAuctions();
-        }
+    // File: app/Controllers/AuctionController.php
 
-        foreach ($data as &$a) {
-            $a['current_price'] = $this->bid->getCurrentPrice($a['id']);
-        }
+public function index()
+{
+    // Deklarasi dan inisialisasi variabel di luar blok kondisional
+    $this->autoCloseAuctions();
 
-        $this->view("Auction/index", [
-            "auctions" => $data,
-            "title"    => "Auction",
-            "layout"   => "Main",
-            "custom_js" => "auction"
-        ]);
+    $categories = []; // <-- INI PERBAIKANNYA
+
+    if (Auth::isAdmin()) {
+        $data = $this->auction->all();
+    } else {
+        // ambil kategori dari GET (bisa banyak)
+        $categories = isset($_GET['category']) ? $_GET['category'] : [];
+
+        $data = $this->auction->getActiveAuctions($categories);
     }
+
+    foreach ($data as &$a) {
+        $a['current_price'] = $this->bid->getCurrentPrice($a['id']);
+    }
+
+    // Ambil semua kategori untuk checkbox
+    $allCategories = $this->model("Category")->all();
+
+    $this->view("Auction/index", [
+        "auctions" 	 => $data,
+        "categories" 	 => $allCategories, 	
+        "selected" 	 => $categories, 
+        "title" 	 => "Auction",
+        "layout" 	 => "Main",
+        "custom_js" 	 => "auction"
+    ]);
+}
 
     // =====================================================
     // GET /auction/show/{id}
@@ -173,5 +188,38 @@ class AuctionController extends Controller
         header("Location:".BASE_URL."auctions");
         exit;
     }
+
+    public function autoCloseAuctions()
+    {
+        $expiredAuctions = $this->auction->getExpiredActiveAuctions();
+
+        foreach ($expiredAuctions as $auction) {
+
+            $highestBid = $this->bid->getHighestBid($auction['id']);
+
+            if ($highestBid) {
+                // Ada pemenang
+                $winnerId   = $highestBid['user_id'];
+                $finalPrice = $highestBid['bid_amount'];
+                $status     = "closed";
+
+            } else {
+                // Tidak ada yang bid
+                $winnerId   = null;
+                $finalPrice = $auction['starting_price']; 
+                $status     = "closed";
+            }
+
+            // Update auction
+            $this->auction->closeAuction(
+                $auction['id'],
+                $winnerId,
+                $finalPrice,
+                $status
+            );
+        }
+
+    }
+
     
 }
