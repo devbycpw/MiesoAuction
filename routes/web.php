@@ -33,7 +33,6 @@ return [
     "bids/auction/{id}" => "BidController@listByAuction",  
 
     // payments
-    "payments" => "PaymentController@index",      
     "payment/show/{id}" => "PaymentController@show",       
     "payment/upload/{id}" => "PaymentController@uploadProof",
     "payment/create" => "PaymentController@store",      
@@ -55,10 +54,11 @@ return [
     "admin/auction/close/{id}" => "AdminController@close",
 
     // payments
-    "admin/payments" => "AdminPaymentController@index",
+    "admin/payments" => "PaymentController@index",
     "amin/payment/show/{id}" => "AdminPaymentController@show",
     "admin/payment/verify/{id}" => "AdminPaymentController@verify",
     "admin/payment/reject/{id}" => "AdminPaymentController@reject",
+    "admin/payment/pending" => "AdminController@pending",
 
     // transactions
     "admin/transactions" => "AdminTransactionController@index",

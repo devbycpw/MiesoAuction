@@ -7,31 +7,62 @@ class Payment {
         $this->db = DbConnection::connect();
     }
 
+
     public function create(array $data) {
-        $sql = "INSERT INTO payments (
-                    auction_id, user_id, amount, payment_method, 
-                    payment_proof, status, admin_note, created_at, updated_at
-                ) VALUES (
-                    :auction_id, :user_id, :amount, :payment_method,
-                    :payment_proof, :status, :admin_note, :created_at, :updated_at
-                )";
+        $now = date("Y-m-d H:i:s");
+
+        $sql = "INSERT INTO payments 
+                (auction_id, user_id, amount, payment_proof, status, created_at, updated_at)
+                VALUES 
+                (:auction_id, :user_id, :amount, :payment_proof, :status, :created_at, :updated_at)";
 
         $stmt = $this->db->prepare($sql);
 
-        $now = date('Y-m-d H:i:s');
-
         return $stmt->execute([
-            ':auction_id' => $data['auction_id'],
-            ':user_id' => $data['user_id'],
-            ':amount' => $data['amount'],
-            ':payment_method' => $data['payment_method'],
-            ':payment_proof' => $data['payment_proof'] ?? null,
-            ':status' => $data['status'] ?? 'pending',
-            ':admin_note' => $data['admin_note'] ?? null,
-            ':created_at' => $now,
-            ':updated_at' => $now
+            ":auction_id"     => $data["auction_id"],
+            ":user_id"        => $data["user_id"],
+            ":amount"         => $data["amount"],
+            ":payment_proof" => $data["payment_proof"],
+            ":status"         => $data["status"] ?? "pending",
+            ":created_at"     => $now,
+            ":updated_at"     => $now
         ]);
     }
+
+    public function update($id, array $data) {
+        $fields = [];
+        $params = [":id" => $id];
+        $allowed = ["amount", "payment_proof", "status"];
+
+        foreach ($allowed as $field) {
+            if (isset($data[$field])) {
+                $fields[] = "$field = :$field";
+                $params[":$field"] = $data[$field];
+            }
+        }
+
+        $fields[] = "updated_at = :updated_at";
+        $params[":updated_at"] = date("Y-m-d H:i:s");
+
+        if (empty($fields)) return false;
+
+        $sql = "UPDATE payments SET " . implode(", ", $fields) . " WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
+    }
+
+    public function getPaymentByAuctionAndUser($auctionId, $userId)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM payments WHERE auction_id = ? AND user_id = ?");
+        $stmt->execute([$auctionId, $userId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    
+    
+    
+    
+    
 
     public function all() {
         return $this->db->query("SELECT * FROM payments ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
@@ -53,27 +84,6 @@ class Payment {
         $stmt = $this->db->prepare("SELECT * FROM payments WHERE user_id = :user_id");
         $stmt->execute([':user_id' => $user_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function update($id, array $data) {
-        $fields = [];
-        $params = [':id' => $id];
-        $allowed = ['amount', 'payment_method', 'payment_proof', 'status', 'admin_note'];
-
-        foreach ($allowed as $field) {
-            if (isset($data[$field])) {
-                $fields[] = "$field = :$field";$params[":$field"] = $data[$field];
-            }
-        }
-
-        $fields[] = "updated_at = :updated_at";
-        $params[':updated_at'] = date('Y-m-d H:i:s');
-
-        if (empty($fields)) return false;
-        $sql = "UPDATE payments SET " . implode(", ", $fields) . " WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-
-        return $stmt->execute($params);
     }
 
     public function delete($id) {
@@ -99,5 +109,25 @@ class Payment {
         $stmt->execute([':id' => $id]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getPendingPayments()
+    {
+        $sql = "
+            SELECT 
+                p.*, 
+                a.title AS auction_title,
+                u.full_name AS user_name,
+                u.email AS user_email
+            FROM payments p
+            JOIN auctions a ON p.auction_id = a.id
+            JOIN users u ON p.user_id = u.id
+            WHERE p.status = 'pending'
+            ORDER BY p.created_at ASC
+        ";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
