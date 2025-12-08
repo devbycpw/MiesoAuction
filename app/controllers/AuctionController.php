@@ -21,6 +21,8 @@ class AuctionController extends Controller
 public function index()
 {
     // Deklarasi dan inisialisasi variabel di luar blok kondisional
+    $this->autoCloseAuctions();
+
     $categories = []; // <-- INI PERBAIKANNYA
 
     if (Auth::isAdmin()) {
@@ -198,8 +200,8 @@ public function index()
             if ($highestBid) {
                 // Ada pemenang
                 $winnerId   = $highestBid['user_id'];
-                $finalPrice = $highestBid['amount'];
-                $status     = "sold";
+                $finalPrice = $highestBid['bid_amount'];
+                $status     = "closed";
 
             } else {
                 // Tidak ada yang bid
@@ -217,7 +219,6 @@ public function index()
             );
         }
 
-        echo "Auction auto-closed successfully.";
     }
 
     

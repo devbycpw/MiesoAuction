@@ -117,10 +117,10 @@ class Bid {
     public function getHighestBid($auctionId)
     {
         $sql = "
-            SELECT user_id, amount
+            SELECT user_id, bid_amount
             FROM bids
             WHERE auction_id = :auction_id
-            ORDER BY amount DESC, created_at ASC
+            ORDER BY bid_amount DESC, created_at ASC
             LIMIT 1
         ";
 
@@ -128,6 +128,45 @@ class Bid {
         $stmt->execute([':auction_id' => $auctionId]);
         
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    public function getUserBidHistory($userId)
+    {
+        $sql = "
+            SELECT 
+                a.id AS auction_id,
+                a.title,
+                a.image,
+                a.starting_price,
+                a.status,
+                a.end_time,
+                a.winner_id,
+                a.final_price,
+
+                -- bid user sendiri
+                b.bid_amount,
+                b.created_at AS bid_time,
+
+                -- bid tertinggi untuk auction ini
+                (SELECT MAX(b2.bid_amount)
+                FROM bids b2
+                WHERE b2.auction_id = a.id) AS highest_bid,
+
+                CASE 
+                    WHEN a.winner_id = :uid THEN 1
+                    ELSE 0
+                END AS is_winner
+
+            FROM bids b
+            JOIN auctions a ON a.id = b.auction_id
+            WHERE b.user_id = :uid
+            GROUP BY a.id
+            ORDER BY a.end_time DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(["uid" => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 

@@ -17,11 +17,12 @@ return [
     // auctions
     "about" => "AboutUsController@index",
     
-    "api/current-price/(:num)" => "AuctionController@getCurrentPrice",
     "auctions" => "AuctionController@index",      
-    "auction/show/{id}" => "AuctionController@show",       
     "auction/create" => "AuctionController@createForm", 
     "auction/store" => "AuctionController@store",      
+    "auction/autoCloseAuctions" => "AuctionController@autoCloseAuctions",
+    "api/current-price/(:num)" => "AuctionController@getCurrentPrice",
+    "auction/show/{id}" => "AuctionController@show",       
     "auction/edit/{id}" => "AuctionController@editForm",   
     "auction/update/{id}" => "AuctionController@update",     
     "auction/delete/{id}" => "AuctionController@delete",     
@@ -43,6 +44,7 @@ return [
 
     "categories" => "CategoryController@index",
 
+    
     // =======================================================
     // ADMIN 
     // auctions

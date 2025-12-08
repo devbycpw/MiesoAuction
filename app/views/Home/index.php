@@ -66,7 +66,7 @@
                 ?>
 
                 <div class="img-container <?= $img_class?>">
-                    <img src="<?= BASE_URL ?>assets/img/<?= $auction['image'] ?>" class="card-img-top" alt="<?= htmlspecialchars($auction['title']) ?>">
+                    <img src="<?= BASE_URL ?>assets/uploads/auction_images/<?= $auction['image'] ?>" class="card-img-top" alt="<?= htmlspecialchars($auction['title']) ?>">
                 </div>
 
                 <div class="card-body">
