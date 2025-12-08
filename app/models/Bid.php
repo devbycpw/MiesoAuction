@@ -155,10 +155,18 @@ class Bid {
                 CASE 
                     WHEN a.winner_id = :uid THEN 1
                     ELSE 0
-                END AS is_winner
+                END AS is_winner,
+
+                -- payment status user untuk auction ini
+                p.id AS payment_id,
+                p.status AS payment_status
 
             FROM bids b
             JOIN auctions a ON a.id = b.auction_id
+            LEFT JOIN payments p 
+                ON p.auction_id = a.id 
+                AND p.user_id = :uid
+
             WHERE b.user_id = :uid
             GROUP BY a.id
             ORDER BY a.end_time DESC

@@ -1,15 +1,18 @@
 <?php
-
+require "../app/helpers/Upload.php";
+require_once "../app/Models/Auction.php";
+require_once "../app/Models/Payment.php";
 
 class PaymentController extends Controller
 {
     private $payment;
+    private $auction;
 
     public function __construct()
     {
         parent::__construct();
-        Auth::redirectUser(); // user harus login
         $this->payment = new Payment();
+        $this->auction = new Auction();
     }
 
     // ---------------------------------------------------------
@@ -33,52 +36,51 @@ class PaymentController extends Controller
     // STORE PAYMENT
     // ---------------------------------------------------------
     public function store()
-    {
-        // cek data
-        if (!isset($_POST['auction_id'], $_POST['amount'], $_POST['payment_method'])) {
-            die("Data tidak lengkap!");
-        }
-
-        $paymentProof = null;
-
-        // upload bukti pembayaran
-        if (isset($_FILES['payment_proof']) && $_FILES['payment_proof']['error'] === 0) {
-            $fileName = time() . "_" . $_FILES['payment_proof']['name'];
-            $targetDir = "../public/uploads/payment_proof/";
-            $targetFile = $targetDir . $fileName;
-
-            if (move_uploaded_file($_FILES['payment_proof']['tmp_name'], $targetFile)) {
-                $paymentProof = $fileName;
-            }
-        }
-
-        $data = [
-            'auction_id' => $_POST['auction_id'],
-            'user_id' => Auth::user(),
-            'amount' => $_POST['amount'],
-            'payment_method' => $_POST['payment_method'],
-            'payment_proof' => $paymentProof,
-            'status' => 'pending'
-        ];
-
-        $this->payment->create($data);
-
-        header("Location: /payments");
-        exit;
+{
+    // Validasi minimal
+    if (empty($_POST['auction_id']) || empty($_POST['amount'])) {
+        http_response_code(400);
+        die("Auction & Amount wajib diisi.");
     }
+
+    $userId = Auth::user("id");
+
+    // Upload bukti pembayaran menggunakan Upload helper
+    $paymentProof = Upload::save($_FILES['payment_proof'], "payment_proof");
+
+    $data = [
+        "auction_id"    => $_POST["auction_id"],
+        "user_id"       => $userId,
+        "amount"        => $_POST["amount"],
+        "payment_proof" => $paymentProof,
+        "status"        => "pending"
+    ];
+
+    $this->payment->create($data);
+
+    header("Location: " . BASE_URL . "myBids");
+    exit;
+}
+
 
     // ---------------------------------------------------------
     // SHOW DETAIL PAYMENT + RELASI
     // ---------------------------------------------------------
-    public function show($id)
+    public function show($auctionId)
     {
-        $data['payment'] = $this->payment->getWithRelations($id);
+        $auction = $this->auction->getWithRelations($auctionId);
 
-        if (!$data['payment']) {
-            die("Payment tidak ditemukan!");
+        if (!$auction) {
+            die("Auction tidak ditemukan!");
         }
 
-        $this->view("payments/show", $data);
+        if ($auction['winner_id'] != Auth::isClient()) {
+            die("Anda tidak berhak membayar auction ini.");
+        }
+
+        $data['auction'] = $auction;
+
+        $this->view("payment/show", $data);
     }
 
     // ---------------------------------------------------------
@@ -160,5 +162,51 @@ class PaymentController extends Controller
         $data['payments'] = $this->payment->findByUser($user_id);
         $this->view("payments/by_user", $data);
     }
+    
+
+    public function pay($auctionId)
+    {
+        $userId  = Auth::user("id");
+        $auction = $this->auction->findById($auctionId);
+
+        if (!$auction || $auction['winner_id'] != $userId) {
+            die("Unauthorized access.");
+        }
+
+        // sudah bayar?
+        $existing = $this->payment->getPaymentByAuctionAndUser($auctionId, $userId);
+        if ($existing) {
+            redirect("my-bids");
+        }
+
+        $this->view("payments/form", [
+            "auction" => $auction
+        ]);
+    }
+
+    public function submitPayment($auctionId)
+    {
+        $userId  = Auth::user("id");
+        $auction = $this->auction->findById($auctionId);
+
+        if (!$auction || $auction['winner_id'] != $userId) {
+            die("Unauthorized.");
+        }
+
+        // handle upload
+        $proof = Upload::save($_FILES['payment_proof'], "payment_proofs");
+
+        $this->payment->create([
+            "auction_id"     => $auctionId,
+            "user_id"        => $userId,
+            "amount"         => $auction["final_price"],
+            "payment_method" => $_POST["payment_method"],
+            "payment_proof"  => $proof,
+            "status"         => "pending"
+        ]);
+
+        redirect("my-bids");
+    }
+
 }
 
