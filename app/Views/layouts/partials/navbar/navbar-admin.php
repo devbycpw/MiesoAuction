@@ -28,10 +28,10 @@
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Payments</a>
             <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/payment/all">All</a></li>
               <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/payment/pending">Pending</a></li>
               <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/payment/approved">Approved</a></li>
               <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/payment/rejected">Rejected</a></li>
-              <li><a class="dropdown-item" href="<?= BASE_URL ?>admin/payment/history">History</a></li>
             </ul>
           </div>
 

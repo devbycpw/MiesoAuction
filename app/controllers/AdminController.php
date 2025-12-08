@@ -3,9 +3,11 @@
 
     
     class AdminController extends Controller{
+        private $payment;
         public function __construct() {
             parent::__construct();
             Auth::redirectAdmin(); 
+            $this->payment = $this->Model("payment");
         }   
         
         public function index() {
@@ -52,6 +54,15 @@
             ]);
         }
 
+        public function pending()
+        {
+
+            // 2. Ambil data pembayaran pending dari Model
+            $data['pending_payments'] = $this->payment->getPendingPayments();
+            
+            // 3. Load View
+            $this->view("Admin/PaymentPending", $data);
+        }
         
 
     }
