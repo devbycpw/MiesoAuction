@@ -1,13 +1,12 @@
 <?php
-
-
-    
     class AdminController extends Controller{
         private $payment;
+        private $user;
         public function __construct() {
             parent::__construct();
             Auth::redirectAdmin(); 
-            $this->payment = $this->Model("payment");
+            $this->payment = $this->Model("Payment");
+            $this->user = $this->Model("User");
         }   
         
         public function index() {
@@ -56,12 +55,28 @@
 
         public function pending()
         {
-
-            // 2. Ambil data pembayaran pending dari Model
             $data['pending_payments'] = $this->payment->getPendingPayments();
-            
-            // 3. Load View
             $this->view("Admin/PaymentPending", $data);
+        }
+        public function selectAll()
+        {
+            $data = $this->payment->all();
+            $this->view("Admin/PaymentAll", $data);
+        }
+        public function selectRejected()
+        {
+            $data['rejected_payments'] = $this->payment->getRejectedPayments();
+            $this->view("Admin/PaymentRejected", $data);
+        }
+        public function selectApproved()
+        {
+            $data['approved_payments'] = $this->payment->getApprovedPayments();
+            $this->view("Admin/PaymentApproved", $data);
+        }
+        public function selectUser()
+        {
+            $data = $this->user->all();
+            $this->view("Admin/ManageUser", $data);
         }
         
 

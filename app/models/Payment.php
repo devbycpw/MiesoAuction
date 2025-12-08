@@ -58,21 +58,31 @@ class Payment {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
+    public function all()
+    {
+        $sql = "
+            SELECT 
+                p.*, 
+                a.title AS auction_title,
+                u.full_name AS user_name,
+                u.email AS user_email
+            FROM payments p
+            JOIN auctions a ON p.auction_id = a.id
+            JOIN users u ON p.user_id = u.id
+            ORDER BY p.created_at ASC
+        ";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     
     
     
     
     
 
-    public function all() {
-        return $this->db->query("SELECT * FROM payments ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function findById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM payments WHERE id = :id");
-        $stmt->execute([':id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    
 
     public function findByAuction($auction_id) {
         $stmt = $this->db->prepare("SELECT * FROM payments WHERE auction_id = :auction_id");
@@ -123,6 +133,46 @@ class Payment {
             JOIN auctions a ON p.auction_id = a.id
             JOIN users u ON p.user_id = u.id
             WHERE p.status = 'pending'
+            ORDER BY p.created_at ASC
+        ";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getApprovedPayments()
+    {
+        $sql = "
+            SELECT 
+                p.*, 
+                a.title AS auction_title,
+                u.full_name AS user_name,
+                u.email AS user_email
+            FROM payments p
+            JOIN auctions a ON p.auction_id = a.id
+            JOIN users u ON p.user_id = u.id
+            WHERE p.status = 'verified'
+            ORDER BY p.created_at ASC
+        ";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getRejectedPayments()
+    {
+        $sql = "
+            SELECT 
+                p.*, 
+                a.title AS auction_title,
+                u.full_name AS user_name,
+                u.email AS user_email
+            FROM payments p
+            JOIN auctions a ON p.auction_id = a.id
+            JOIN users u ON p.user_id = u.id
+            WHERE p.status = 'rejected'
             ORDER BY p.created_at ASC
         ";
         

@@ -55,18 +55,22 @@ return [
 
     // payments
     "admin/payments" => "PaymentController@index",
-    "amin/payment/show/{id}" => "AdminPaymentController@show",
+    "admin/payment/show/{id}" => "AdminPaymentController@show",
     "admin/payment/verify/{id}" => "AdminPaymentController@verify",
     "admin/payment/reject/{id}" => "AdminPaymentController@reject",
+
     "admin/payment/pending" => "AdminController@pending",
+    "admin/payment/all" => "AdminController@selectAll",
+    "admin/payment/rejected" => "AdminController@selectRejected",
+    "admin/payment/approved" => "AdminController@selectApproved",
 
     // transactions
     "admin/transactions" => "AdminTransactionController@index",
     "admin/transaction/show/{id}" => "AdminTransactionController@show",
 
     // users management
-    "admin/users" => "AdminUserController@index",
-    "admin/user/delete/{id}" => "AdminUserController@delete"
+    "admin/users" => "AdminController@selectUser",
+    "admin/user/delete/{id}" => "AdminController@delete"
     
     
 ];
