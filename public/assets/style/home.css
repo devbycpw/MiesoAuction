@@ -60,9 +60,8 @@
 }
 
 .home-page .live-card img {
-  width: 100%;
-  height: 200px;
-  /* aspect-ratio: 1/1; - Tidak diperlukan jika height sudah fixed */
+  width: auto;
+  height: auto;
   object-fit: cover;
   border-radius: 12px 12px 0 0;
 }
@@ -241,7 +240,7 @@
   bottom: 0;
   width: 250px; /* panjang garis */
   height: 3px; /* tebal garis */
-  background-color: #ffc107; /* kuning */
+  background-color: #ffc107;
   border-radius: 2px;
 }
 
