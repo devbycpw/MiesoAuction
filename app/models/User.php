@@ -95,12 +95,6 @@ class User {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
- * Create Admin Account
- * 
- * @param array $data
- * @return bool
- */
 public function createAdmin(array $data) {
     $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
     $role = 'admin';
