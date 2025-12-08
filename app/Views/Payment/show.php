@@ -23,12 +23,12 @@
                 </tr>
                 <tr>
                     <th>Open Price</th>
-                    <td>Rp <?= number_format($auction['starting_price'], 0, ',', '.') ?></td>
+                    <td>$<?= number_format($auction['starting_price'], 0, ',', '.') ?></td>
                 </tr>
                 <tr>
                     <th>Final Price</th>
                     <td class="fw-bold text-success">
-                        Rp <?= number_format($auction['final_price'], 0, ',', '.') ?>
+                        $<?= number_format($auction['final_price'], 0, ',', '.') ?>
                     </td>
                 </tr>
                 <tr>
@@ -76,12 +76,12 @@
                 <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">
                     Submit Payment
                 </button>
-
             </form>
-
         </div>
     </div>
 </div>
+<br>
+<br>
 
 <!-- QRIS Modal -->
 <div class="modal fade" id="qrisModal" tabindex="-1" aria-labelledby="qrisModalLabel" aria-hidden="true">
