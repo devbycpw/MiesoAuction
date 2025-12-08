@@ -15,6 +15,7 @@
           <a class="nav-link" href="<?= BASE_URL ?>myBids">My Bids</a>
         </div>
         <div class="navbar-nav">
+          <a class="nav-link fw-semibold" href="<?= BASE_URL ?>profile"><i class="bi bi-person-fill"></i></a>
           <a class="nav-link fw-semibold" href="<?= BASE_URL ?>logout">Logout</a>
         </div>
       </div>

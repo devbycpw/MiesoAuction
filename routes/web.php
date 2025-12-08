@@ -4,6 +4,8 @@
 return [
     "" => "HomeController@index",
     "home" => "HomeController@index",
+
+    "profile" => "profileController@index",
     
     // auth
     "login" => "AuthController@showLogin",
