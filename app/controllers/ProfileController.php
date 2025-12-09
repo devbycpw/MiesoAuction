@@ -87,7 +87,10 @@ class ProfileController extends Controller
         $userId = Auth::user("id");
         $data = $this->auctions->getMyAuctions($userId);
         $this->view('profile/MyAuction', [
-            'auctions' => $data
+            'auctions' => $data,
+            'layout' => "Main",
+            "title" => "My Auction",
+            "custom_css" => "profileMy"
         ]);
     }
 

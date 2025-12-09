@@ -221,6 +221,7 @@ public function setStatusSold($auctionId)
                     a.image,
                     a.starting_price,
                     a.status,
+                    a.description,
                     a.end_time,
                     a.winner_id,
                     a.final_price,
