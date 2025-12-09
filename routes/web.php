@@ -57,7 +57,7 @@ return [
 
     // payments
     "admin/payments" => "PaymentController@index",
-    "admin/payment/show/{id}" => "AdminPaymentController@show",
+    "admin/showPayment/{id}" => "AdminPaymentController@show",
     "admin/payment/verify/{id}" => "AdminPaymentController@verify",
     "admin/payment/reject/{id}" => "AdminPaymentController@reject",
 
