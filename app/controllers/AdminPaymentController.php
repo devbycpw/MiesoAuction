@@ -42,7 +42,8 @@ class AdminPaymentController extends Controller {
             // Kirim sebagai 'payment' (singular) agar lebih mudah diakses di View
             "payment" => $data_payment, 
             "title" => "Admin Payment Verification",
-            "layout" => "Main"
+            "layout" => "Main",
+            "custom_css" => "admin-payments"
         ]);
     }
 
