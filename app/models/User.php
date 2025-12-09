@@ -29,6 +29,27 @@ class User {
         ]);
     }
 
+    public function createAdmin(array $data) {
+        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+        $role = 'admin';
+        $currentTime = date('Y-m-d H:i:s');
+
+        $sql = "INSERT INTO users 
+                (full_name, email, password, role, created_at, updated_at) 
+                VALUES (:name, :email, :password, :role, :created_at, :updated_at)";
+        
+        $stmt = $this->db->prepare($sql);
+        
+        return $stmt->execute([
+            ':name' => $data['name'],
+            ':email' => $data['email'],
+            ':password' => $hashedPassword,
+            ':role' => $role,
+            ':created_at' => $currentTime,
+            ':updated_at' => $currentTime
+        ]);
+    }
+
     public function update($id, array $data) {
         $fields = [];
         $params = [':id' => $id];
@@ -76,13 +97,35 @@ class User {
         return $this->db->query("SELECT * FROM users")->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function findById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    public function findById($id)
+    {
+        $query = $this->db->prepare("SELECT * FROM users WHERE id = ?");
+        $query->execute([$id]);
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 
+    // cek apakah password lama cocok
+    public function checkOldPassword($id, $oldPassword)
+    {
+        $user = $this->findById($id);
+
+        if (!$user) {
+            return false;
+        }
+
+        return password_verify($oldPassword, $user['password']);
+    }
+
+    // update password baru
+    public function updatePassword($id, $newPassword)
+    {
+        $hash = password_hash($newPassword, PASSWORD_BCRYPT);
+
+        $query = $this->db->prepare("UPDATE users SET password = ? WHERE id = ?");
+        return $query->execute([$hash, $id]);
+    }
+
+    
     /**
      * Mencari pengguna berdasarkan email
      * @param string $email
@@ -94,27 +137,4 @@ class User {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-public function createAdmin(array $data) {
-    $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-    $role = 'admin';
-    $currentTime = date('Y-m-d H:i:s');
-
-    $sql = "INSERT INTO users 
-            (full_name, email, password, role, created_at, updated_at) 
-            VALUES (:name, :email, :password, :role, :created_at, :updated_at)";
-
-    $stmt = $this->db->prepare($sql);
-
-    return $stmt->execute([
-        ':name' => $data['name'],
-        ':email' => $data['email'],
-        ':password' => $hashedPassword,
-        ':role' => $role,
-        ':created_at' => $currentTime,
-        ':updated_at' => $currentTime
-    ]);
-}
-
-
 }
