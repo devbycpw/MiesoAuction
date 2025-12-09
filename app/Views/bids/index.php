@@ -72,13 +72,13 @@
 
                             <?php elseif ($payment_status === 'rejected'): ?>
                                 <span class="badge bg-danger mt-2">Payment Rejected</span><br>
-                                <a href="<?= BASE_URL ?>payment/pay/<?= $h['auction_id'] ?>"
+                                <a href="<?= BASE_URL ?>payment/show/<?= $h['auction_id'] ?>"
                                    class="btn btn-outline-warning btn-sm mt-1">
                                     Re-upload Proof
                                 </a>
 
                             <?php else: ?>
-                                <a href="<?= BASE_URL ?>payment/pay/<?= $h['auction_id'] ?>"
+                                <a href="<?= BASE_URL ?>payment/show/<?= $h['auction_id'] ?>"
                                    class="btn btn-warning btn-sm mt-2">
                                     Pay Now
                                 </a>
