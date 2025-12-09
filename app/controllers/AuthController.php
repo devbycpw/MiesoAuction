@@ -73,7 +73,7 @@ class AuthController extends Controller {
             if (Auth::isClient()) {
                 header("Location: " . BASE_URL . "home");
             } else {
-                header("Location: " . BASE_URL . "admin/dashboard");
+                header("Location: " . BASE_URL . "admin/auctions");
             }
             exit;
         }

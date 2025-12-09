@@ -2,7 +2,7 @@
   <div class="container">
 
     <!-- LOGO -->
-    <a class="navbar-brand fw-bold" href="<?= BASE_URL ?>admin/dashboard">
+    <a class="navbar-brand fw-bold" href="<?= BASE_URL ?>admin/auctions">
       <img src="<?= BASE_URL ?>assets/img/Logo.png" width="120" height="55">
     </a>
 
@@ -17,9 +17,6 @@
 
         <!-- NAVIGATION -->
         <div class="navbar-nav">
-
-          <!-- Dashboard -->
-          <a class="nav-link" href="<?= BASE_URL ?>admin/dashboard">Dashboard</a>
 
           <!-- Auction Management (NO CREATE) -->
           <a class="nav-link" href="<?= BASE_URL ?>admin/auctions">Manage Auctions</a>

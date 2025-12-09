@@ -50,6 +50,7 @@ return [
     "profile" => "ProfileController@index",
     "profile/client" => "ProfileController@client",
     "profile/auction" => "ProfileController@MyAuctions",
+    "profile/changePassword/{id}" => "ProfileController@changePassword",
 
     // ADMIN 
     // auctions
@@ -76,6 +77,8 @@ return [
 
     // users management
     "admin/users" => "AdminController@selectUser",
+    "admin/createAdmin" => "AdminController@pageCreateAdmin",
+    "admin/createAdminProsses" => "AdminController@createAdmin",
     "admin/user/delete/{id}" => "AdminController@delete"
     
     
