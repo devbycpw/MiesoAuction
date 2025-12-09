@@ -179,13 +179,7 @@ public function index()
     public function delete($id)
     {
         $auction = $this->auction->findById($id);
-        if (!$auction) {
-            http_response_code(404);
-            die("Auction not found.");
-        }
-
         $this->auction->delete($id);
-
         header("Location:".BASE_URL."auctions");
         exit;
     }

@@ -78,5 +78,11 @@
             $data = $this->user->all();
             $this->view("Admin/ManageUser", $data);
         }
+
+        public function delete($id){
+            $user = $this->user->delete($id);
+            header("Location:".BASE_URL."admin/users");
+            exit;
+        }
     }
 

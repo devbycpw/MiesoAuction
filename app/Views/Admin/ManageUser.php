@@ -38,8 +38,6 @@
                             </td>
                             <td><?= htmlspecialchars($user['created_at']) ?></td>
                             <td>
-                                <a href="<?= BASE_URL ?>admin/user/show/<?= $user['id'] ?>" class="btn btn-info btn-sm">View</a>
-                                
                                 <form action="<?= BASE_URL ?>admin/user/delete/<?= $user['id'] ?>" method="POST" style="display:inline-block;"
                                       onsubmit="return confirm('Are you sure you want to delete this user?');">
                                     
