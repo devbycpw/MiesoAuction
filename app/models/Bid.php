@@ -142,12 +142,9 @@ class Bid {
                 a.end_time,
                 a.winner_id,
                 a.final_price,
-
-                -- bid user sendiri
                 b.bid_amount,
                 b.created_at AS bid_time,
 
-                -- bid tertinggi untuk auction ini
                 (SELECT MAX(b2.bid_amount)
                 FROM bids b2
                 WHERE b2.auction_id = a.id) AS highest_bid,
@@ -157,7 +154,6 @@ class Bid {
                     ELSE 0
                 END AS is_winner,
 
-                -- payment status user untuk auction ini
                 p.id AS payment_id,
                 p.status AS payment_status
 

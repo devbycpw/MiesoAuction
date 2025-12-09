@@ -5,6 +5,7 @@ require_once "../app/Models/Bid.php";
 
 class ProfileController extends Controller
 {
+    private $auctions;
     private $users;
     private $bids;
 
@@ -13,6 +14,7 @@ class ProfileController extends Controller
         parent::__construct();
         $this->users = new User();
         $this->bids = new Bid();
+        $this->auctions = new Auction();
     }
 
     public function index()
@@ -78,4 +80,15 @@ class ProfileController extends Controller
 
         return $initials !== "" ? $initials : "U";
     }
+
+    public function myAuctions()
+    {
+        $userId = Auth::user("id");
+        $data = $this->auction->getMyAuctions($userId);
+        $this->view('profile/MyAuction', [
+            'auctions' => $data
+        ]);
+    }
+
+    
 }

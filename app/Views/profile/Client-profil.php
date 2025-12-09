@@ -60,9 +60,9 @@
                         </div>
 
                         <div class="profile-detail-row profile-detail-row-click"
-                             onclick="window.location.href='<?= BASE_URL ?>myBids';">
-                            <span class="profile-detail-label">My Bids</span>
-                            <span class="profile-detail-link">Go to My Bid</span>
+                             onclick="window.location.href='<?= BASE_URL ?>profile/auction';">
+                            <span class="profile-detail-label">My Auctions</span>
+                            <span class="profile-detail-link">Go to My Auctions</span>
                         </div>
 
                         <div class="profile-detail-row">

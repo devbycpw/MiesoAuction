@@ -48,7 +48,7 @@ return [
     // profile
     "profile" => "ProfileController@index",
     "profile/client" => "ProfileController@client",
-    "profile/auction" => "ProfileController@auction",
+    "profile/auction" => "ProfileController@MyAuctions",
 
     // ADMIN 
     // auctions

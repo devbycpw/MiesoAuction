@@ -213,19 +213,27 @@ public function setStatusSold($auctionId)
         return $stmt->execute();
     }
 
-    public function selectByIdClient(){
-        $sql="SELECT 
-                a.*, 
-                u.full_name AS seller_name, 
-                u.email AS seller_email,
-                c.name AS category_name,
-                w.full_name AS winner_name,
-                w.email AS winner_email
-            FROM auctions a
-            LEFT JOIN users u ON a.user_id = u.id
-            LEFT JOIN categories c ON a.category_id = c.id
-            LEFT JOIN users w ON a.winner_id = w.id
-            WHERE u.id = :id";
+    public function getMyAuctions($userId)
+    {
+        $sql = "SELECT 
+                    a.id,
+                    a.title,
+                    a.image,
+                    a.starting_price,
+                    a.status,
+                    a.end_time,
+                    a.winner_id,
+                    a.final_price,
+                    (SELECT MAX(b.bid_amount) FROM bids b WHERE b.auction_id = a.id) AS highest_bid,
+                    (SELECT COUNT(*) FROM bids b WHERE b.auction_id = a.id) AS total_bids
+                FROM auctions a
+                WHERE a.user_id = :uid
+                ORDER BY a.end_time DESC";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['uid' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
     
 }
