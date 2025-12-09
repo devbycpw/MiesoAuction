@@ -37,11 +37,19 @@
                                     <td><?= htmlspecialchars($auction['start_time']) ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Seller Name</th>
+                                <th>Seller Name</th>
                                     <td><?= htmlspecialchars($auction['seller_name']) ?></td>
                                     <th>End Time</th>
                                     <td><?= htmlspecialchars($auction['end_time']) ?></td>
                                 </tr>
+
+                                <?php if (!empty($auction['winner_name'])): ?>
+                                <tr>
+                                    <th>Winner Name</th>
+                                    <td><?= htmlspecialchars($auction['winner_name']) ?></td>
+                                </tr>
+                                <?php endif; ?>
+
                                 <tr>
                                     <th>Starting Price</th>
                                     <td class="fw-bold text-info">$<?= number_format($auction['starting_price'], 2) ?></td>

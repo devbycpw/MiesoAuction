@@ -2,6 +2,7 @@
 
 require_once "../app/Models/User.php";
 require_once "../app/Models/Bid.php";
+require_once "../app/Models/Auction.php";
 
 class ProfileController extends Controller
 {
@@ -84,7 +85,7 @@ class ProfileController extends Controller
     public function myAuctions()
     {
         $userId = Auth::user("id");
-        $data = $this->auction->getMyAuctions($userId);
+        $data = $this->auctions->getMyAuctions($userId);
         $this->view('profile/MyAuction', [
             'auctions' => $data
         ]);
