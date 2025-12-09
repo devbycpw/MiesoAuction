@@ -76,6 +76,8 @@ return [
 
     // users management
     "admin/users" => "AdminController@selectUser",
+    "admin/createAdmin" => "AdminController@pageCreateAdmin",
+    "admin/createAdminProsses" => "AdminController@createAdmin",
     "admin/user/delete/{id}" => "AdminController@delete"
     
     

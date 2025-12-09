@@ -44,7 +44,7 @@
                                     <input type="hidden" name="_method" value="DELETE">
                                     
                                     <button type="submit" class="btn btn-danger btn-sm" 
-                                            <?= $user['role'] === 'admin' ? 'disabled' : '' ?>>
+                                            <?= ($user['role'] === 'admin' && $user['id'] == 3) ? 'disabled' : '' ?>>
                                             Delete
                                     </button>
                                 </form>

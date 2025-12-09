@@ -29,6 +29,27 @@ class User {
         ]);
     }
 
+    public function createAdmin(array $data) {
+        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+        $role = 'admin';
+        $currentTime = date('Y-m-d H:i:s');
+
+        $sql = "INSERT INTO users 
+                (full_name, email, password, role, created_at, updated_at) 
+                VALUES (:name, :email, :password, :role, :created_at, :updated_at)";
+        
+        $stmt = $this->db->prepare($sql);
+        
+        return $stmt->execute([
+            ':name' => $data['name'],
+            ':email' => $data['email'],
+            ':password' => $hashedPassword,
+            ':role' => $role,
+            ':created_at' => $currentTime,
+            ':updated_at' => $currentTime
+        ]);
+    }
+
     public function update($id, array $data) {
         $fields = [];
         $params = [':id' => $id];
@@ -116,27 +137,4 @@ class User {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-public function createAdmin(array $data) {
-    $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-    $role = 'admin';
-    $currentTime = date('Y-m-d H:i:s');
-
-    $sql = "INSERT INTO users 
-            (full_name, email, password, role, created_at, updated_at) 
-            VALUES (:name, :email, :password, :role, :created_at, :updated_at)";
-
-    $stmt = $this->db->prepare($sql);
-
-    return $stmt->execute([
-        ':name' => $data['name'],
-        ':email' => $data['email'],
-        ':password' => $hashedPassword,
-        ':role' => $role,
-        ':created_at' => $currentTime,
-        ':updated_at' => $currentTime
-    ]);
-}
-
-
 }

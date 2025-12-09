@@ -84,5 +84,43 @@
             header("Location:".BASE_URL."admin/users");
             exit;
         }
+
+        public function createAdmin()
+        {
+            $name = trim($_POST['name']);
+            $email = trim($_POST['email']);
+            $password = trim($_POST['password']);
+
+            if (empty($name) || empty($email) || empty($password)) {
+                Session::set("error", "All fields are required.");
+                header("Location:".BASE_URL."admin/users");
+                exit;
+            }
+
+            // Cek email sudah dipakai?
+            if ($this->user->findByEmail($email)) {
+                Session::set("error", "Email already exists.");
+                header("Location:".BASE_URL."admin/users");
+                exit;
+            }
+
+            $this->user->createAdmin([
+                "name"     => $name,
+                "email"    => $email,
+                "password" => $password
+            ]);
+
+            Session::set("success", "Admin successfully created.");
+            header("Location:".BASE_URL."admin/users");
+            exit;
+        }
+
+        public function pageCreateAdmin() {
+        $this->view("Admin/CreateAdmin",[
+            "title" => "Create Admin",
+            "layout" => "Main",
+            "custom_css" => "register"
+        ]);
+    }
     }
 
