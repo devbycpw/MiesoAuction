@@ -45,8 +45,10 @@ return [
 
     "categories" => "CategoryController@index",
 
-    
-    // =======================================================
+    // profile
+    "profile" => "ProfileController@index",
+    "profile/client" => "ProfileController@client",
+
     // ADMIN 
     // auctions
     "admin/dashboard" => "AdminController@index",
