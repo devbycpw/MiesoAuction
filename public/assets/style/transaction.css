@@ -1,0 +1,228 @@
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("../Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.transaction-page {
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #111;
+}
+
+.transaction-back {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #111;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.transaction-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.transaction-image img,
+.img-placeholder {
+  width: 100%;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.img-placeholder {
+  height: 360px;
+  background: #f5f5f5;
+  display: grid;
+  place-items: center;
+  color: #777;
+  border: 1px dashed #ccc;
+}
+
+.transaction-detail h2 {
+  margin: 0 0 2px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.muted {
+  color: #666;
+  margin: 0;
+}
+
+.muted.small {
+  font-size: 13px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+}
+
+.transaction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.badge-paid {
+  background: #b7efc5;
+  color: #0f6938;
+}
+
+.badge-unpaid {
+  background: #f5d7a6;
+  color: #8a5b00;
+}
+
+.transaction-block {
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.transaction-block h4 {
+  margin: 0 0 12px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 15px;
+}
+
+.info-label {
+  color: #555;
+}
+
+.info-value {
+  font-weight: 700;
+}
+
+.payment-box {
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid #eee;
+}
+
+.payment-box.paid {
+  background: #b7efc5;
+}
+
+.payment-box.pending {
+  background: #f4ddae;
+}
+
+.payment-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 15px;
+}
+
+.payment-row.strong {
+  font-weight: 700;
+}
+
+.payment-row.total {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+.btn-pay {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #000;
+  color: #fff;
+  font-weight: 700;
+  transition: 0.2s ease;
+}
+
+.btn-pay:hover {
+  background: #222;
+}
+
+.transaction-upload {
+  margin-top: 24px;
+  padding: 18px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.upload-box {
+  min-height: 260px;
+  border: 1px dashed #bbb;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: #fafafa;
+}
+
+.upload-preview {
+  max-height: 320px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.upload-placeholder {
+  text-align: center;
+  color: #666;
+}
+
+.upload-icon {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.upload-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.btn-ghost,
+.btn-outline {
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  border: 1px solid #111;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+}
+
+.btn-outline[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 992px) {
+  .transaction-grid {
+    grid-template-columns: 1fr;
+  }
+}

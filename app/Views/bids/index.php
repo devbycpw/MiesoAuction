@@ -1,98 +1,125 @@
-<div class="container mt-4">
+<?php
+// Data already prepared in controller: $history, $stats
+?>
 
-    <?php if (Auth::isClient()): ?>
-        <p class="home-welcome">
-            Hello, <?= Auth::user('full_name'); ?>! <br>
-            Here's an overview of your auction victories. You've built an impressive collection!
-        </p>
-    <?php endif; ?>
+<div class="mybids-page">
+    <section class="mybids-hero">
+        <div class="mybids-hero__icon"><i class="bi bi-stars"></i></div>
+        <div>
+            <p class="mybids-hero__eyebrow">Welcome back</p>
+            <?php $displayName = $user['full_name'] ?? Auth::user('full_name') ?? 'Bidder'; ?>
+            <h1 class="mybids-hero__title">Hello, <?= htmlspecialchars($displayName); ?></h1>
+            <p class="mybids-hero__lede">
+                Here's an overview of your auction victories. You've built an impressive collection!
+            </p>
+        </div>
+    </section>
 
-    <h2>My Bids</h2>
+    <section class="mybids-stats">
+        <div class="mybids-stat-card">
+            <div>
+                <p class="stat-label">Total Spend</p>
+                <p class="stat-value">$ <?= number_format($stats['totalSpend'], 0, '.', ','); ?></p>
+                <p class="stat-sub">Across all wins</p>
+            </div>
+            <div class="stat-icon">💵</div>
+        </div>
+        <div class="mybids-stat-card">
+            <div>
+                <p class="stat-label">Item Won</p>
+                <p class="stat-value"><?= $stats['itemsWon']; ?> Item</p>
+            </div>
+            <div class="stat-icon">🏆</div>
+        </div>
+        <div class="mybids-stat-card">
+            <div>
+                <p class="stat-label">Paid</p>
+                <p class="stat-value">$ <?= number_format($stats['paidSum'], 0, '.', ','); ?></p>
+            </div>
+            <div class="stat-icon">✔</div>
+        </div>
+        <div class="mybids-stat-card">
+            <div>
+                <p class="stat-label">Waiting</p>
+                <p class="stat-value">$ <?= number_format($stats['waitingSum'], 0, '.', ','); ?></p>
+                <p class="stat-sub"><?= $stats['waitingCount']; ?> item left</p>
+            </div>
+            <div class="stat-icon">⏱</div>
+        </div>
+    </section>
 
-    <?php if (empty($history)): ?>
-        <p>You haven't placed any bids yet.</p>
-    <?php else: ?>
+    <section class="mybids-filter">
+        <button class="filter-pill active" data-filter="all">All Item <span class="pill-count"><?= $stats['allCount']; ?></span></button>
+        <button class="filter-pill" data-filter="paid">Paid <span class="pill-count"><?= $stats['paidCount']; ?></span></button>
+        <button class="filter-pill" data-filter="waiting">Waiting <span class="pill-count"><?= $stats['waitingCount']; ?></span></button>
+    </section>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Your Bid</th>
-                    <th>Highest Bid</th>
-                    <th>Status</th>
-                    <th>Result</th>
-                </tr>
-            </thead>
-
-            <tbody>
-            <?php foreach ($history as $h): ?>
-                <tr>
-                    <td>
-                        <img src="<?= BASE_URL ?>assets/uploads/auction_images/<?= htmlspecialchars($h['image']) ?>" width="80"><br>
-                        <a href="<?= BASE_URL ?>auction/show/<?= htmlspecialchars($h['auction_id']) ?>">
-                            <?= htmlspecialchars($h['title']); ?>
-                        </a>
-                    </td>
-
-                    <td>$<?= number_format($h['bid_amount']); ?></td>
-
-                    <td>$<?= number_format($h['highest_bid']); ?></td>
-
-                    <td>
-                        <?php if ($h['status'] === "active"): ?>
-                            <span class="badge bg-success">Active</span>
-                        <?php elseif ($h['status'] === "sold"): ?>
-                            <span class="badge bg-primary">Sold</span>
-                        <?php elseif ($h['status'] === "rejected"): ?>
-                            <span class="badge bg-danger">Rejected</span>
-                        <?php else: ?>
-                            <span class="badge bg-secondary">Closed</span>
-                        <?php endif; ?>
-                    </td>
-
-                    <td>
-                        <?php 
-                            $auction_status = $h['status'];
-                            $is_winner = $h['is_winner'];
-                            $payment_status = $h['payment_status'] ?? null; 
-                        ?>
-
-                        <?php if ($auction_status === "active"): ?>
-                            <span class="badge bg-info">In Progress</span>
-
-                        <?php elseif ($is_winner == 1): ?>
-                            <span class="badge bg-success">You Won!</span><br>
-                            <small>Final Price: $<?= number_format($h['final_price']); ?></small><hr class="my-1">
-
-                            <?php if ($payment_status === 'verified'): ?>
-                                <span class="badge bg-success mt-2">Paid</span>
-
-                            <?php elseif ($payment_status === 'pending'): ?>
-                                <span class="badge bg-info mt-2">Waiting Verification</span>
-
-                            <?php elseif ($payment_status === 'rejected'): ?>
-                                <span class="badge bg-danger mt-2">Payment Rejected</span><br>
-                                <a href="<?= BASE_URL ?>payment/show/<?= $h['auction_id'] ?>"
-                                   class="btn btn-outline-warning btn-sm mt-1">
-                                    Re-upload Proof
-                                </a>
-
+    <section class="mybids-list">
+        <?php if (empty($history)): ?>
+            <p class="empty-state">You have no winning bids yet.</p>
+        <?php else: ?>
+            <div class="mybids-grid">
+                <?php foreach ($history as $h):
+                    $isWinner = !empty($h['is_winner']);
+                    $payment = $h['payment_status'] ?? null;
+                    $paid = $payment === 'verified';
+                    $waiting = !$paid;
+                    $statusBadge = $isWinner
+                        ? ($paid ? 'Paid' : ($waiting ? 'Unpaid' : 'Rejected'))
+                        : ($h['status'] === 'active' ? 'Watch' : 'Closed');
+                    $statusClass = $paid
+                        ? 'status-paid'
+                        : ($isWinner ? 'status-unpaid' : 'status-watch');
+                    $price = $h['final_price'] ?? $h['highest_bid'] ?? $h['bid_amount'] ?? 0;
+                    $endDate = !empty($h['end_time']) ? date("d M Y", strtotime($h['end_time'])) : '-';
+                ?>
+                    <article class="mybid-card" data-status="<?= $paid ? 'paid' : 'waiting'; ?>">
+                        <div class="mybid-card__badges">
+                            <span class="badge-outline">Won</span>
+                            <span class="badge-solid <?= $statusClass; ?>"><?= htmlspecialchars($statusBadge); ?></span>
+                        </div>
+                        <a href="<?= BASE_URL ?>auction/show/<?= htmlspecialchars($h['auction_id']); ?>" class="mybid-image-wrap">
+                            <?php if (!empty($h['image'])): ?>
+                                <img src="<?= BASE_URL ?>assets/uploads/auction_images/<?= htmlspecialchars($h['image']); ?>" alt="<?= htmlspecialchars($h['title']); ?>">
                             <?php else: ?>
-                                <a href="<?= BASE_URL ?>payment/show/<?= $h['auction_id'] ?>"
-                                   class="btn btn-warning btn-sm mt-2">
-                                    Pay Now
+                                <div class="mybid-image-placeholder">No Image</div>
+                            <?php endif; ?>
+                        </a>
+                        <div class="mybid-meta">
+                            <h3 class="mybid-title"><?= htmlspecialchars($h['title']); ?></h3>
+                            <p class="mybid-price">$ <?= number_format($price, 2, '.', ','); ?></p>
+                            <p class="mybid-date"><i class="bi bi-calendar3 me-1"></i><?= $endDate; ?></p>
+                            <p class="mybid-location"><i class="bi bi-hammer me-1"></i>Seller: <?= htmlspecialchars($h['seller_name'] ?? 'Unknown'); ?></p>
+                            <?php if ($isWinner): ?>
+                                <a class="btn-transaction" href="<?= BASE_URL ?>bids/transaction/<?= htmlspecialchars($h['auction_id']); ?>">
+                                    View Transaction
                                 </a>
                             <?php endif; ?>
-
-                        <?php else: ?>
-                            <span class="badge bg-danger">Lost</span>
-
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-
-    <?php endif; ?>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </section>
 </div>
+
+<script>
+  (function() {
+    const pills = document.querySelectorAll(".filter-pill");
+    const cards = document.querySelectorAll(".mybid-card");
+
+    pills.forEach(pill => {
+      pill.addEventListener("click", () => {
+        pills.forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
+
+        const filter = pill.getAttribute("data-filter");
+        cards.forEach(card => {
+          const status = card.getAttribute("data-status");
+          const show = filter === "all" || status === filter;
+          card.style.display = show ? "" : "none";
+        });
+      });
+    });
+  })();
+</script>

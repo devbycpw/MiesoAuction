@@ -31,6 +31,7 @@ return [
 
     // bidding
     "myBids" => "BidController@index",          
+    "bids/transaction/{id}" => "BidController@transaction",
     "bids/placeBid" => "BidController@placeBid",          
     "bids/auction/{id}" => "BidController@listByAuction",  
 

@@ -8,6 +8,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Proof</th>
                     <th>Auction Title</th>
                     <th>User</th>
                     <th>Amount</th>
@@ -20,6 +21,16 @@
                 <?php foreach ($pending_payments as $payment): ?>
                     <tr>
                         <td><?= htmlspecialchars($payment['id']) ?></td>
+                        <td>
+                            <?php if (!empty($payment['payment_proof'])): ?>
+                                <a href="<?= BASE_URL ?>assets/uploads/payment_proof/<?= htmlspecialchars($payment['payment_proof']) ?>" target="_blank">
+                                    <img src="<?= BASE_URL ?>assets/uploads/payment_proof/<?= htmlspecialchars($payment['payment_proof']) ?>" 
+                                         alt="proof" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
+                                </a>
+                            <?php else: ?>
+                                <span class="text-muted small">No proof</span>
+                            <?php endif; ?>
+                        </td>
                         <td><?= htmlspecialchars($payment['auction_title']) ?></td>
                         <td><?= htmlspecialchars($payment['user_name']) ?> (<?= htmlspecialchars($payment['user_email']) ?>)</td>
                         <td>$<?= number_format($payment['amount'], 2) ?></td>

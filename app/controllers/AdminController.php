@@ -1,13 +1,13 @@
 <?php
     class AdminController extends Controller{
         private $payment;
-        private $user;
-        public function __construct() {
-            parent::__construct();
-            Auth::redirectAdmin(); 
-            $this->payment = $this->Model("Payment");
-            $this->user = $this->Model("User");
-        }   
+    private $user;
+    public function __construct() {
+        parent::__construct();
+        Auth::redirectAdmin(); 
+        $this->payment = $this->model("Payment");
+        $this->user = $this->model("User");
+    }   
         
         public function index() {
             $this->view("Admin/Dashboard",[
@@ -81,4 +81,3 @@
         
 
     }
-

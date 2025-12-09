@@ -194,7 +194,13 @@ class PaymentController extends Controller
         }
 
         // handle upload
-        $proof = Upload::save($_FILES['payment_proof'], "payment_proofs");
+        $proof = Upload::save($_FILES['payment_proof'], "payment_proof", 10_000_000);
+        if (!$proof) {
+            $reason = Upload::getLastError() ?: "Only jpg/jpeg/png/webp/heic under 10MB are allowed. Please also ensure PHP upload_max_filesize/post_max_size permit this size.";
+            Session::set("error", "Upload failed. " . $reason);
+            header("Location: " . BASE_URL . "bids/transaction/$auctionId");
+            exit;
+        }
 
         $this->payment->create([
             "auction_id"     => $auctionId,
@@ -208,5 +214,65 @@ class PaymentController extends Controller
         redirect("my-bids");
     }
 
-}
+    /**
+     * Upload atau reupload bukti pembayaran untuk auction tertentu oleh pemenang.
+     */
+    public function uploadProof($auctionId)
+    {
+        Auth::redirectClient();
+        $userId = Auth::user("id");
 
+        $auction = $this->auction->findById($auctionId);
+        if (!$auction || (int)($auction["winner_id"] ?? 0) !== (int)$userId) {
+            http_response_code(403);
+            die("Unauthorized.");
+        }
+
+        // Fail fast with clearer error if PHP rejected the upload
+        if (!isset($_FILES['payment_proof']) || $_FILES['payment_proof']['error'] !== UPLOAD_ERR_OK) {
+            $code = $_FILES['payment_proof']['error'] ?? 'no_file';
+            $msg = "Upload failed (code: $code). Please try again with jpg/jpeg/png/webp/heic under 10MB and ensure php.ini upload_max_filesize/post_max_size are high enough.";
+            Session::set("error", $msg);
+            header("Location: " . BASE_URL . "bids/transaction/$auctionId");
+            exit;
+        }
+
+        $proof = Upload::save($_FILES["payment_proof"] ?? null, "payment_proof", 10_000_000);
+        if (!$proof) {
+            $reason = Upload::getLastError() ?: "Only jpg/jpeg/png/webp/heic under 10MB are allowed. Please also ensure PHP upload_max_filesize/post_max_size permit this size.";
+            Session::set("error", "Upload failed. " . $reason);
+            header("Location: " . BASE_URL . "bids/transaction/$auctionId");
+            exit;
+        }
+
+        $existing = $this->payment->getPaymentByAuctionAndUser($auctionId, $userId);
+
+        try {
+            if ($existing) {
+                $this->payment->update($existing["id"], [
+                    "payment_proof" => $proof,
+                    "status" => "pending"
+                ]);
+                $paymentId = $existing["id"];
+            } else {
+                $this->payment->create([
+                    "auction_id" => $auctionId,
+                    "user_id" => $userId,
+                    "amount" => $auction["final_price"] ?? $auction["starting_price"] ?? 0,
+                    "payment_proof" => $proof,
+                    "status" => "pending"
+                ]);
+                // Ambil id terbaru
+                $paymentId = $this->payment->getLastInsertId();
+            }
+
+            Session::set("success", "Payment proof uploaded. Awaiting verification. Ref: #$paymentId");
+        } catch (Exception $e) {
+            Session::set("error", "Upload saved but failed to record payment. DB error: " . $e->getMessage());
+        }
+
+        header("Location: " . BASE_URL . "bids/transaction/$auctionId");
+        exit;
+    }
+
+}

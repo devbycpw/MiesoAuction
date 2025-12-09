@@ -7,7 +7,6 @@ class Payment {
         $this->db = DbConnection::connect();
     }
 
-
     public function create(array $data) {
         $now = date("Y-m-d H:i:s");
 
@@ -18,24 +17,26 @@ class Payment {
 
         $stmt = $this->db->prepare($sql);
 
-        return $stmt->execute([
+        $ok = $stmt->execute([
             ":auction_id"     => $data["auction_id"],
             ":user_id"        => $data["user_id"],
             ":amount"         => $data["amount"],
-            ":payment_proof" => $data["payment_proof"],
+            ":payment_proof"  => $data["payment_proof"],
             ":status"         => $data["status"] ?? "pending",
             ":created_at"     => $now,
             ":updated_at"     => $now
         ]);
+
+        return $ok ? $this->db->lastInsertId() : false;
     }
 
     public function update($id, array $data) {
         $fields = [];
         $params = [":id" => $id];
-        $allowed = ["amount", "payment_proof", "status"];
+        $allowed = ["amount", "payment_proof", "status", "payment_method", "admin_note"];
 
         foreach ($allowed as $field) {
-            if (isset($data[$field])) {
+            if (array_key_exists($field, $data)) {
                 $fields[] = "$field = :$field";
                 $params[":$field"] = $data[$field];
             }
@@ -49,6 +50,10 @@ class Payment {
         $sql = "UPDATE payments SET " . implode(", ", $fields) . " WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute($params);
+    }
+
+    public function getLastInsertId() {
+        return $this->db->lastInsertId();
     }
 
     public function getPaymentByAuctionAndUser($auctionId, $userId)
@@ -76,25 +81,12 @@ class Payment {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    // File: app/Models/Payment.php (Lanjutan dari kode Anda)
 
-// ... (di dalam class Payment) ...
-
-public function findById($id) {
-    // Diperlukan di Controller::verify() dan reject()
-    $stmt = $this->db->prepare("SELECT * FROM payments WHERE id = :id");
-    $stmt->execute([':id' => $id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-// Catatan: changeStatus sudah ada di kode Anda, itu bagus.
-// Catatan: getApprovedPayments() dan getRejectedPayments() sudah ada di kode Anda, itu bagus.
-    
-    
-    
-
-    
+    public function findById($id) {
+        $stmt = $this->db->prepare("SELECT * FROM payments WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
     public function findByAuction($auction_id) {
         $stmt = $this->db->prepare("SELECT * FROM payments WHERE auction_id = :auction_id");
@@ -192,6 +184,7 @@ public function findById($id) {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function changeStatus($payment_id, $status){
         $query = "UPDATE payments SET status = :status, updated_at = NOW() WHERE id = :id";
         $stmt = $this->db->prepare($query);

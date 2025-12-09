@@ -43,6 +43,20 @@
                                     <td><?= htmlspecialchars($auction['end_time']) ?></td>
                                 </tr>
                                 <tr>
+                                    <th>Winner</th>
+                                    <td>
+                                        <?php if (!empty($auction['winner_name'])): ?>
+                                            <?= htmlspecialchars($auction['winner_name']); ?> (<?= htmlspecialchars($auction['winner_email'] ?? '-'); ?>)
+                                        <?php else: ?>
+                                            <span class="text-muted">Not assigned</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <th>Final Price</th>
+                                    <td class="fw-bold text-success">
+                                        <?= $auction['final_price'] !== null ? '$' . number_format($auction['final_price'], 2) : '-' ?>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th>Starting Price</th>
                                     <td class="fw-bold text-info">$<?= number_format($auction['starting_price'], 2) ?></td>
                                     <th>Status</th>
