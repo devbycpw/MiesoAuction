@@ -154,21 +154,7 @@ class Auction {
     }
 
 
-    public function statusActive($auction_id, $status)
-    {
-        $query = "UPDATE auctions SET status = :status, updated_at = NOW() WHERE id = :id";
-        
-        $stmt = $this->db->prepare($query);
-        
-        // Bind parameter
-        $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':id', $auction_id, PDO::PARAM_INT);
-        
-        // Execute dan kembalikan status keberhasilan
-        return $stmt->execute();
-    }
-    
-    public function statusReject($auction_id, $status)
+    public function changeStatus($auction_id, $status)
     {
         $query = "UPDATE auctions SET status = :status, updated_at = NOW() WHERE id = :id";
         
@@ -214,5 +200,16 @@ class Auction {
         ':id' => $auctionId
     ]);
 }
-
+public function setStatusSold($auctionId)
+    {
+        $query = "UPDATE auctions SET status = 'sold', updated_at = NOW() WHERE id = :id";
+        
+        $stmt = $this->db->prepare($query);
+        
+        // Bind parameter
+        $stmt->bindParam(':id', $auctionId, PDO::PARAM_INT);
+        
+        // Execute dan kembalikan status keberhasilan
+        return $stmt->execute();
+    }
 }

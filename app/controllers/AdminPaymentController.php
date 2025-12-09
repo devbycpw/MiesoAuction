@@ -9,6 +9,7 @@ class AdminPaymentController extends Controller {
         // 1. Inisialisasi Model Payment (disarankan)
         // Asumsi: $this->model('Payment') mengembalikan instance dari Payment Model
         $this->paymentModel = $this->model('Payment'); 
+        $this->auctionModel = $this->model('Auction'); 
         
         // Opsional: Redirect jika bukan Admin (seperti Auth::redirectAdmin())
         // Auth::redirectAdmin(); 
@@ -43,5 +44,77 @@ class AdminPaymentController extends Controller {
             "title" => "Admin Payment Verification",
             "layout" => "Main"
         ]);
+    }
+
+    public function verify($id){
+        // Pastikan hanya admin yang dapat mengakses
+        if (!Auth::isAdmin()) {
+            http_response_code(403);
+            die("Akses ditolak.");
+        }
+        
+        // 1. Ambil data pembayaran untuk mendapatkan auction_id
+        $payment = $this->paymentModel->findById($id);
+
+        if (!$payment) {
+            Session::set('error', 'Pembayaran ID ' . $id . ' tidak ditemukan.');
+            header('Location: ' . BASE_URL . 'admin/payment/pending');
+            exit;
+        }
+        
+        // 2. Ubah status pembayaran menjadi 'verified'
+        $success = $this->paymentModel->changeStatus($id, 'verified');
+        
+        if ($success) {
+            
+            // 3. JIKA SUKSES: Ubah status lelang (auction) menjadi 'sold'
+            $auctionId = $payment['auction_id'];
+            // ASUMSI: Auction Model memiliki setStatusSold($auctionId)
+            $auctionSuccess = $this->auctionModel->setStatusSold($auctionId); 
+            
+            if ($auctionSuccess) {
+                Session::set('success', 'Pembayaran ID ' . $id . ' berhasil diverifikasi, dan Lelang ID ' . $auctionId . ' telah diubah menjadi SOLD.');
+            } else {
+                Session::set('error', 'Verifikasi berhasil, tetapi gagal mengubah status lelang menjadi SOLD.');
+            }
+
+        } else {
+            Session::set('error', 'Gagal memverifikasi pembayaran ID ' . $id . '. Periksa ID atau koneksi database.');
+        }
+
+        header('Location: ' . BASE_URL . 'admin/payment/approved'); 
+        exit;
+    }
+
+    // ------------------------------------------------------------------
+    // Metode Baru: Reject Payment
+    // ------------------------------------------------------------------
+    public function reject($id){
+        if (!Auth::isAdmin()) {
+            http_response_code(403);
+            die("Akses ditolak.");
+        }
+        
+        // Ambil data pembayaran
+        $payment = $this->paymentModel->findById($id);
+
+        if (!$payment) {
+            Session::set('error', 'Pembayaran ID ' . $id . ' tidak ditemukan.');
+            header('Location: ' . BASE_URL . 'admin/payment/pending');
+            exit;
+        }
+        
+        // Ubah status pembayaran menjadi 'rejected'
+        $success = $this->paymentModel->changeStatus($id, 'rejected');
+        
+        if ($success) {
+            // Karena rejected, status lelang tetap 'closed'.
+            Session::set('success', 'Pembayaran ID ' . $id . ' berhasil ditolak. Pengguna dapat mengunggah bukti baru.');
+        } else {
+            Session::set('error', 'Gagal menolak pembayaran ID ' . $id . '. Periksa ID atau koneksi database.');
+        }
+
+        header('Location: ' . BASE_URL . 'admin/payment/rejected'); // Redirect ke daftar rejected
+        exit;
     }
 }

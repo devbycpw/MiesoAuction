@@ -19,7 +19,7 @@
         public function approve($id)
         {
             $auctionModel = $this->model('Auction');
-            $success = $auctionModel->statusActive($id, 'active');
+            $success = $auctionModel->changeStatus($id, 'active');
             if ($success) {
                 Session::set('success', 'Lelang ID ' . $id . ' berhasil diaktifkan dan sekarang aktif!');
             } else {
@@ -33,7 +33,7 @@
         public function reject($id)
         {
             $auctionModel = $this->model('Auction');
-            $success = $auctionModel->statusReject($id, 'rejected');
+            $success = $auctionModel->ChangeStatus($id, 'rejected');
             if ($success) {
                 Session::set('success', 'Lelang ID ' . $id . ' berhasil direject!');
             } else {

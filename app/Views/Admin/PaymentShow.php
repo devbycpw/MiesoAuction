@@ -33,9 +33,6 @@
                         <strong>Payment Date:</strong> <?= htmlspecialchars($payment['created_at']) ?>
                     </li>
                     <li class="list-group-item">
-                        <strong>Payment Method:</strong> <?= htmlspecialchars($payment['payment_method']) ?? '-' ?>
-                    </li>
-                    <li class="list-group-item">
                         <strong>Payer Name:</strong> <?= htmlspecialchars($payment['payer_name']) ?> (<?= htmlspecialchars($payment['payer_email']) ?>)
                     </li>
                 </ul>

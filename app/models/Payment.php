@@ -77,7 +77,19 @@ class Payment {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    
+    // File: app/Models/Payment.php (Lanjutan dari kode Anda)
+
+// ... (di dalam class Payment) ...
+
+public function findById($id) {
+    // Diperlukan di Controller::verify() dan reject()
+    $stmt = $this->db->prepare("SELECT * FROM payments WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Catatan: changeStatus sudah ada di kode Anda, itu bagus.
+// Catatan: getApprovedPayments() dan getRejectedPayments() sudah ada di kode Anda, itu bagus.
     
     
     
@@ -179,5 +191,12 @@ class Payment {
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function changeStatus($payment_id, $status){
+        $query = "UPDATE payments SET status = :status, updated_at = NOW() WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':id', $payment_id, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }

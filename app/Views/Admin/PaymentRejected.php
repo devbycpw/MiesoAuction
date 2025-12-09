@@ -26,7 +26,7 @@
                         <td><?= htmlspecialchars($payment['created_at']) ?></td>
                         <td><span class="badge bg-warning text-dark"><?= ucfirst(htmlspecialchars($payment['status'])) ?></span></td>
                         <td>
-                            <a href="<?= BASE_URL ?>admin/payment/verify/<?= $payment['id'] ?>" class="btn btn-primary btn-sm">Verify</a>
+                            <a href="<?= BASE_URL ?>admin/showPayment/<?= $payment['id'] ?>" class="btn btn-primary btn-sm">Show Detail</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
