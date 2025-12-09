@@ -1,32 +1,26 @@
 <div class="AuctionsList-page">
-
-    <div class="ButtonBackHome">
-        <a href="<?= BASE_URL ?>" class="btn btn-secondary mb-3">
-            &larr; Back to Home
-        </a>
-    </div>
-
     <div class="row mt-4">
 
-        <!-- CARD KANAN -->
         <div class="col-12">
-
-            <h2 class="home-subtitle mb-4"><b>My Auctions</b></h2>
-
-            <?php if (empty($data)): ?>
-                <div class="alert alert-info">You haven't created any auctions yet.</div>
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 ps-3 pe-3">
+                <h2 class="home-subtitle mb-0"><b>My Auctions</b></h2>
+                <a href="<?=BASE_URL?>auction/create" class="btn btn-primary">
+                    + Create New Auction
+                </a>
+            </div>
+            
+            <?php if (empty($auctions)): ?>
+                <div class="alert alert-info mx-3">You haven't created any auctions yet.</div>
             <?php else: ?>
 
-                <!-- CARD LIST -->
-                <div class="row row-cols-1 row-cols-md-2 g-2">
-                    <?php foreach($data as $d): ?>
-                        <div class="col-md-6">
-                            <div class="card auction-card h-100">
+                <div class="row row-cols-1 row-cols-md-3 g-2">
+                    <?php foreach($auctions as $d): ?>
+                        <div class="col"> <div class="card auction-card h-100">
                                 
-                                <!-- IMAGE -->
                                 <?php if(!empty($d['image'])): ?>
                                     <img 
-                                        src="<?= BASE_URL ?>assets/uploads/auction_images/<?= $d['image'] ?>" 
+                                        src="<?= BASE_URL ?>assets/uploads/auction_images/<?= htmlspecialchars($d['image']) ?>" 
                                         alt="<?= htmlspecialchars($d['title']) ?>"
                                         class="auction-img"
                                     >
@@ -34,70 +28,48 @@
 
                                 <div class="card-body">
 
-                                    <!-- TITLE -->
                                     <h5 class="card-title">
                                         <?= htmlspecialchars($d['title']) ?>
                                     </h5>
 
-                                    <!-- DESCRIPTION -->
                                     <p class="card-text">
-                                        <?= htmlspecialchars($d['description'] ?? '-') ?>
+                                        <?= htmlspecialchars(substr($d['description'] ?? '-', 0, 100)) . (strlen($d['description'] ?? '') > 100 ? '...' : '') ?>
                                     </p>
 
-                                    <!-- STATUS -->
                                     <?php 
-                                        $badge = "secondary";
-                                        if ($d['status'] == 'open') $badge = "success";
-                                        if ($d['status'] == 'closed') $badge = "danger";
+                                        $status = $d['status'] ?? 'pending';
+                                        $badge_class = "secondary";
+                                        if ($status == 'active') $badge_class = "success";
+                                        if ($status == 'closed' || $status == 'rejected') $badge_class = "danger";
+                                        if ($status == 'sold') $badge_class = "primary";
                                     ?>
-                                    <span class="badge bg-<?= $badge ?>">
-                                        <?= strtoupper($d['status']) ?>
+                                    <span class="badge bg-<?= $badge_class ?>">
+                                        <?= strtoupper($status) ?>
                                     </span>
 
                                     <hr>
 
-                                    <!-- HIGHEST BID -->
                                     <p class="card-text mb-1">
                                         <strong>Highest Bid:</strong>
                                         <?= $d['highest_bid'] 
                                             ? "$" . number_format($d['highest_bid'], 2)
-                                            : "-" 
+                                            : "$-" 
                                         ?>
                                     </p>
 
-                                    <!-- TOTAL BIDS -->
                                     <p class="card-text mb-1">
-                                        <strong>Total Bids:</strong> <?= $d['total_bids'] ?>
+                                        <strong>Total Bids:</strong> <?= $d['total_bids'] ?? 0 ?>
                                     </p>
 
-                                    <!-- END TIME -->
                                     <p class="text-muted small">
                                         <strong>Ends:</strong> 
-                                        <?= date("d M Y H:i", strtotime($d['end_time'])) ?>
+                                        <?= date("d M Y H:i", strtotime($d['end_time'] ?? 'now')) ?>
                                     </p>
 
                                 </div>
 
                                 <div class="card-footer bg-white text-center">
-
-                                    <!-- VIEW DETAIL -->
-                                    <a 
-                                        href="<?= BASE_URL ?>auction/show/<?= $d['id'] ?>"
-                                        class="btn bid-btn w-100 mb-2"
-                                    >
-                                        View Auction
-                                    </a>
-
-                                    <!-- EDIT BUTTON ONLY IF OPEN -->
-                                    <?php if ($d['status'] == 'open'): ?>
-                                        <a 
-                                            href="<?= BASE_URL ?>auction/edit/<?= $d['id'] ?>"
-                                            class="btn btn-warning w-100"
-                                        >
-                                            Edit Auction
-                                        </a>
-                                    <?php endif; ?>
-
+                                    <a href="<?= BASE_URL ?>auction/show/<?= $d['id'] ?>"class="btn bid-btn w-100 mb-2">View Auction</a>
                                 </div>
 
                             </div>
@@ -111,5 +83,3 @@
     </div>
 
 </div>
-
-<br><br><br>

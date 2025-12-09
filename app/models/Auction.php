@@ -221,6 +221,7 @@ public function setStatusSold($auctionId)
                     a.image,
                     a.starting_price,
                     a.status,
+                    a.description,
                     a.end_time,
                     a.winner_id,
                     a.final_price,
@@ -235,5 +236,10 @@ public function setStatusSold($auctionId)
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
+    public function find($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
