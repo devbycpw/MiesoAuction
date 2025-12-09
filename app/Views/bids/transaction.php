@@ -107,6 +107,7 @@ $isPaid = $paymentStatus === "verified";
                 <?php endif; ?>
             </div>
 
+        <?php if (!$isPaid): ?>
             <div class="upload-actions">
                 <label class="btn-ghost mb-0">
                     Choose from File
@@ -116,6 +117,7 @@ $isPaid = $paymentStatus === "verified";
                     Upload Image
                 </button>
             </div>
+        <?php endif; ?>
         </form>
     </div>
 </div>
