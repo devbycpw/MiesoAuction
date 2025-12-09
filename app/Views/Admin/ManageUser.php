@@ -1,6 +1,13 @@
 <div class="container-fluid py-4">
-    <h2 class="mb-4">Manage user</h2>
-    <a href="<?=BASE_URL?>admin/createAdmin">create admin</a>    
+    <div class="table-wrapper">
+        <div class="table-header">
+            <h2>Manage user</h2>
+             <a href="<?=BASE_URL?>admin/createAdmin" class="create-admin-btn">
+                <span class="plus-icon">+</span>Create Admin
+            </a>
+        </div>
+    </div>
+
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
     <?php endif; ?>
@@ -8,11 +15,11 @@
         <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
     <?php endif; ?>
 
-    <?php if (empty($data)): ?>
+    <?php if (empty($users)): ?>
         <div class="alert alert-info">No user data found.</div>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle">
+            <table class="table table-striped align-middle">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -24,16 +31,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data as $user): ?>
+                    <?php foreach ($users as $user): ?>
                         <tr>
                             <td><?= htmlspecialchars($user['id']) ?></td>
                             <td><?= htmlspecialchars($user['full_name']) ?></td>
                             <td><?= htmlspecialchars($user['email']) ?></td>
                             <td>
                                 <?php if ($user['role'] === 'admin'): ?>
-                                    <span class="badge bg-danger">Admin</span>
+                                    <span class="badge badge-admin">Admin</span>
                                 <?php else: ?>
-                                    <span class="badge bg-primary">Client</span>
+                                    <span class="badge badge-client">Client</span>
                                 <?php endif; ?>
                             </td>
                             <td><?= htmlspecialchars($user['created_at']) ?></td>

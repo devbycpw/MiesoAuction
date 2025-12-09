@@ -89,7 +89,11 @@
         public function selectUser()
         {
             $data = $this->user->all();
-            $this->view("Admin/ManageUser", $data);
+            $this->view("Admin/ManageUser", [
+                "users"=>$data,
+                "layout"=> "Main",
+                "custom_css"=>"manageUser"
+            ]);
         }
 
         public function delete($id){
