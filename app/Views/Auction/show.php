@@ -6,10 +6,11 @@
     $is_active = ($auction['status'] === 'active');
 ?>
 
-<div class="container py-4">
+<div class="container py-4 auction-show">
 
-    <a href="<?= BASE_URL ?>auctions" class="btn btn-secondary mb-3">
-        &larr; Back to Auctions
+    <?php $backHref = Auth::isAdmin() ? BASE_URL . "admin/auctions" : BASE_URL . "auctions"; ?>
+    <a href="<?= $backHref ?>" class="btn btn-link p-0 mb-3 text-decoration-none auction-back-link">
+        <i class="bi bi-arrow-left"></i> Back
     </a>
 
     <div class="row">
@@ -89,9 +90,12 @@
             <?php elseif (Auth::isAdmin()): ?>
                 <h4>Admin Actions</h4>
                 <?php if ($auction['status'] == 'pending'): ?>
-                    <div class="d-grid gap-2 mt-2">
-                        <a href="<?=BASE_URL?>admin/auction/approve/<?=$auction['id']?>" class="btn btn-success">Approve</a>
-                        <a href="<?=BASE_URL?>admin/auction/reject/<?=$auction['id']?>" class="btn btn-danger">Reject</a>
+                    <div class="pending-banner mb-3">This auction is still pending approval.</div>
+                <?php endif; ?>
+                <?php if ($auction['status'] == 'pending'): ?>
+                    <div class="d-flex gap-2 mt-2 admin-action-row">
+                        <a href="<?=BASE_URL?>admin/auction/reject/<?=$auction['id']?>" class="btn btn-danger flex-fill admin-action-btn">Reject</a>
+                        <a href="<?=BASE_URL?>admin/auction/approve/<?=$auction['id']?>" class="btn btn-success flex-fill admin-action-btn">Approve</a>
                     </div>
                 <?php else: ?>
                     <div class="alert alert-info">Status: <?= ucfirst($auction['status']) ?>.</div>

@@ -1,0 +1,110 @@
+.auction-show {
+  --auction-bg: #ffffff;
+  --auction-card-border: #e5e5e5;
+  --auction-card-radius: 14px;
+  --auction-muted: #c6c6c6;
+  --auction-primary: #000000;
+  --auction-accent: #d4af37;
+  --auction-success: #198754;
+  --auction-pending-bg: #fff8e1;
+  --auction-pending-border: #f5d67a;
+  --auction-pending-text: #8a6d1f;
+  --auction-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.auction-show .auction-card {
+  background: var(--auction-bg);
+  border: 1px solid var(--auction-card-border);
+  border-radius: var(--auction-card-radius);
+  box-shadow: var(--auction-shadow);
+  padding: 16px;
+}
+
+.auction-show .auction-image {
+  border-radius: 12px;
+  box-shadow: var(--auction-shadow);
+  object-fit: cover;
+  width: 100%;
+}
+
+.auction-show .auction-meta th {
+  width: 30%;
+  color: var(--auction-muted);
+  font-weight: 600;
+}
+
+.auction-show .auction-meta td {
+  font-weight: 600;
+  color: var(--auction-primary);
+}
+
+.auction-show .price-current {
+  color: var(--auction-success);
+}
+
+.auction-show .price-accent {
+  color: var(--auction-accent);
+}
+
+.auction-show .section-title {
+  font-weight: 700;
+  margin-top: 16px;
+}
+
+.auction-show .pending-banner {
+  background: var(--auction-pending-bg);
+  border: 1px solid var(--auction-pending-border);
+  color: var(--auction-pending-text);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 700;
+}
+
+.auction-show .admin-action-row {
+  align-items: stretch;
+}
+
+.auction-show .admin-action-btn {
+  text-align: center;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.auction-show .admin-action-btn.btn-success {
+  background: #3A6F43;
+  border-color: #3A6F43;
+  color: #fff;
+}
+
+.auction-show .admin-action-btn.btn-success:hover {
+  background: #59AC77;
+  border-color: #59AC77;
+  color: #fff;
+  box-shadow: 0 8px 16px rgba(31, 122, 52, 0.25);
+  transform: translateY(-1px);
+}
+
+.auction-show .admin-action-btn.btn-danger {
+  background: #DC143C;
+  border-color: #DC143C;
+  color: #ffffff;
+}
+
+.auction-show .admin-action-btn.btn-danger:hover {
+  background: #F75270;
+  border-color: #F75270;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(176, 42, 55, 0.25);
+  transform: translateY(-1px);
+}
+
+.auction-show .auction-back-link {
+  color: #000;
+  font-weight: 700;
+}
+
+.auction-show .auction-back-link:hover {
+  color: #000;
+  text-decoration: underline;
+}

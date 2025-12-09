@@ -1,4 +1,4 @@
-<div class="container py-4">
+<div class="container py-4 admin-auctions">
     <h2 class="mb-4">All Auctions List (Admin View)</h2>
 
     <?php if(Session::get("success")): ?>
@@ -12,7 +12,7 @@
         
         <?php foreach ($auctions as $auction): ?>
 
-            <div class="card mb-4 shadow-sm border-light">
+            <div class="card mb-4 shadow-sm border-light admin-auction-card">
                 <div class="card-header bg-light text-dark fw-bold">
                     Auction ID: <?= htmlspecialchars($auction['id']) ?> - <?= htmlspecialchars($auction['title']) ?>
                 </div>
@@ -22,9 +22,9 @@
                             <?php if ($auction['image']): ?>
                                 <img src="<?= BASE_URL ?>assets/uploads/auction_images/<?= htmlspecialchars($auction['image']) ?>" 
                                      alt="<?= htmlspecialchars($auction['title']) ?>" 
-                                     class="img-fluid rounded" style="max-height:150px; width: auto; object-fit: cover;">
+                                     class="img-fluid rounded admin-auction-img">
                             <?php else: ?>
-                                <div class="bg-light p-4 rounded text-muted">No Image</div>
+                                <div class="bg-light p-4 rounded text-muted admin-auction-noimg">No Image</div>
                             <?php endif; ?>
                         </div>
 
@@ -52,20 +52,20 @@
                                         <?php endif; ?>
                                     </td>
                                     <th>Final Price</th>
-                                    <td class="fw-bold text-success">
+                                    <td class="fw-bold admin-final-price">
                                         <?= $auction['final_price'] !== null ? '$' . number_format($auction['final_price'], 2) : '-' ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Starting Price</th>
-                                    <td class="fw-bold text-info">$<?= number_format($auction['starting_price'], 2) ?></td>
+                                    <td class="fw-bold admin-starting-price">$<?= number_format($auction['starting_price'], 2) ?></td>
                                     <th>Status</th>
                                     <td>
                                         <?php 
                                             // Menampilkan badge status
                                             $status_class = match ($auction['status']) {
                                                 'pending' => 'bg-warning text-dark',
-                                                'active' => 'bg-primary',
+                                                'active' => 'admin-badge-active',
                                                 'sold' => 'bg-success',
                                                 'rejected' => 'bg-danger',
                                                 'closed' => 'bg-secondary',
@@ -76,10 +76,9 @@
                                     </td>
                                 </tr>
                             </table>
-                            
                             <div class="d-flex justify-content-end gap-2">
                                 <a href="<?= BASE_URL ?>auction/show/<?= htmlspecialchars($auction['id']) ?>" 
-                                   class="btn btn-primary btn-sm">
+                                   class="btn btn-primary btn-sm admin-view-detail">
                                    View Detail
                                 </a>
                             </div>

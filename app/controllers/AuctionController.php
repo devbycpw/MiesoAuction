@@ -71,7 +71,8 @@ public function index()
             "auction" => $auction,
             "title"   => "Auction",
             "layout"  => "Main",
-            "custom_js" => "auctionShow"
+            "custom_js" => "auctionShow",
+            "custom_css" => "auction-show"
         ]);
     }
 

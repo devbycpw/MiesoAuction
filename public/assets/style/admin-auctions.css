@@ -1,0 +1,107 @@
+.admin-auctions {
+  --admin-bg: #ffffff;
+  --admin-card-border: #e5e5e5;
+  --admin-card-radius: 12px;
+  --admin-img-bg: #f7f7f7;
+  --admin-text-muted: #777;
+  --admin-starting-price: #000000;
+  --admin-final-price: #D4AF37;
+  --admin-view-btn-border: #111111;
+  --admin-view-btn-bg: #000000;
+  --admin-view-btn-text: #ffffff;
+  --admin-view-btn-text-hover: #ffffff;
+  --admin-view-btn-bg-hover: #000000;
+  --admin-status-active-bg: #000000;
+  --admin-status-active-text: #ffffff;
+  --admin-status-active-bg: #2D2D2F;  
+  --admin-status-active-text: #ffffff;
+}
+
+.admin-auctions .admin-badge-active {
+  background: var(--admin-status-active-bg) !important;
+  color: var(--admin-status-active-text) !important;
+}
+
+.admin-auctions .badge {
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: #ffffff !important;
+}
+
+.admin-auctions .badge-pending { 
+  background: #f5d67a; color: #8a6d1f; 
+}
+
+.admin-auctions .badge-sold    { 
+  background: #198754; color: #fff; 
+}
+
+.admin-auctions .badge-rejected{ 
+  background: #dc3545; color: #fff; 
+}
+
+.admin-auctions .badge-closed  { 
+  background: #6c757d; color: #fff; 
+}
+
+.admin-auctions .admin-auction-card {
+  border-radius: var(--admin-card-radius);
+  border: 1px solid var(--admin-card-border);
+  background: var(--admin-bg);
+}
+
+.admin-auctions .admin-auction-img {
+  max-height: 150px;
+  width: auto;
+  object-fit: cover;
+}
+
+.admin-auctions .admin-auction-noimg {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  background: var(--admin-img-bg);
+  color: var(--admin-text-muted);
+  border-radius: var(--admin-card-radius);
+}
+
+.admin-auctions .admin-starting-price {
+  color: var(--admin-starting-price);
+  font-weight: 700;
+}
+
+.admin-auctions .admin-final-price {
+  color: var(--admin-final-price);
+  font-weight: 700;
+}
+
+.admin-auctions .admin-view-detail {
+  background: transparent;
+  color: #000;
+  border: 2px solid var(--admin-view-btn-border);
+  border-radius: 18px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 14px;
+  min-width: 110px;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.admin-auctions .admin-view-detail:hover {
+  background: var(--admin-view-btn-bg-hover);
+  color: var(--admin-view-btn-text-hover);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.15);
+  transform: translateY(-1px);
+}
+
+.admin-auctions .admin-badge-active {
+  background: var(--admin-status-active-bg) !important;
+  color: var(--admin-status-active-text) !important;
+}
+
+.admin-auctions .badge {
+  font-size: 14px;
+  padding: 12px 14px;
+  border-radius: 11px;
+}

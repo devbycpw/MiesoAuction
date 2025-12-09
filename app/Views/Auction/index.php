@@ -1,9 +1,4 @@
 <div class="AuctionsList-page">
-    <div class="ButtonBackHome">
-         <a href="<?= BASE_URL ?>" class="btn btn-secondary mb-3">
-        &larr; Back to Home
-    </a>
-    </div>
     <div class="row mt-4">
         <div class="col-md-3">
             <div class="filter-box mb-4">

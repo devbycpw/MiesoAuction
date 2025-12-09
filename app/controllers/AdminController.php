@@ -49,7 +49,8 @@
             $data_auction = $auction->all();
             $this->View("Admin/ManageAuctions",[
                 "auctions" => $data_auction,
-                "title" => "Manage Auctions"
+                "title" => "Manage Auctions",
+                "custom_css" => "admin-auctions"
             ]);
         }
 
