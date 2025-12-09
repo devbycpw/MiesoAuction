@@ -5,7 +5,7 @@ return [
     "" => "HomeController@index",
     "home" => "HomeController@index",
 
-    "profile" => "profileController@index",
+    
     
     // auth
     "login" => "AuthController@showLogin",
@@ -48,6 +48,7 @@ return [
     // profile
     "profile" => "ProfileController@index",
     "profile/client" => "ProfileController@client",
+    "profile/auction" => "ProfileController@auction",
 
     // ADMIN 
     // auctions

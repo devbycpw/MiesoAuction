@@ -212,4 +212,20 @@ public function setStatusSold($auctionId)
         // Execute dan kembalikan status keberhasilan
         return $stmt->execute();
     }
+
+    public function selectByIdClient(){
+        $sql="SELECT 
+                a.*, 
+                u.full_name AS seller_name, 
+                u.email AS seller_email,
+                c.name AS category_name,
+                w.full_name AS winner_name,
+                w.email AS winner_email
+            FROM auctions a
+            LEFT JOIN users u ON a.user_id = u.id
+            LEFT JOIN categories c ON a.category_id = c.id
+            LEFT JOIN users w ON a.winner_id = w.id
+            WHERE u.id = :id";
+    }
+    
 }
