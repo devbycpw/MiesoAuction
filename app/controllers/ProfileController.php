@@ -94,5 +94,53 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function changePassword($id)
+    {
+        Auth::redirectClient();
+
+        $userId = Auth::user("id");
+
+        // Pastikan user hanya bisa edit password dirinya sendiri
+        if ($id != $userId) {
+            Session::set("error", "Unauthorized action.");
+            header("Location: ".BASE_URL."profile/client");
+            exit;
+        }
+
+        $old     = trim($_POST['current_password']);
+        $new     = trim($_POST['new_password']);
+        $confirm = trim($_POST['confirm_new_password']);
+
+        $user = $this->users->findById($userId);
+
+        if (!$user) {
+            Session::set("error", "User not found.");
+            header("Location: ".BASE_URL."profile/client");
+            exit;
+        }
+
+        // Validasi: password lama harus cocok
+        if (!password_verify($old, $user['password'])) {
+            Session::set("error", "Current password is incorrect.");
+            header("Location: ".BASE_URL."profile/client");
+            exit;
+        }
+
+        // Validasi: new == confirm
+        if ($new !== $confirm) {
+            Session::set("error", "New password does not match confirmation.");
+            header("Location: ".BASE_URL."profile/client");
+            exit;
+        }
+        // Update password
+        $this->users->update($userId, [
+            "password" => $new
+        ]);
+
+        Session::set("success", "Password updated successfully.");
+        header("Location: ".BASE_URL."profile/client");
+        exit;
+    }
+    
     
 }

@@ -78,7 +78,5 @@
             $data = $this->user->all();
             $this->view("Admin/ManageUser", $data);
         }
-        
-
     }
 

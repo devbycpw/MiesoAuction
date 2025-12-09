@@ -1,3 +1,6 @@
+<?php
+    $user_id=Auth::user("id");
+?>
 <div class="profile-page client">
     <div class="container py-5">
         <div class="mb-4">
@@ -94,42 +97,43 @@
     </div>
 
     <div class="modal fade" id="changePasswordModal" tabindex="-1"
-         aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        aria-labelledby="changePasswordModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content profile-modal">
-                <form action="#" method="post">
+
+                <form action="<?= BASE_URL ?>profile/changePassword/<?= $user_id ?>" method="POST">
+
                     <div class="modal-header border-0 pb-0">
-                        <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                        <h5 class="modal-title">Change Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
+
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Current Password</label>
-                            <input type="password" name="current_password"
-                                   class="form-control profile-input">
+                            <input type="password" name="current_password" class="form-control profile-input" required>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">New Password</label>
-                            <input type="password" name="new_password"
-                                   class="form-control profile-input">
+                            <input type="password" name="new_password" class="form-control profile-input" required>
                         </div>
+
                         <div class="mb-2">
                             <label class="form-label">Confirm New Password</label>
-                            <input type="password" name="confirm_new_password"
-                                   class="form-control profile-input">
+                            <input type="password" name="confirm_new_password" class="form-control profile-input" required>
                         </div>
                     </div>
+
                     <div class="modal-footer border-0 pt-0">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="submit" class="btn btn-dark">
-                            Update Password
-                        </button>
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-dark">Update Password</button>
                     </div>
+
                 </form>
+
             </div>
         </div>
     </div>
+
 </div>

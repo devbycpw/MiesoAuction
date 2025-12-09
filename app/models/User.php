@@ -76,13 +76,35 @@ class User {
         return $this->db->query("SELECT * FROM users")->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function findById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    public function findById($id)
+    {
+        $query = $this->db->prepare("SELECT * FROM users WHERE id = ?");
+        $query->execute([$id]);
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 
+    // cek apakah password lama cocok
+    public function checkOldPassword($id, $oldPassword)
+    {
+        $user = $this->findById($id);
+
+        if (!$user) {
+            return false;
+        }
+
+        return password_verify($oldPassword, $user['password']);
+    }
+
+    // update password baru
+    public function updatePassword($id, $newPassword)
+    {
+        $hash = password_hash($newPassword, PASSWORD_BCRYPT);
+
+        $query = $this->db->prepare("UPDATE users SET password = ? WHERE id = ?");
+        return $query->execute([$hash, $id]);
+    }
+
+    
     /**
      * Mencari pengguna berdasarkan email
      * @param string $email

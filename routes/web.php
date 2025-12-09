@@ -49,6 +49,7 @@ return [
     "profile" => "ProfileController@index",
     "profile/client" => "ProfileController@client",
     "profile/auction" => "ProfileController@MyAuctions",
+    "profile/changePassword/{id}" => "ProfileController@changePassword",
 
     // ADMIN 
     // auctions
