@@ -57,22 +57,34 @@
         public function pending()
         {
             $data['pending_payments'] = $this->payment->getPendingPayments();
-            $this->view("Admin/PaymentPending", $data);
+            $this->view("Admin/PaymentPending", [
+                "pending_payments" => $data['pending_payments'],
+                "custom_css" => "admin-payments"
+            ]);
         }
         public function selectAll()
         {
             $data = $this->payment->all();
-            $this->view("Admin/PaymentAll", $data);
+            $this->view("Admin/PaymentAll", [
+                "data" => $data,
+                "custom_css" => "admin-payments"
+            ]);
         }
         public function selectRejected()
         {
             $data['rejected_payments'] = $this->payment->getRejectedPayments();
-            $this->view("Admin/PaymentRejected", $data);
+            $this->view("Admin/PaymentRejected", [
+                "rejected_payments" => $data['rejected_payments'],
+                "custom_css" => "admin-payments"
+            ]);
         }
         public function selectApproved()
         {
             $data['approved_payments'] = $this->payment->getApprovedPayments();
-            $this->view("Admin/PaymentApproved", $data);
+            $this->view("Admin/PaymentApproved", [
+                "approved_payments" => $data['approved_payments'],
+                "custom_css" => "admin-payments"
+            ]);
         }
         public function selectUser()
         {

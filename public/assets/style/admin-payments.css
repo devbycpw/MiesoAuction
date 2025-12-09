@@ -1,0 +1,58 @@
+.admin-payments {
+  --empty-bg: rgba(212, 175, 55, 0.5);
+  --empty-text: #000;
+  --table-border: #e5e5e5;
+  --table-head-bg: #f7f7f7;
+  --table-head-text: #111;
+  --badge-pending: #f5d67a;
+  --badge-pending-text: #8a6d1f;
+  --badge-approved: #198754;
+  --badge-rejected: #dc3545;
+  --badge-default-text: #fff;
+}
+
+.admin-payments .admin-empty-state {
+  background: var(--empty-bg);
+  color: var(--empty-text);
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.admin-payments .table thead th {
+  vertical-align: middle;
+  background: var(--table-head-bg);
+  color: var(--table-head-text);
+}
+
+.admin-payments .table td,
+.admin-payments .table th {
+  vertical-align: middle;
+  border-color: var(--table-border);
+}
+
+.admin-payments .badge-pending {
+  background: var(--badge-pending) !important;
+  color: var(--badge-pending-text) !important;
+}
+
+.admin-payments .badge-approved {
+  background: var(--badge-approved) !important;
+  color: var(--badge-default-text) !important;
+}
+
+.admin-payments .badge-rejected {
+  background: var(--badge-rejected) !important;
+  color: var(--badge-default-text) !important;
+}
+
+.admin-payments .admin-show-detail {
+  background: #3396D3 !important; 
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+.admin-payments .admin-show-detail:hover {
+  background: #0046FF !important;
+  color: #ffffff !important;
+}

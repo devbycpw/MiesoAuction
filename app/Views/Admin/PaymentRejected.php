@@ -1,10 +1,10 @@
-<div class="container py-4">
+<div class="container py-4 admin-payments">
     <h2>Payments Rejected (<?= count($rejected_payments) ?>)</h2>
 
     <?php if (empty($rejected_payments)): ?>
         <div class="alert alert-info">No payments are currently pending verification.</div>
     <?php else: ?>
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover admin-payments-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -24,9 +24,17 @@
                         <td><?= htmlspecialchars($payment['user_name']) ?> (<?= htmlspecialchars($payment['user_email']) ?>)</td>
                         <td>$<?= number_format($payment['amount'], 2) ?></td>
                         <td><?= htmlspecialchars($payment['created_at']) ?></td>
-                        <td><span class="badge bg-warning text-dark"><?= ucfirst(htmlspecialchars($payment['status'])) ?></span></td>
+                        <?php
+                            $cls = match ($payment['status']) {
+                                'pending' => 'badge-pending',
+                                'verified' => 'badge-approved',
+                                'rejected' => 'badge-rejected',
+                                default => 'bg-secondary'
+                            };
+                        ?>
+                        <td><span class="badge <?= $cls ?>"><?= ucfirst(htmlspecialchars($payment['status'])) ?></span></td>
                         <td>
-                            <a href="<?= BASE_URL ?>admin/showPayment/<?= $payment['id'] ?>" class="btn btn-primary btn-sm">Show Detail</a>
+                            <a href="<?= BASE_URL ?>admin/showPayment/<?= $payment['id'] ?>" class="btn btn-primary btn-sm admin-show-detail">Show Detail</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

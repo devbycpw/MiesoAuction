@@ -2,9 +2,11 @@
     <h2>Payments Pending Verification (<?= count($pending_payments) ?>)</h2>
 
     <?php if (empty($pending_payments)): ?>
-        <div class="alert alert-info">No payments are currently pending verification.</div>
+        <div class="alert text-center py-4 mb-0 admin-empty-state">
+            No payments are currently pending verification.
+        </div>
     <?php else: ?>
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover admin-payments-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -35,10 +37,9 @@
                         <td><?= htmlspecialchars($payment['user_name']) ?> (<?= htmlspecialchars($payment['user_email']) ?>)</td>
                         <td>$<?= number_format($payment['amount'], 2) ?></td>
                         <td><?= htmlspecialchars($payment['created_at']) ?></td>
-                        <td><span class="badge bg-warning text-dark"><?= ucfirst(htmlspecialchars($payment['status'])) ?></span></td>
+                        <td><span class="badge badge-pending"><?= ucfirst(htmlspecialchars($payment['status'])) ?></span></td>
                         <td>
-                            <a href="<?= BASE_URL ?>admin/showPayment/<?= $payment['id'] ?>" class="btn btn-primary btn-sm">Show Detail</a>
-
+                            <a href="<?= BASE_URL ?>admin/showPayment/<?= $payment['id'] ?>" class="btn btn-primary btn-sm admin-show-detail">Show Detail</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

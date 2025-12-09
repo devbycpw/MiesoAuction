@@ -1,4 +1,4 @@
-<div class="container py-4">
+<div class="container py-4 admin-payments">
     <a href="<?= BASE_URL ?>admin/payment/pending" class="btn btn-secondary mb-3">
         &larr; Back to Pending Payments
     </a>
