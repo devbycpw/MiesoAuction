@@ -8,10 +8,8 @@
                   method="POST" 
                   enctype="multipart/form-data">
 
-                <!-- Keep Old Image -->
                 <input type="hidden" name="old_image" value="<?= $auction['image'] ?>">
 
-                <!-- Title -->
                 <div class="mb-3">
                     <label class="form-label">Title <span class="text-danger">*</span></label>
                     <input type="text" 
@@ -21,7 +19,6 @@
                            required>
                 </div>
 
-                <!-- Category -->
                 <div class="mb-3">
                     <label class="form-label">Category</label>
                     <select name="category_id" class="form-select">
@@ -37,7 +34,6 @@
                     </select>
                 </div>
 
-                <!-- Description -->
                 <div class="mb-3">
                     <label class="form-label">Description</label>
                     <textarea name="description" class="form-control" rows="4"><?= 
@@ -45,7 +41,6 @@
                     ?></textarea>
                 </div>
 
-                <!-- Image -->
                 <div class="mb-3">
                     <label class="form-label">Product Image</label>
                     <input type="file" 
@@ -61,7 +56,6 @@
                          style="max-width: 200px;">
                 </div>
 
-                <!-- Starting Price -->
                 <div class="mb-3">
                     <label class="form-label">Starting Price (Rp) <span class="text-danger">*</span></label>
                     <input type="number" 
@@ -71,7 +65,6 @@
                            required>
                 </div>
 
-                <!-- Start Time -->
                 <div class="mb-3">
                     <label class="form-label">Start Time</label>
                     <input type="datetime-local" 
@@ -80,7 +73,6 @@
                            value="<?= $auction['start_time'] ? date('Y-m-d\TH:i', strtotime($auction['start_time'])) : '' ?>">
                 </div>
 
-                <!-- End Time -->
                 <div class="mb-3">
                     <label class="form-label">End Time</label>
                     <input type="datetime-local" 
@@ -89,7 +81,6 @@
                            value="<?= $auction['end_time'] ? date('Y-m-d\TH:i', strtotime($auction['end_time'])) : '' ?>">
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-between">
                     <a href="<?= BASE_URL ?>auctions" class="btn btn-secondary">Back</a>
                     <button type="submit" class="btn btn-primary">Update Auction</button>
@@ -100,7 +91,6 @@
     </div>
 </div>
 
-<!-- Preview Script -->
 <script>
 function previewImage(event) {
     let img = document.getElementById('preview');

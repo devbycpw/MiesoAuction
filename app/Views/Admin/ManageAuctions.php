@@ -70,7 +70,6 @@
                                     <th>Status</th>
                                     <td>
                                         <?php 
-                                            // Menampilkan badge status
                                             $status_class = match ($auction['status']) {
                                                 'pending' => 'bg-warning text-dark',
                                                 'active' => 'admin-badge-active',

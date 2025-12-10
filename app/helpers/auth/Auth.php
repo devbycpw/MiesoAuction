@@ -17,19 +17,16 @@ class Auth {
 {
     if (!self::check()) return null;
 
-    // Ambil data lengkap
     $user = [
         'id'         => Session::get('user_id'),
         'full_name'  => Session::get('full_name'),
         'role'       => Session::get('role')
     ];
 
-    // Jika minta 1 key, ambil dari array user
     if ($key) {
         return $user[$key] ?? null;
     }
 
-    // Jika tidak, kembalikan array lengkap
     return $user;
 }
 

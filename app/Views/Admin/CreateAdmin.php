@@ -8,7 +8,6 @@ Session::unset('error');
 <main class ="page-register">
     <div class="register-container">
 
-        <!-- Logo Image -->
          <img src="<?= BASE_URL?>assets/img/Logo.png" class="logo" alt="logo">
 
         <h2 class="auth-title">Create an Admin Account</h2>

@@ -124,7 +124,6 @@ class Auction {
     public function getActiveAuctions($categories = [])
     {
         if (empty($categories)) {
-            // tidak ada filter → tampil semua active
             $sql = "
                 SELECT a.*, c.name AS category_name 
                 FROM auctions a 
@@ -135,7 +134,6 @@ class Auction {
             return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        // Jika ada kategori dipilih
         $placeholders = implode(',', array_fill(0, count($categories), '?'));
 
         $sql = "
@@ -160,11 +158,8 @@ class Auction {
         
         $stmt = $this->db->prepare($query);
         
-        // Bind parameter
         $stmt->bindParam(':status', $status);
         $stmt->bindParam(':id', $auction_id, PDO::PARAM_INT);
-        
-        // Execute dan kembalikan status keberhasilan
         return $stmt->execute();
     }
     public function getExpiredActiveAuctions()
@@ -203,13 +198,8 @@ class Auction {
 public function setStatusSold($auctionId)
     {
         $query = "UPDATE auctions SET status = 'sold', updated_at = NOW() WHERE id = :id";
-        
         $stmt = $this->db->prepare($query);
-        
-        // Bind parameter
         $stmt->bindParam(':id', $auctionId, PDO::PARAM_INT);
-        
-        // Execute dan kembalikan status keberhasilan
         return $stmt->execute();
     }
 

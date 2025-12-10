@@ -145,7 +145,6 @@ $isPaid = $paymentStatus === "verified";
     const preview = document.getElementById("proofPreview");
 
     if (!input || !uploadBtn) return;
-    // Disable until file chosen (if not already paid)
     if (!<?= $isPaid ? 'true' : 'false' ?>) {
       uploadBtn.disabled = true;
     }

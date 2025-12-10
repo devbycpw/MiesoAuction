@@ -60,7 +60,6 @@
             <div class="card live-card shadow-sm">
 
                 <?php 
-                    // Logika untuk class khusus 'vas-style'
                     $is_vas = (strpos($auction['title'], 'Vas') !== false);
                     $img_class = $is_vas ? 'vas-style' : '';
                 ?>
@@ -125,7 +124,6 @@
     </a>
 </div>
 
-<!--<div class="container"><hr style="margin-top: 50px; margin-bottom: 50px;"></div>-->
 
 <div class="container CONTAINER">
     <div class="new-arrival-header">

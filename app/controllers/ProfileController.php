@@ -100,7 +100,6 @@ class ProfileController extends Controller
 
         $userId = Auth::user("id");
 
-        // Pastikan user hanya bisa edit password dirinya sendiri
         if ($id != $userId) {
             Session::set("error", "Unauthorized action.");
             header("Location: ".BASE_URL."profile/client");
@@ -119,20 +118,17 @@ class ProfileController extends Controller
             exit;
         }
 
-        // Validasi: password lama harus cocok
         if (!password_verify($old, $user['password'])) {
             Session::set("error", "Current password is incorrect.");
             header("Location: ".BASE_URL."profile/client");
             exit;
         }
 
-        // Validasi: new == confirm
         if ($new !== $confirm) {
             Session::set("error", "New password does not match confirmation.");
             header("Location: ".BASE_URL."profile/client");
             exit;
         }
-        // Update password
         $this->users->update($userId, [
             "password" => $new
         ]);

@@ -12,26 +12,17 @@ class CategoryController extends Controller
         $this->category = new Category();
     }
 
-    // ---------------------------------------------------------
-    // LIST DATA
-    // ---------------------------------------------------------
     public function index()
     {
         $data['categories'] = $this->category->all();
         $this->view("categories/index", $data);
     }
 
-    // ---------------------------------------------------------
-    // FORM CREATE
-    // ---------------------------------------------------------
     public function create()
     {
         $this->view("categories/create");
     }
 
-    // ---------------------------------------------------------
-    // STORE DATA
-    // ---------------------------------------------------------
     public function store()
     {
         if (!isset($_POST['name']) || trim($_POST['name']) === '') {
@@ -46,9 +37,6 @@ class CategoryController extends Controller
         exit;
     }
 
-    // ---------------------------------------------------------
-    // FORM EDIT
-    // ---------------------------------------------------------
     public function edit($id)
     {
         $data['category'] = $this->category->findById($id);
@@ -60,9 +48,6 @@ class CategoryController extends Controller
         $this->view("categories/edit", $data);
     }
 
-    // ---------------------------------------------------------
-    // UPDATE DATA
-    // ---------------------------------------------------------
     public function update($id)
     {
         if (!isset($_POST['name']) || trim($_POST['name']) === '') {
@@ -77,9 +62,6 @@ class CategoryController extends Controller
         exit;
     }
 
-    // ---------------------------------------------------------
-    // DELETE DATA
-    // ---------------------------------------------------------
     public function destroy($id)
     {
         $this->category->delete($id);

@@ -7,22 +7,16 @@ class TransactionController extends Controller
     public function __construct()
     {
         parent::__construct();
-        Auth::redirectUser();        // hanya user login
+        Auth::redirectUser();        
         $this->transaction = new Transaction();
     }
 
-    // ---------------------------------------------------------
-    // LIST ALL TRANSACTIONS
-    // ---------------------------------------------------------
     public function index()
     {
         $data['transactions'] = $this->transaction->all();
         $this->view("transactions/index", $data);
     }
 
-    // ---------------------------------------------------------
-    // DETAIL TRANSACTION + RELATIONS
-    // ---------------------------------------------------------
     public function show($id)
     {
         $data['transaction'] = $this->transaction->getWithRelations($id);
@@ -34,17 +28,11 @@ class TransactionController extends Controller
         $this->view("transactions/show", $data);
     }
 
-    // ---------------------------------------------------------
-    // FORM CREATE (ADMIN OPTIONAL)
-    // ---------------------------------------------------------
     public function create()
     {
         $this->view("transactions/create");
     }
 
-    // ---------------------------------------------------------
-    // STORE NEW TRANSACTION
-    // ---------------------------------------------------------
     public function store()
     {
         if (
@@ -71,9 +59,6 @@ class TransactionController extends Controller
         exit;
     }
 
-    // ---------------------------------------------------------
-    // EDIT FORM
-    // ---------------------------------------------------------
     public function edit($id)
     {
         $data['transaction'] = $this->transaction->findById($id);
@@ -85,9 +70,6 @@ class TransactionController extends Controller
         $this->view("transactions/edit", $data);
     }
 
-    // ---------------------------------------------------------
-    // UPDATE TRANSACTION
-    // ---------------------------------------------------------
     public function update($id)
     {
         $updateData = [];
@@ -106,9 +88,6 @@ class TransactionController extends Controller
         exit;
     }
 
-    // ---------------------------------------------------------
-    // DELETE TRANSACTION
-    // ---------------------------------------------------------
     public function destroy($id)
     {
         $this->transaction->delete($id);
@@ -117,27 +96,18 @@ class TransactionController extends Controller
         exit;
     }
 
-    // ---------------------------------------------------------
-    // LIST BY AUCTION
-    // ---------------------------------------------------------
     public function byAuction($auction_id)
     {
         $data['transactions'] = $this->transaction->findByAuction($auction_id);
         $this->view("transactions/by_auction", $data);
     }
 
-    // ---------------------------------------------------------
-    // LIST BY BUYER
-    // ---------------------------------------------------------
     public function byBuyer($buyer_id)
     {
         $data['transactions'] = $this->transaction->findByBuyer($buyer_id);
         $this->view("transactions/by_buyer", $data);
     }
 
-    // ---------------------------------------------------------
-    // LIST BY SELLER
-    // ---------------------------------------------------------
     public function bySeller($seller_id)
     {
         $data['transactions'] = $this->transaction->findBySeller($seller_id);

@@ -3,14 +3,12 @@
     <h3 class="mb-4">Payment Confirmation</h3>
 
     <div class="row">
-        <!-- LEFT: IMAGE -->
         <div class="col-md-5">
             <img src="<?= BASE_URL ?>assets/uploads/auction_images/<?= $auction['image'] ?>" 
                  class="img-fluid rounded shadow" 
                  alt="<?= $auction['title'] ?>">
         </div>
 
-        <!-- RIGHT: DETAILS -->
         <div class="col-md-7">
 
             <h2 class="fw-bold"><?= $auction['title'] ?></h2>
@@ -39,7 +37,6 @@
 
             <hr>
 
-            <!-- PAYMENT FORM -->
             <h4 class="fw-bold">Complete Your Payment</h4>
             <p>Please use QRIS to complete the transaction.</p>
 
@@ -50,7 +47,6 @@
 
                 <input type="hidden" name="auction_id" value="<?= $auction['id'] ?>">
 
-                <!-- Amount -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Amount</label>
                     <input type="number" name="amount" 
@@ -59,14 +55,12 @@
                            readonly>
                 </div>
 
-                <!-- QRIS Button -->
                 <div class="mb-3">
                     <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#qrisModal">
                         Pay with QRIS
                     </button>
                 </div>
 
-                <!-- File Upload -->
                 <div class="mb-3 mt-3">
                     <label class="form-label fw-semibold">Upload Payment Proof</label>
                     <input type="file" name="payment_proof" 
@@ -83,7 +77,6 @@
 <br>
 <br>
 
-<!-- QRIS Modal -->
 <div class="modal fade" id="qrisModal" tabindex="-1" aria-labelledby="qrisModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

@@ -19,9 +19,6 @@ class BidController extends Controller
         $this->payment = new Payment();
     }
 
-    // ---------------------------------------------------------
-    // LIST SEMUA BID
-    // ---------------------------------------------------------
     public function index()
     {
         $userId = Auth::user("id");
@@ -66,9 +63,6 @@ class BidController extends Controller
         ]);
     }
 
-    /**
-     * Detail transaksi untuk user pada auction tertentu.
-     */
     public function transaction($auctionId)
     {
         Auth::redirectClient();
@@ -80,7 +74,6 @@ class BidController extends Controller
             die("Auction not found");
         }
 
-        // Pastikan user punya riwayat bid di auction ini
         $history = $this->bid->getUserBidHistory($userId);
         $item = null;
         foreach ($history as $row) {
@@ -109,18 +102,12 @@ class BidController extends Controller
         ]);
     }
 
-    // ---------------------------------------------------------
-    // FORM CREATE
-    // ---------------------------------------------------------
     public function create()
     {
         $this->view("bids/create");
     }
 
 
-    // ---------------------------------------------------------
-    // DETAIL BID (DENGAN RELASI)
-    // ---------------------------------------------------------
     public function show($id)
     {
         $data['bid'] = $this->bid->getWithRelations($id);
@@ -132,9 +119,6 @@ class BidController extends Controller
         $this->view("bids/show", $data);
     }
 
-    // ---------------------------------------------------------
-    // FORM EDIT
-    // ---------------------------------------------------------
     public function edit($id)
     {
         $data['bid'] = $this->bid->findById($id);
@@ -146,9 +130,6 @@ class BidController extends Controller
         $this->view("bids/edit", $data);
     }
 
-    // ---------------------------------------------------------
-    // UPDATE BID (HANYA MENGUBAH NOMINAL)
-    // ---------------------------------------------------------
     public function update($id)
     {
         if (!isset($_POST['bid_amount'])) {
@@ -163,9 +144,6 @@ class BidController extends Controller
         exit;
     }
 
-    // ---------------------------------------------------------
-    // DELETE BID
-    // ---------------------------------------------------------
     public function destroy($id)
     {
         $this->bid->delete($id);
@@ -174,9 +152,6 @@ class BidController extends Controller
         exit;
     }
 
-    // ---------------------------------------------------------
-    // GET BID BERDASARKAN AUCTION
-    // ---------------------------------------------------------
     public function byAuction($auction_id)
     {
         $bids = $this->bid->findByAuction($auction_id);
@@ -186,9 +161,6 @@ class BidController extends Controller
         ]);
     }
 
-    // ---------------------------------------------------------
-    // GET HIGHEST BID DARI LELANG
-    // ---------------------------------------------------------
     public function highestBid($auction_id)
     {
         $highest = $this->bid->findHighestBid($auction_id);
@@ -204,7 +176,6 @@ class BidController extends Controller
         $bidAmount = $_POST['bid_amount'];
         $userId    = Auth::user('id');
 
-        // Ambil harga terbaru
         $currentPrice = $this->bid->getCurrentPrice($auctionId);
 
         if ($bidAmount <= $currentPrice) {
@@ -213,7 +184,6 @@ class BidController extends Controller
             exit;
         }
 
-        // Simpan bid + update final_price
         $this->bid->placeBid($auctionId, $userId, $bidAmount);
 
         Session::set("success", "Bid placed successfully!");

@@ -1,5 +1,4 @@
 <?php
-// app/Models/User.php (Modifikasi)
 class User {
     private $db;
 
@@ -104,7 +103,6 @@ class User {
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    // cek apakah password lama cocok
     public function checkOldPassword($id, $oldPassword)
     {
         $user = $this->findById($id);
@@ -116,7 +114,6 @@ class User {
         return password_verify($oldPassword, $user['password']);
     }
 
-    // update password baru
     public function updatePassword($id, $newPassword)
     {
         $hash = password_hash($newPassword, PASSWORD_BCRYPT);
@@ -125,12 +122,6 @@ class User {
         return $query->execute([$hash, $id]);
     }
 
-    
-    /**
-     * Mencari pengguna berdasarkan email
-     * @param string $email
-     * @return array|false
-     */
     public function findByEmail($email) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->bindParam(':email', $email);

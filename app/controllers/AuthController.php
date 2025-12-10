@@ -2,7 +2,6 @@
 
 class AuthController extends Controller {
 
-    // Menampilkan halaman login
     public function showLogin() {
         $this->view("auth/login",[
             "title" => "Login",
@@ -27,7 +26,6 @@ class AuthController extends Controller {
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
 
-        // --- Validasi Dasar ---
         if ($password !== $confirmPassword) {
             Session::set('error', 'Konfirmasi password tidak cocok.');
             header("Location: " . BASE_URL . "register");
@@ -40,7 +38,6 @@ class AuthController extends Controller {
             exit;
         }
 
-        // --- Proses Pembuatan Akun ---
         $data = [
             'name' => $name,
             'email' => $email,
@@ -67,9 +64,8 @@ class AuthController extends Controller {
 
         if ($user && password_verify($password, $user['password'])) {
 
-            Auth::login($user); // ← WAJIB ARRAY, BUKAN ID
+            Auth::login($user); 
 
-            // Redirect sesuai role
             if (Auth::isClient()) {
                 header("Location: " . BASE_URL . "home");
             } else {

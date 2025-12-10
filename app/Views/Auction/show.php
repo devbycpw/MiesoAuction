@@ -1,5 +1,4 @@
 <?php 
-    // Ambil ID pengguna saat ini dan cek kepemilikan di awal
     $current_user_id = Auth::user('id'); 
     $auction_owner_id = $auction["user_id"] ?? null; 
     $is_owner = ($current_user_id == $auction_owner_id);

@@ -1,4 +1,3 @@
-<!-- app/helpers/auth/Session.php -->
 <?php
 class Session {
     public static function start() {

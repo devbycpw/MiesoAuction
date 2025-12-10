@@ -15,29 +15,19 @@ class PaymentController extends Controller
         $this->auction = new Auction();
     }
 
-    // ---------------------------------------------------------
-    // LIST ALL PAYMENTS
-    // ---------------------------------------------------------
     public function index()
     {
         $data['payments'] = $this->payment->all();
         $this->view("payments/index", $data);
     }
 
-    // ---------------------------------------------------------
-    // FORM CREATE PAYMENT (USER UPLOAD BUKTI PEMBAYARAN)
-    // ---------------------------------------------------------
     public function create()
     {
         $this->view("payments/create");
     }
 
-    // ---------------------------------------------------------
-    // STORE PAYMENT
-    // ---------------------------------------------------------
     public function store()
 {
-    // Validasi minimal
     if (empty($_POST['auction_id']) || empty($_POST['amount'])) {
         http_response_code(400);
         die("Auction & Amount wajib diisi.");
@@ -45,7 +35,6 @@ class PaymentController extends Controller
 
     $userId = Auth::user("id");
 
-    // Upload bukti pembayaran menggunakan Upload helper
     $paymentProof = Upload::save($_FILES['payment_proof'], "payment_proof");
 
     $data = [
@@ -63,9 +52,6 @@ class PaymentController extends Controller
 }
 
 
-    // ---------------------------------------------------------
-    // SHOW DETAIL PAYMENT + RELASI
-    // ---------------------------------------------------------
     public function show($auctionId)
     {
         $auction = $this->auction->getWithRelations($auctionId);
@@ -83,9 +69,6 @@ class PaymentController extends Controller
         $this->view("payment/show", $data);
     }
 
-    // ---------------------------------------------------------
-    // FORM EDIT PAYMENT (ADMIN)
-    // ---------------------------------------------------------
     public function edit($id)
     {
         $data['payment'] = $this->payment->findById($id);
@@ -97,9 +80,6 @@ class PaymentController extends Controller
         $this->view("payments/edit", $data);
     }
 
-    // ---------------------------------------------------------
-    // UPDATE PAYMENT BY ADMIN
-    // ---------------------------------------------------------
     public function update($id)
     {
         $updateData = [];
@@ -117,7 +97,6 @@ class PaymentController extends Controller
             $updateData['admin_note'] = $_POST['admin_note'];
         }
 
-        // upload bukti baru (opsional)
         if (isset($_FILES['payment_proof']) && $_FILES['payment_proof']['error'] === 0) {
             $fileName = time() . "_" . $_FILES['payment_proof']['name'];
             $targetDir = "../public/uploads/payment_proof/";
@@ -134,9 +113,6 @@ class PaymentController extends Controller
         exit;
     }
 
-    // ---------------------------------------------------------
-    // DELETE PAYMENT
-    // ---------------------------------------------------------
     public function destroy($id)
     {
         $this->payment->delete($id);
@@ -145,18 +121,12 @@ class PaymentController extends Controller
         exit;
     }
 
-    // ---------------------------------------------------------
-    // LIST PAYMENT BY AUCTION
-    // ---------------------------------------------------------
     public function byAuction($auction_id)
     {
         $data['payments'] = $this->payment->findByAuction($auction_id);
         $this->view("payments/by_auction", $data);
     }
 
-    // ---------------------------------------------------------
-    // LIST PAYMENT BY USER
-    // ---------------------------------------------------------
     public function byUser($user_id)
     {
         $data['payments'] = $this->payment->findByUser($user_id);
@@ -173,7 +143,6 @@ class PaymentController extends Controller
             die("Unauthorized access.");
         }
 
-        // sudah bayar?
         $existing = $this->payment->getPaymentByAuctionAndUser($auctionId, $userId);
         if ($existing) {
             redirect("my-bids");
@@ -214,9 +183,6 @@ class PaymentController extends Controller
         redirect("my-bids");
     }
 
-    /**
-     * Upload atau reupload bukti pembayaran untuk auction tertentu oleh pemenang.
-     */
     public function uploadProof($auctionId)
     {
         Auth::redirectClient();
@@ -228,7 +194,6 @@ class PaymentController extends Controller
             die("Unauthorized.");
         }
 
-        // Fail fast with clearer error if PHP rejected the upload
         if (!isset($_FILES['payment_proof']) || $_FILES['payment_proof']['error'] !== UPLOAD_ERR_OK) {
             $code = $_FILES['payment_proof']['error'] ?? 'no_file';
             $msg = "Upload failed (code: $code). Please try again with jpg/jpeg/png/webp/heic under 10MB and ensure php.ini upload_max_filesize/post_max_size are high enough.";
@@ -262,7 +227,6 @@ class PaymentController extends Controller
                     "payment_proof" => $proof,
                     "status" => "pending"
                 ]);
-                // Ambil id terbaru
                 $paymentId = $this->payment->getLastInsertId();
             }
 

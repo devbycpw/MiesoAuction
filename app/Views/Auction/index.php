@@ -23,12 +23,8 @@
             </div>
         </div>
 
-        <!-- CARD KANAN -->
         <div class="col-md-9">
-
             <h2 class="home-subtitle mb-4"><b>Auction List</b></h2>
-        
-            <!-- CARD LIST -->
             <div class="row row-cols-1 row-cols-md-2 g-2">
                 <?php foreach($auctions as $d): ?>
                     <div class="col-md-6">

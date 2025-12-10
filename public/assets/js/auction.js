@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ==============================
-  // 1. COUNTDOWN TIMER
-  // ==============================
   const timers = document.querySelectorAll(".countdown-timer");
 
   timers.forEach((timer) => {
@@ -37,9 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000);
   });
 
-  // ==============================
-  // 2. AUTO UPDATE CURRENT PRICE
-  // ==============================
   function updatePrices() {
     const priceElements = document.querySelectorAll(".current-price");
     if (priceElements.length === 0) return;
@@ -58,6 +52,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Update setiap 2 detik
   setInterval(updatePrices, 2000);
 });

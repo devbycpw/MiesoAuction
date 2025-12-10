@@ -92,7 +92,6 @@ class Bid {
         return $highest;
     }
 
-    // fallback → starting price
     $stmt2 = $this->db->prepare("SELECT starting_price FROM auctions WHERE id = ?");
     $stmt2->execute([$auctionId]);
     return $stmt2->fetchColumn();
@@ -100,13 +99,10 @@ class Bid {
     
     public function placeBid($auctionId, $userId, $bidAmount)
     {
-        // Insert bid
         $sql = "INSERT INTO bids (auction_id, user_id, bid_amount, created_at)
                 VALUES (?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$auctionId, $userId, $bidAmount, date('Y-m-d H:i:s')]);
-
-        // Update auction.final_price
         $sql2 = "UPDATE auctions SET final_price = ? WHERE id = ?";
         $stmt2 = $this->db->prepare($sql2);
         $stmt2->execute([$bidAmount, $auctionId]);

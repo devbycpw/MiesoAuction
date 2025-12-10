@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const minsEl = timer.querySelector(".minutes");
         const secsEl = timer.querySelector(".seconds");
         
-        // Hapus elemen yang tidak digunakan jika diff <= 0 agar tidak mengganggu tata letak
         const parentDiv = timer.closest('.card-body');
 
         function updateCountdown() {
@@ -17,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let diff = endTime - now;
 
             if (diff <= 0) {
-                // Ganti seluruh container countdown dengan teks "Auction Ended"
                 timer.innerHTML = `<p class="auction-ended-text"><strong>Countdown:</strong> Auction Ended</p>`;
                 return;
             }
@@ -32,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
             minsEl.textContent = String(minutes).padStart(2, '0');
             secsEl.textContent = String(seconds).padStart(2, '0');
         }
-        updateCountdown(); // pertama kali jalan
-        setInterval(updateCountdown, 1000); // update setiap detik
+        updateCountdown(); 
+        setInterval(updateCountdown, 1000);
     });
 });
