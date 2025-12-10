@@ -9,30 +9,30 @@
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img src="<?= BASE_URL ?>/assets/img/hero_jewelery.png" class="d-block w-100" alt="Jewelry Auction">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>First slide label</h5>
-                <p>Some representative placeholder content for the first slide.</p>
+            <div class="carousel-caption caption-left d-none d-md-block ">
+                <h5>Gold Jewelry</h5>
+                <p>Gold jewelry description involves detailing its type <br>(solid, plated, filled), purity (karats like 14K, 18K), color <br>(yellow, white, rose), design elements (stones, chains).</p>
             </div>
         </div>
         <div class="carousel-item">
             <img src="<?= BASE_URL ?>/assets/img/hero_car.png" class="d-block w-100" alt="Car Auction">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Second slide label</h5>
-                <p>Some representative placeholder content for the second slide.</p>
+            <div class="carousel-caption caption-left d-none d-md-block">
+                <h5>Classic Mustang 1967</h5>
+                <p>The 1967 Ford Mustang was the first major redesign, <br> featuring a wider, longer, and more aggressive body <br> with larger grille, side scoops, and bigger windows</p>
             </div>
         </div>
         <div class="carousel-item">
             <img src="<?= BASE_URL ?>/assets/img/hero_house.png" class="d-block w-100" alt="Real Estate Auction">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Third slide label</h5>
-                <p>Some representative placeholder content for the third slide.</p>
+            <div class="carousel-caption caption-left d-none d-md-block">
+                <h5>Couzy House</h5>
+                <p>A cozy house description evokes feelings of warmth, <br> comfort, safety, and belonging, achieved through soft <br> textures (velvet, wool), warm colors (earth tones, neutrals)</p>
             </div>
         </div>
         <div class="carousel-item">
             <img src="<?= BASE_URL ?>/assets/img/hero_mac.png" class="d-block w-100" alt="Electronics Auction">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Fourth slide label</h5>
-                <p>Some representative placeholder content for the fourth slide.</p>
+            <div class="carousel-caption caption-left d-none d-md-block">
+                <h5>Macbook Pro M2 Pro</h5>
+                <p>The MacBook Pro M2 Pro is Apple's professional laptop <br>powered by the Apple M2 Pro chip, offering incredible performance <br>for demanding tasks like video editing & design with <br>a more powerful CPU & GPU, incredibly long battery life.</p>
             </div>
         </div>
     </div>
