@@ -138,12 +138,12 @@ class Bid {
                 a.end_time,
                 a.winner_id,
                 a.final_price,
-                b.bid_amount,
-                b.created_at AS bid_time,
+                MAX(b.bid_amount) AS bid_amount,
+                MAX(b.created_at) AS bid_time,
 
                 (SELECT MAX(b2.bid_amount)
-                FROM bids b2
-                WHERE b2.auction_id = a.id) AS highest_bid,
+                 FROM bids b2
+                 WHERE b2.auction_id = a.id) AS highest_bid,
 
                 CASE 
                     WHEN a.winner_id = :uid THEN 1
@@ -160,7 +160,7 @@ class Bid {
                 AND p.user_id = :uid
 
             WHERE b.user_id = :uid
-            GROUP BY a.id
+            GROUP BY a.id, b.user_id, p.id
             ORDER BY a.end_time DESC
         ";
 
