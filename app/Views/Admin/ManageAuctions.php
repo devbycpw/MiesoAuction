@@ -1,5 +1,5 @@
 <div class="container py-4 admin-auctions">
-    <h2 class="mb-4">All Auctions List (Admin View)</h2>
+    <h2 class="mb-4">All Auctions List </h2>
 
     <?php if(Session::get("success")): ?>
         <div class="alert alert-success"><?= Session::get("success"); Session::unset("success"); ?></div>
